@@ -17,12 +17,21 @@ const CategoryType = (0, graphql_tag_1.gql) `
     parentCategoryId: Int
   }
 
+  input updateCategoryInput {
+    id: Int!
+    categoryName: String
+    parentCategoryId: Int
+  }
+
   type Query {
     getCategory(input: getWithId): Category
+    getCategoryWithSubcategories(input: getWithId): Category
   }
 
   type Mutation {
     createCategory(input: createCategoryInput): Category
+    updateCategory(input: updateCategoryInput): Category
+    deleteCategory(input: getWithId): msg
   }
 `;
 exports.default = CategoryType;

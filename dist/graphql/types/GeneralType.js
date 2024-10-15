@@ -8,6 +8,10 @@ const GeneralType = (0, graphql_tag_1.default) `
   input getWithId {
     id: Int!
   }
+  type msg {
+    status: Boolean
+    msg: String
+  }
 `;
 exports.default = GeneralType;
 //# sourceMappingURL=GeneralType.js.map
