@@ -1,6 +1,8 @@
 const HelloResolver = {
   Query: {
-    sayHello: async (_parent: any, _args: any, _context: any, _info: any) => {
+    sayHello: async (_parent: any, _args: any, context: any, _info: any) => {
+      const { user } = context;
+      console.log(user, "user");
       return { hello: "hello world" };
     },
   },
