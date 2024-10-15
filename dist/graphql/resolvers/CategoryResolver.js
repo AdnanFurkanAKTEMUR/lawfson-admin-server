@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Category_1 = require("../../entities/Category");
+const typeorm_1 = require("typeorm");
 const CategoryResolver = {
     Query: {
         getCategory: async (_parent, args, _context, _info) => {
@@ -24,6 +25,21 @@ const CategoryResolver = {
                     relations: ["subcategories", "subcategories.products", "products"],
                 });
                 return category;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
+        getAllCategoryTree: async (_parent, _args, _context, _info) => {
+            try {
+                const categoryTree = await Category_1.Category.find({
+                    where: { parentCategory: (0, typeorm_1.IsNull)() },
+                    relations: ["subcategories", "subcategories.subcategories", "subcategories.subcategories.subcategories", "subcategories.subcategories.subcategories.subcategories"],
+                });
+                if (!categoryTree) {
+                    throw new Error("No category found");
+                }
+                return categoryTree;
             }
             catch (e) {
                 throw new Error(e);

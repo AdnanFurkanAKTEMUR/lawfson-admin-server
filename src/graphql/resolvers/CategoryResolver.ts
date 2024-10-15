@@ -1,5 +1,6 @@
 import { Context } from "@contextTypes/contextTypes";
 import { Category } from "@entities/Category";
+import { IsNull } from "typeorm";
 
 const CategoryResolver = {
   Query: {
@@ -24,6 +25,21 @@ const CategoryResolver = {
           relations: ["subcategories", "subcategories.products", "products"],
         });
         return category;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    getAllCategoryTree: async (_parent: any, _args: any, _context: Context, _info: any): Promise<Category[] | null> => {
+      try {
+        const categoryTree = await Category.find({
+          where: { parentCategory: IsNull() },
+          relations: ["subcategories", "subcategories.subcategories", "subcategories.subcategories.subcategories", "subcategories.subcategories.subcategories.subcategories"],
+        });
+        if (!categoryTree) {
+          throw new Error("No category found");
+        }
+
+        return categoryTree;
       } catch (e) {
         throw new Error(e);
       }
