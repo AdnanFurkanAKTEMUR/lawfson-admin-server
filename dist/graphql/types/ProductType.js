@@ -1,6 +1,10 @@
-import gql from "graphql-tag";
-
-const ProductType = gql`
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const graphql_tag_1 = __importDefault(require("graphql-tag"));
+const ProductType = (0, graphql_tag_1.default) `
   type Product {
     id: Int
     productName: String
@@ -35,5 +39,5 @@ const ProductType = gql`
     deleteProduct(input: getWithId): msg
   }
 `;
-
-export default ProductType;
+exports.default = ProductType;
+//# sourceMappingURL=ProductType.js.map

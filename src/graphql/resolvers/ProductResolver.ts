@@ -30,15 +30,12 @@ const ProductResolver = {
         if (!category) {
           throw new Error("Category not found");
         }
-        console.log(category)
         const categoryIds = getAllSubcategoryIds(category);
-        console.log(categoryIds);
         const products = await Product.find({
           where: {
-            category: In([2]),
+            category: In(categoryIds),
           },
         });
-        console.log(products);
         return products;
       } catch (e) {
         throw new Error(e);

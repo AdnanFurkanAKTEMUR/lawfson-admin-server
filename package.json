@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "concurrently --kill-others \"tsc -w\" \"tsc-alias -w\"",
+    "watch": "concurrently --kill-others \"tsc -w\" \"npx tsc-alias -w\"",
     "dev": "nodemon dist/index.js",
     "prod-dev": "node dist/index.js"
   },
