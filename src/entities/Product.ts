@@ -1,12 +1,7 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Category } from "./Category";
+import { Message } from "./Message";
+import { Company } from "./Company";
 
 @Entity()
 export class Product extends BaseEntity {
@@ -20,6 +15,12 @@ export class Product extends BaseEntity {
     nullable: true,
   })
   category?: Category;
+
+  @OneToMany(() => Message, (message) => message.product, { nullable: true })
+  messages?: Message[];
+
+  @ManyToOne(() => Company, (company) => company.products)
+  company: Company;
 
   @CreateDateColumn()
   createdAt: Date;

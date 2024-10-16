@@ -5,6 +5,7 @@ const ProductType = gql`
     id: Int
     productName: String
     category: Category
+    company: Company
     createdAt: String
     updatedAt: String
   }
@@ -12,6 +13,7 @@ const ProductType = gql`
   input createProductInput {
     productName: String
     categoryId: Int
+    companyId: Int!
   }
 
   input updateProductInput {

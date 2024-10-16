@@ -1,5 +1,7 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AdminUser } from "./AdminUser";
+import { Product } from "./Product";
+import { Message } from "./Message";
 
 @Entity()
 export class Company extends BaseEntity {
@@ -17,6 +19,12 @@ export class Company extends BaseEntity {
 
   @OneToMany(() => AdminUser, (adminuser) => adminuser.company, { nullable: true })
   adminUsers?: AdminUser[];
+
+  @OneToMany(() => Product, (product) => product.company, { nullable: true })
+  products?: Product[];
+
+  @OneToMany(() => Message, (message) => message.company, { nullable: true })
+  messages?: Message[];
 
   @CreateDateColumn()
   createdAt: Date;

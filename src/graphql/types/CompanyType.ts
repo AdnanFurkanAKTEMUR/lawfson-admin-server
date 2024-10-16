@@ -7,6 +7,8 @@ const CompanyType = gql`
     companyEmail: String!
     companyPhone: String!
     adminUsers: [AdminUser]
+    products: [Product]
+    messages: [Message]
     createdAt: String
     updatedAt: String
   }
