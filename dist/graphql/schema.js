@@ -13,9 +13,13 @@ const CategoryType_1 = __importDefault(require("./types/CategoryType"));
 const ProductResolver_1 = __importDefault(require("./resolvers/ProductResolver"));
 const CategoryResolver_1 = __importDefault(require("./resolvers/CategoryResolver"));
 const GeneralType_1 = __importDefault(require("./types/GeneralType"));
+const CompanyType_1 = __importDefault(require("./types/CompanyType"));
+const AdminUserType_1 = __importDefault(require("./types/AdminUserType"));
+const CompanyResolver_1 = __importDefault(require("./resolvers/CompanyResolver"));
+const AdminUserResolver_1 = __importDefault(require("./resolvers/AdminUserResolver"));
 const schema = (0, schema_1.makeExecutableSchema)({
-    typeDefs: [helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default],
-    resolvers: [hello_1.default, ProductResolver_1.default, CategoryResolver_1.default],
+    typeDefs: [helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default, CompanyType_1.default, AdminUserType_1.default],
+    resolvers: [hello_1.default, ProductResolver_1.default, CategoryResolver_1.default, CompanyResolver_1.default, AdminUserResolver_1.default],
 });
 const shieldedSchema = (0, graphql_middleware_1.applyMiddleware)(schema, graphqlShield_1.permissions);
 exports.default = shieldedSchema;

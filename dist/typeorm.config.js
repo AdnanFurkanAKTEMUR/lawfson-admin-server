@@ -7,11 +7,13 @@ const typeorm_1 = require("typeorm");
 const dotenv_1 = __importDefault(require("dotenv"));
 const Product_1 = require("./entities/Product");
 const Category_1 = require("./entities/Category");
+const AdminUser_1 = require("./entities/AdminUser");
+const Company_1 = require("./entities/Company");
 dotenv_1.default.config();
 exports.default = new typeorm_1.DataSource({
     type: "postgres",
     url: process.env.POSTGRES_CONNECTION_STRING,
-    entities: [Product_1.Product, Category_1.Category],
+    entities: [Product_1.Product, Category_1.Category, AdminUser_1.AdminUser, Company_1.Company],
     synchronize: true,
 });
 //# sourceMappingURL=typeorm.config.js.map
