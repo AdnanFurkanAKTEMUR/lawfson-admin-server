@@ -17,9 +17,13 @@ const CompanyType_1 = __importDefault(require("./types/CompanyType"));
 const AdminUserType_1 = __importDefault(require("./types/AdminUserType"));
 const CompanyResolver_1 = __importDefault(require("./resolvers/CompanyResolver"));
 const AdminUserResolver_1 = __importDefault(require("./resolvers/AdminUserResolver"));
+const MessageType_1 = __importDefault(require("./types/MessageType"));
+const MessageResolver_1 = __importDefault(require("./resolvers/MessageResolver"));
+const AppUserType_1 = __importDefault(require("./types/AppUserType"));
+const AppUserResolver_1 = __importDefault(require("./resolvers/AppUserResolver"));
 const schema = (0, schema_1.makeExecutableSchema)({
-    typeDefs: [helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default, CompanyType_1.default, AdminUserType_1.default],
-    resolvers: [hello_1.default, ProductResolver_1.default, CategoryResolver_1.default, CompanyResolver_1.default, AdminUserResolver_1.default],
+    typeDefs: [helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default, CompanyType_1.default, AdminUserType_1.default, MessageType_1.default, AppUserType_1.default],
+    resolvers: [hello_1.default, ProductResolver_1.default, CategoryResolver_1.default, CompanyResolver_1.default, AdminUserResolver_1.default, MessageResolver_1.default, AppUserResolver_1.default],
 });
 const shieldedSchema = (0, graphql_middleware_1.applyMiddleware)(schema, graphqlShield_1.permissions);
 exports.default = shieldedSchema;

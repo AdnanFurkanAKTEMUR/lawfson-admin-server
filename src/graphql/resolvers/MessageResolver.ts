@@ -5,7 +5,7 @@ import { Company } from "@entities/Company";
 import { Message } from "@entities/Message";
 import { Product } from "@entities/Product";
 
-const ProductResolver = {
+const MessageResolver = {
   Query: {
     messageGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message | null> => {
       const { id } = args.input;
@@ -87,4 +87,4 @@ const ProductResolver = {
   },
 };
 
-export default ProductResolver;
+export default MessageResolver;

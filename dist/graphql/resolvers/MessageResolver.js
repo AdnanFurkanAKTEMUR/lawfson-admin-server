@@ -5,7 +5,7 @@ const AppUser_1 = require("../../entities/AppUser");
 const Company_1 = require("../../entities/Company");
 const Message_1 = require("../../entities/Message");
 const Product_1 = require("../../entities/Product");
-const ProductResolver = {
+const MessageResolver = {
     Query: {
         messageGet: async (_parent, args, _context, _info) => {
             const { id } = args.input;
@@ -89,5 +89,5 @@ const ProductResolver = {
         },
     },
 };
-exports.default = ProductResolver;
+exports.default = MessageResolver;
 //# sourceMappingURL=MessageResolver.js.map

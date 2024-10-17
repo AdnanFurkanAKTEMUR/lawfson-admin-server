@@ -41,6 +41,16 @@ const ProductResolver = {
         throw new Error(e);
       }
     },
+    productsOfCompany: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product[] | null> => {
+      const { companyId } = args.input;
+      try {
+        const products = await Product.find({ where: { company: companyId } });
+
+        return products;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
   },
 
   Mutation: {

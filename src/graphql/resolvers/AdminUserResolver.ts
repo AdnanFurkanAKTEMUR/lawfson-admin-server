@@ -36,8 +36,6 @@ const AdminUserResolver = {
     adminUserCreate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
       const { userName, email, role, companyId, password, phone } = args.input;
       try {
-        // const isValid = await argon2.verify(adminUser.password, password);
-        // if (!isValid) throw new Error("Invalid creds."); bunu loginde
         // belki doğrulama maili
         const hashedPassword = await argon2.hash(password);
         const userRole: UserRole = role as UserRole;

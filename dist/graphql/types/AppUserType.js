@@ -15,6 +15,37 @@ const AppUserType = (0, graphql_tag_1.default) `
     createdAt: String
     updatedAt: String
   }
+
+  input createAppUserInput {
+    userName: String!
+    email: String!
+    password: String!
+    phone: String
+  }
+
+  input updateAppUserInput {
+    id: Int!
+    userName: String
+    phone: String
+  }
+
+  input changeAppUserPasswordInput {
+    id: Int!
+    password: String!
+    newPassword: String!
+  }
+
+  type Query {
+    appUserGet(input: getWithId): AppUser
+    appUsersGetAll: [AppUser]
+  }
+
+  type Mutation {
+    appUserCreate(input: createAppUserInput): AppUser
+    appUserUpdate(input: updateAppUserInput): AppUser
+    appUserChangePassword(input: changeAppUserPasswordInput): msg
+    appUserDelete(input: getWithId): msg
+  }
 `;
 exports.default = AppUserType;
 //# sourceMappingURL=AppUserType.js.map

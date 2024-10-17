@@ -46,6 +46,16 @@ const ProductResolver = {
                 throw new Error(e);
             }
         },
+        productsOfCompany: async (_parent, args, _context, _info) => {
+            const { companyId } = args.input;
+            try {
+                const products = await Product_1.Product.find({ where: { company: companyId } });
+                return products;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
     },
     Mutation: {
         createProduct: async (_parent, args, _context, _info) => {

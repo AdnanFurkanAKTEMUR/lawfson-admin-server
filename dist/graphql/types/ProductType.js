@@ -30,9 +30,14 @@ const ProductType = (0, graphql_tag_1.default) `
     categoryId: Int!
   }
 
+  input getProductOfCompanyInput {
+    companyId: Int!
+  }
+
   type Query {
     getProduct(input: getWithId): Product
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
+    productsOfCompany(input: getProductOfCompanyInput): [Product]
   }
 
   type Mutation {

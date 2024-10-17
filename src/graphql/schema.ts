@@ -12,10 +12,14 @@ import CompanyType from "./types/CompanyType";
 import AdminUserType from "./types/AdminUserType";
 import CompanyResolver from "./resolvers/CompanyResolver";
 import AdminUserResolver from "./resolvers/AdminUserResolver";
+import MessageType from "./types/MessageType";
+import MessageResolver from "./resolvers/MessageResolver";
+import AppUserType from "./types/AppUserType";
+import AppUserResolver from "./resolvers/AppUserResolver";
 
 const schema = makeExecutableSchema({
-  typeDefs: [HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType],
-  resolvers: [HelloResolver, ProductResolver, CategoryResolver, CompanyResolver, AdminUserResolver],
+  typeDefs: [HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType, MessageType, AppUserType],
+  resolvers: [HelloResolver, ProductResolver, CategoryResolver, CompanyResolver, AdminUserResolver, MessageResolver, AppUserResolver],
 });
 
 const shieldedSchema = applyMiddleware(schema, permissions);
