@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminUser = exports.UserRole = void 0;
 const typeorm_1 = require("typeorm");
 const Company_1 = require("./Company");
+const Message_1 = require("./Message");
 var UserRole;
 (function (UserRole) {
     UserRole["Regular"] = "regular";
@@ -53,6 +54,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => Company_1.Company, (company) => company.adminUsers),
     __metadata("design:type", Company_1.Company)
 ], AdminUser.prototype, "company", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.returnedAdmin, { nullable: true }),
+    __metadata("design:type", Array)
+], AdminUser.prototype, "returnedMessages", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

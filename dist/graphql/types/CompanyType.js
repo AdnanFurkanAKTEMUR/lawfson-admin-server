@@ -11,6 +11,8 @@ const CompanyType = (0, graphql_tag_1.default) `
     companyEmail: String!
     companyPhone: String!
     adminUsers: [AdminUser]
+    products: [Product]
+    messages: [Message]
     createdAt: String
     updatedAt: String
   }

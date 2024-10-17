@@ -9,51 +9,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Company = void 0;
+exports.AppUser = void 0;
 const typeorm_1 = require("typeorm");
-const AdminUser_1 = require("./AdminUser");
-const Product_1 = require("./Product");
 const Message_1 = require("./Message");
-let Company = class Company extends typeorm_1.BaseEntity {
+let AppUser = class AppUser extends typeorm_1.BaseEntity {
 };
-exports.Company = Company;
+exports.AppUser = AppUser;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Company.prototype, "id", void 0);
+], AppUser.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], AppUser.prototype, "userName", void 0);
 __decorate([
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
-], Company.prototype, "companyName", void 0);
+], AppUser.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Company.prototype, "companyEmail", void 0);
+], AppUser.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], Company.prototype, "companyPhone", void 0);
+], AppUser.prototype, "phone", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => AdminUser_1.AdminUser, (adminuser) => adminuser.company, { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.appUser, { nullable: true }),
     __metadata("design:type", Array)
-], Company.prototype, "adminUsers", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => Product_1.Product, (product) => product.company, { nullable: true }),
-    __metadata("design:type", Array)
-], Company.prototype, "products", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.company, { nullable: true }),
-    __metadata("design:type", Array)
-], Company.prototype, "messages", void 0);
+], AppUser.prototype, "messages", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], Company.prototype, "createdAt", void 0);
+], AppUser.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], Company.prototype, "updatedAt", void 0);
-exports.Company = Company = __decorate([
+], AppUser.prototype, "updatedAt", void 0);
+exports.AppUser = AppUser = __decorate([
     (0, typeorm_1.Entity)()
-], Company);
-//# sourceMappingURL=Company.js.map
+], AppUser);
+//# sourceMappingURL=AppUser.js.map

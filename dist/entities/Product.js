@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 const typeorm_1 = require("typeorm");
 const Category_1 = require("./Category");
+const Message_1 = require("./Message");
+const Company_1 = require("./Company");
 let Product = class Product extends typeorm_1.BaseEntity {
 };
 exports.Product = Product;
@@ -29,6 +31,14 @@ __decorate([
     }),
     __metadata("design:type", Category_1.Category)
 ], Product.prototype, "category", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.product, { nullable: true }),
+    __metadata("design:type", Array)
+], Product.prototype, "messages", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => Company_1.Company, (company) => company.products),
+    __metadata("design:type", Company_1.Company)
+], Product.prototype, "company", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
