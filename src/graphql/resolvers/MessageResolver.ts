@@ -1,4 +1,5 @@
 import { Context } from "@contextTypes/contextTypes";
+import { AdminUser } from "@entities/AdminUser";
 import { AppUser } from "@entities/AppUser";
 import { Company } from "@entities/Company";
 import { Message } from "@entities/Message";
@@ -56,6 +57,28 @@ const ProductResolver = {
 
         await message.save();
 
+        return message;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    messageUpdate: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message | null> => {
+      const { id, adminNote, isReturn, returnedAdminId } = args.input;
+      try {
+        const message = await Message.findOne({ where: { id } });
+        if (!message) throw new Error("Belirtilen kayıt bulunamadı!");
+        if (adminNote) {
+          message.adminNote = adminNote;
+        }
+        if (isReturn) {
+          message.isReturn = isReturn;
+        }
+        if (returnedAdminId) {
+          const adminUser = await AdminUser.findOne({ where: { id } });
+          if (!adminUser) throw new Error("Kullanıcı bulunamadı!");
+          message.returnedAdmin = adminUser;
+        }
+        await message.save();
         return message;
       } catch (e) {
         throw new Error(e);
