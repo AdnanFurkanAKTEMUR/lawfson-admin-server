@@ -1,7 +1,7 @@
 import { Context } from "@contextTypes/contextTypes";
 import { AdminUser, UserRole } from "@entities/AdminUser";
 import { Company } from "@entities/Company";
-import argon2 from "argon2";
+import argon2, { verify } from "argon2";
 
 const AdminUserResolver = {
   Query: {
@@ -33,6 +33,21 @@ const AdminUserResolver = {
     },
   },
   Mutation: {
+    adminUserLogin: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
+ 
+      const { email, password } = args.input;
+      try {
+        const adminUser = await AdminUser.findOne({ where: { email: email }, relations: ["company"] });
+        if (!adminUser) throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
+        const isVerify = await verify(adminUser.password, password);
+        if (!isVerify) throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
+        //last login ip address gibi bilgiler olabilir
+        console.log(adminUser);
+        return adminUser;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
     adminUserCreate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
       const { userName, email, role, companyId, password, phone } = args.input;
       try {

@@ -1,8 +1,6 @@
 import gql from "graphql-tag";
 
 const AdminUserType = gql`
-
-
   type AdminUser {
     id: Int!
     userName: String!
@@ -41,6 +39,11 @@ const AdminUserType = gql`
     newPassword: String!
   }
 
+  input adminUserLoginInput {
+    email: String!
+    password: String!
+  }
+
   type Query {
     adminUserGet(input: getWithId): AdminUser
     adminUserGetAll: [AdminUser]
@@ -52,6 +55,7 @@ const AdminUserType = gql`
     adminUserUpdate(input: updateAdminUserInput): AdminUser
     adminUserChangePassword(input: changeAdminUserPasswordInput): msg
     adminUserDelete(input: getWithId): msg
+    adminUserLogin(input: adminUserLoginInput): AdminUser
   }
 `;
 

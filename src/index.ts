@@ -36,13 +36,15 @@ async function startServer() {
         } else if (req.headers.cookie) {
           token = await auth("", req.headers.cookie);
         }
-
+        //console.log(req?.headers.cookie);
         return {
           user: {
             id: token?.id,
-            name: token?.name,
-            surname: token?.surname,
+            userName: token?.userName,
+            email: token?.email,
             role: token?.role,
+            company: token?.company,
+            companyId: token?.companyId,
             createdAt: token?.createdAt,
             updatedAt: token?.createdAt,
           },

@@ -38,9 +38,11 @@ async function startServer() {
             return {
                 user: {
                     id: token === null || token === void 0 ? void 0 : token.id,
-                    name: token === null || token === void 0 ? void 0 : token.name,
-                    surname: token === null || token === void 0 ? void 0 : token.surname,
+                    userName: token === null || token === void 0 ? void 0 : token.userName,
+                    email: token === null || token === void 0 ? void 0 : token.email,
                     role: token === null || token === void 0 ? void 0 : token.role,
+                    company: token === null || token === void 0 ? void 0 : token.company,
+                    companyId: token === null || token === void 0 ? void 0 : token.companyId,
                     createdAt: token === null || token === void 0 ? void 0 : token.createdAt,
                     updatedAt: token === null || token === void 0 ? void 0 : token.createdAt,
                 },

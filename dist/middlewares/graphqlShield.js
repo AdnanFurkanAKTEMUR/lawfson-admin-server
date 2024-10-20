@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.permissions = void 0;
 const graphql_shield_1 = require("graphql-shield");
-const isAdmin = (0, graphql_shield_1.rule)()((_parent, _args, context) => {
+const isSuperAdmin = (0, graphql_shield_1.rule)()((_parent, _args, context) => {
     var _a;
-    return ((_a = context.user) === null || _a === void 0 ? void 0 : _a.role) === 0;
+    return ((_a = context.user) === null || _a === void 0 ? void 0 : _a.role) === "superadmin";
 });
 const isCompanyUser = (0, graphql_shield_1.rule)()((_parent, _args, context) => {
     var _a;
-    return ((_a = context.user) === null || _a === void 0 ? void 0 : _a.role) === 1;
+    return ((_a = context.user) === null || _a === void 0 ? void 0 : _a.role) === "1";
 });
 const isAuthenticated = (0, graphql_shield_1.rule)()((_parent, _args, context) => {
     var _a;
@@ -16,9 +16,11 @@ const isAuthenticated = (0, graphql_shield_1.rule)()((_parent, _args, context) =
 });
 exports.permissions = (0, graphql_shield_1.shield)({
     Query: {
-        sayHello: (0, graphql_shield_1.or)(isAdmin, isCompanyUser, (0, graphql_shield_1.not)(isAuthenticated)),
+        sayHello: (0, graphql_shield_1.or)(isSuperAdmin, isCompanyUser, (0, graphql_shield_1.not)(isAuthenticated)),
     },
-    Mutation: {},
+    Mutation: {
+        adminUserLogin: (0, graphql_shield_1.not)(isAuthenticated),
+    },
 }, {
     fallbackError: new Error("Erişim izni reddedildi!"),
     allowExternalErrors: true,

@@ -5,8 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tag_1 = __importDefault(require("graphql-tag"));
 const AdminUserType = (0, graphql_tag_1.default) `
-
-
   type AdminUser {
     id: Int!
     userName: String!
@@ -45,6 +43,11 @@ const AdminUserType = (0, graphql_tag_1.default) `
     newPassword: String!
   }
 
+  input adminUserLoginInput {
+    email: String!
+    password: String!
+  }
+
   type Query {
     adminUserGet(input: getWithId): AdminUser
     adminUserGetAll: [AdminUser]
@@ -56,6 +59,7 @@ const AdminUserType = (0, graphql_tag_1.default) `
     adminUserUpdate(input: updateAdminUserInput): AdminUser
     adminUserChangePassword(input: changeAdminUserPasswordInput): msg
     adminUserDelete(input: getWithId): msg
+    adminUserLogin(input: adminUserLoginInput): AdminUser
   }
 `;
 exports.default = AdminUserType;

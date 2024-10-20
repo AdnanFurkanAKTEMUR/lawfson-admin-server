@@ -32,6 +32,15 @@ const auth = async (_header, cookie) => {
 };
 exports.auth = auth;
 function isAuthTokenPayload(payload) {
-    return typeof payload === "object" && payload !== null && "id" in payload && "name" in payload && "surname" in payload && "createdAt" in payload && "updatedAt" in payload && "role" in payload;
+    return (typeof payload === "object" &&
+        payload !== null &&
+        "id" in payload &&
+        "userName" in payload &&
+        "email" in payload &&
+        "createdAt" in payload &&
+        "updatedAt" in payload &&
+        "role" in payload &&
+        "companyId" in payload &&
+        "company" in payload);
 }
 //# sourceMappingURL=auth.js.map

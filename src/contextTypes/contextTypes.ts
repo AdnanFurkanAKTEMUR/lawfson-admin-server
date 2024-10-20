@@ -3,10 +3,13 @@ import { DataSource } from "typeorm";
 
 export type User = {
   id: number;
-  name: string;
-  surname: string;
+  userName: string;
+  companyId: string;
   email: string;
-  role: number;
+  company: any;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Context = {

@@ -4,9 +4,11 @@ import { decode } from "next-auth/jwt";
 // role 0 superadmin 1 admin 2 kullanıcı
 export interface AuthTokenPayload {
   id: number;
-  name: string;
-  surname: string;
-  role: number;
+  userName: string;
+  companyId: string;
+  email: string;
+  company: any;
+  role: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -57,5 +59,16 @@ export const auth = async (_header: string, cookie: any): Promise<AuthTokenPaylo
 };
 
 function isAuthTokenPayload(payload: any): payload is AuthTokenPayload {
-  return typeof payload === "object" && payload !== null && "id" in payload && "name" in payload && "surname" in payload && "createdAt" in payload && "updatedAt" in payload && "role" in payload;
+  return (
+    typeof payload === "object" &&
+    payload !== null &&
+    "id" in payload &&
+    "userName" in payload &&
+    "email" in payload &&
+    "createdAt" in payload &&
+    "updatedAt" in payload &&
+    "role" in payload &&
+    "companyId" in payload &&
+    "company" in payload
+  );
 }
