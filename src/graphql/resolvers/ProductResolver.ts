@@ -1,5 +1,6 @@
 import { Context } from "@contextTypes/contextTypes";
 import { Category } from "@entities/Category";
+import { Company } from "@entities/Company";
 import { Product } from "@entities/Product";
 import getAllSubcategoryIds from "@helpers/getSubcategoriesIds";
 import { In } from "typeorm";
@@ -41,10 +42,11 @@ const ProductResolver = {
         throw new Error(e);
       }
     },
-    productsOfCompany: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product[] | null> => {
-      const { companyId } = args.input;
+    productsOfCompany: async (_parent: any, _args: any, context: Context, _info: any): Promise<Product[] | null> => {
+      const { user } = context;
+      if (!user) throw new Error("Hata: Giriş yapmalısınız!");
       try {
-        const products = await Product.find({ where: { company: companyId } });
+        const products = await Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations:["category"] });
 
         return products;
       } catch (e) {
@@ -55,10 +57,13 @@ const ProductResolver = {
 
   Mutation: {
     createProduct: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId } = args.input;
+      const { productName, categoryId, companyId } = args.input;
       try {
+        const company = await Company.findOne({ where: { id: companyId } });
+        if (!company) throw new Error("Hata: Firma Bulunamadı!");
         let category = null;
         if (categoryId) {
+          //kategori null olabilir.
           category = await Category.findOne({ where: { id: categoryId } });
         }
         const product = Product.create({
@@ -67,6 +72,7 @@ const ProductResolver = {
         if (category) {
           product.category = category;
         }
+        product.company = company;
         await product.save();
         return product;
       } catch (e) {

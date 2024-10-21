@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Category_1 = require("../../entities/Category");
+const Company_1 = require("../../entities/Company");
 const Product_1 = require("../../entities/Product");
 const getSubcategoriesIds_1 = __importDefault(require("../../helpers/getSubcategoriesIds"));
 const typeorm_1 = require("typeorm");
@@ -46,10 +47,12 @@ const ProductResolver = {
                 throw new Error(e);
             }
         },
-        productsOfCompany: async (_parent, args, _context, _info) => {
-            const { companyId } = args.input;
+        productsOfCompany: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user)
+                throw new Error("Hata: Giriş yapmalısınız!");
             try {
-                const products = await Product_1.Product.find({ where: { company: companyId } });
+                const products = await Product_1.Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations: ["category"] });
                 return products;
             }
             catch (e) {
@@ -59,8 +62,11 @@ const ProductResolver = {
     },
     Mutation: {
         createProduct: async (_parent, args, _context, _info) => {
-            const { productName, categoryId } = args.input;
+            const { productName, categoryId, companyId } = args.input;
             try {
+                const company = await Company_1.Company.findOne({ where: { id: companyId } });
+                if (!company)
+                    throw new Error("Hata: Firma Bulunamadı!");
                 let category = null;
                 if (categoryId) {
                     category = await Category_1.Category.findOne({ where: { id: categoryId } });
@@ -71,6 +77,7 @@ const ProductResolver = {
                 if (category) {
                     product.category = category;
                 }
+                product.company = company;
                 await product.save();
                 return product;
             }

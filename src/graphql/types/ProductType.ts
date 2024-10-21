@@ -26,14 +26,14 @@ const ProductType = gql`
     categoryId: Int!
   }
 
-  input getProductOfCompanyInput {
-    companyId: Int!
-  }
+  # input getProductOfCompanyInput {
+  #   companyId: Int!
+  # } bunu sadece user tarafında
 
   type Query {
     getProduct(input: getWithId): Product
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
-    productsOfCompany(input: getProductOfCompanyInput): [Product]
+    productsOfCompany: [Product] #companyId zaten tokendan gelecek
   }
 
   type Mutation {
