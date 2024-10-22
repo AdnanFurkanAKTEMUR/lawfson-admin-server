@@ -26,6 +26,7 @@ const CategoryType = gql`
     getCategory(input: getWithId): Category
     getCategoryWithSubcategories(input: getWithId): Category
     getAllCategoryTree: [Category]
+    categoryGetAll: [Category]
   }
 
   type Mutation {

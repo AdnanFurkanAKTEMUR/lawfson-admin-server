@@ -4,6 +4,14 @@ import { IsNull } from "typeorm";
 
 const CategoryResolver = {
   Query: {
+    categoryGetAll: async (_parent: any, _args: any, _context: Context, _info: any): Promise<Category[] | null> => {
+      try {
+        const cats = await Category.find();
+        return cats;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
     getCategory: async (_parent: any, args: any, _context: Context, _info: any): Promise<Category | null> => {
       const { id } = args.input;
       try {
