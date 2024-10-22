@@ -46,7 +46,7 @@ const ProductResolver = {
       const { user } = context;
       if (!user) throw new Error("Hata: Giriş yapmalısınız!");
       try {
-        const products = await Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations:["category"] });
+        const products = await Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations: ["category"] });
 
         return products;
       } catch (e) {
@@ -56,10 +56,13 @@ const ProductResolver = {
   },
 
   Mutation: {
-    createProduct: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId, companyId } = args.input;
+    createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
+      const { productName, categoryId } = args.input;
+      const { user } = context;
+      if (!user) throw new Error("Hata: Giriş yapmalısınız!");
       try {
-        const company = await Company.findOne({ where: { id: companyId } });
+        console.log(productName, categoryId, user);
+        const company = await Company.findOne({ where: { id: parseInt(user.companyId) } });
         if (!company) throw new Error("Hata: Firma Bulunamadı!");
         let category = null;
         if (categoryId) {

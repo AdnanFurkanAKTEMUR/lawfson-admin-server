@@ -11,9 +11,8 @@ const ProductType = gql`
   }
 
   input createProductInput {
-    productName: String
+    productName: String!
     categoryId: Int
-    companyId: Int!
   }
 
   input updateProductInput {

@@ -4,6 +4,15 @@ const Category_1 = require("../../entities/Category");
 const typeorm_1 = require("typeorm");
 const CategoryResolver = {
     Query: {
+        categoryGetAll: async (_parent, _args, _context, _info) => {
+            try {
+                const cats = await Category_1.Category.find();
+                return cats;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
         getCategory: async (_parent, args, _context, _info) => {
             const { id } = args.input;
             try {

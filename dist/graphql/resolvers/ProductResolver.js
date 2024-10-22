@@ -61,10 +61,14 @@ const ProductResolver = {
         },
     },
     Mutation: {
-        createProduct: async (_parent, args, _context, _info) => {
-            const { productName, categoryId, companyId } = args.input;
+        createProduct: async (_parent, args, context, _info) => {
+            const { productName, categoryId } = args.input;
+            const { user } = context;
+            if (!user)
+                throw new Error("Hata: Giriş yapmalısınız!");
             try {
-                const company = await Company_1.Company.findOne({ where: { id: companyId } });
+                console.log(productName, categoryId, user);
+                const company = await Company_1.Company.findOne({ where: { id: parseInt(user.companyId) } });
                 if (!company)
                     throw new Error("Hata: Firma Bulunamadı!");
                 let category = null;

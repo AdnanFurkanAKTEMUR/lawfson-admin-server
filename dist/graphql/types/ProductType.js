@@ -15,9 +15,8 @@ const ProductType = (0, graphql_tag_1.default) `
   }
 
   input createProductInput {
-    productName: String
+    productName: String!
     categoryId: Int
-    companyId: Int!
   }
 
   input updateProductInput {

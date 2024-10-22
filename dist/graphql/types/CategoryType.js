@@ -27,6 +27,7 @@ const CategoryType = (0, graphql_tag_1.gql) `
     getCategory(input: getWithId): Category
     getCategoryWithSubcategories(input: getWithId): Category
     getAllCategoryTree: [Category]
+    categoryGetAll: [Category]
   }
 
   type Mutation {
