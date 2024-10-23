@@ -49,7 +49,7 @@ const ProductResolver = {
         },
         productsOfCompany: async (_parent, _args, context, _info) => {
             const { user } = context;
-            if (!user)
+            if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
             try {
                 const products = await Product_1.Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations: ["category"] });
@@ -64,7 +64,7 @@ const ProductResolver = {
         createProduct: async (_parent, args, context, _info) => {
             const { productName, categoryId } = args.input;
             const { user } = context;
-            if (!user)
+            if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
             try {
                 console.log(productName, categoryId, user);

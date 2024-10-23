@@ -44,7 +44,7 @@ const ProductResolver = {
     },
     productsOfCompany: async (_parent: any, _args: any, context: Context, _info: any): Promise<Product[] | null> => {
       const { user } = context;
-      if (!user) throw new Error("Hata: Giriş yapmalısınız!");
+      if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       try {
         const products = await Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations: ["category"] });
 
@@ -59,7 +59,7 @@ const ProductResolver = {
     createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
       const { productName, categoryId } = args.input;
       const { user } = context;
-      if (!user) throw new Error("Hata: Giriş yapmalısınız!");
+      if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       try {
         console.log(productName, categoryId, user);
         const company = await Company.findOne({ where: { id: parseInt(user.companyId) } });

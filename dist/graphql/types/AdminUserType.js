@@ -33,10 +33,6 @@ const AdminUserType = (0, graphql_tag_1.default) `
     phone: String
   }
 
-  input getAdminUsersOfCompanyInput {
-    companyId: Int!
-  }
-
   input changeAdminUserPasswordInput {
     id: Int!
     password: String!
@@ -51,7 +47,7 @@ const AdminUserType = (0, graphql_tag_1.default) `
   type Query {
     adminUserGet(input: getWithId): AdminUser
     adminUserGetAll: [AdminUser]
-    adminUsersOfCompanyGetAll(input: getAdminUsersOfCompanyInput): [AdminUser]
+    adminUsersOfCompany: [AdminUser]
   }
 
   type Mutation {

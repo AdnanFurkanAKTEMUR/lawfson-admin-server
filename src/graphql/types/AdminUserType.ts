@@ -29,10 +29,6 @@ const AdminUserType = gql`
     phone: String
   }
 
-  input getAdminUsersOfCompanyInput {
-    companyId: Int!
-  }
-
   input changeAdminUserPasswordInput {
     id: Int!
     password: String!
@@ -47,7 +43,7 @@ const AdminUserType = gql`
   type Query {
     adminUserGet(input: getWithId): AdminUser
     adminUserGetAll: [AdminUser]
-    adminUsersOfCompanyGetAll(input: getAdminUsersOfCompanyInput): [AdminUser]
+    adminUsersOfCompany: [AdminUser]
   }
 
   type Mutation {

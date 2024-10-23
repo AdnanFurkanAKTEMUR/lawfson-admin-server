@@ -22,10 +22,12 @@ const AdminUserResolver = {
         throw new Error(e);
       }
     },
-    adminUsersOfCompanyGetAll: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser[] | null> => {
-      const { companyId } = args.input;
+    adminUsersOfCompany: async (_parent: any, _args: any, context: Context, _info: any): Promise<AdminUser[] | null> => {
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata:Kullanıcı bulunamadı!");
+      console.log(user);
       try {
-        const adminUsers = await AdminUser.find({ where: { company: companyId } });
+        const adminUsers = await AdminUser.find({ where: { company: { id: parseInt(user.companyId) } } });
         return adminUsers;
       } catch (e) {
         throw new Error(e);
@@ -34,7 +36,6 @@ const AdminUserResolver = {
   },
   Mutation: {
     adminUserLogin: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
- 
       const { email, password } = args.input;
       try {
         const adminUser = await AdminUser.findOne({ where: { email: email }, relations: ["company"] });

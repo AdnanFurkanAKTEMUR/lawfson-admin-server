@@ -47,10 +47,13 @@ const AdminUserResolver = {
                 throw new Error(e);
             }
         },
-        adminUsersOfCompanyGetAll: async (_parent, args, _context, _info) => {
-            const { companyId } = args.input;
+        adminUsersOfCompany: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata:Kullanıcı bulunamadı!");
+            console.log(user);
             try {
-                const adminUsers = await AdminUser_1.AdminUser.find({ where: { company: companyId } });
+                const adminUsers = await AdminUser_1.AdminUser.find({ where: { company: { id: parseInt(user.companyId) } } });
                 return adminUsers;
             }
             catch (e) {
