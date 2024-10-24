@@ -49,17 +49,19 @@ const AdminUserResolver = {
         throw new Error(e);
       }
     },
-    adminUserCreate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
-      const { userName, email, role, companyId, password, phone } = args.input;
+    adminUserCreate: async (_parent: any, args: any, context: Context, _info: any): Promise<AdminUser | null> => {
+      const { userName, email, role, password, phone } = args.input;
+      const { user } = context;
+      //role doğrulaması gelecek
+      if (!user || user.companyId == undefined) throw new Error("Hata: Yetki hatası!");
       try {
         // belki doğrulama maili
         const hashedPassword = await argon2.hash(password);
         const userRole: UserRole = role as UserRole;
         const adminUser = AdminUser.create({ userName: userName, email: email, role: userRole, password: hashedPassword, phone: phone });
-        const company = await Company.findOne({ where: { id: companyId } });
-        if (company) {
-          adminUser.company = company;
-        }
+        const company = await Company.findOne({ where: { id: parseInt(user.companyId) } });
+        if (!company) throw new Error("Hata: Firma bulunamadı!");
+        adminUser.company = company;
         await adminUser.save();
         return adminUser;
       } catch (e) {

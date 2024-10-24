@@ -17,7 +17,6 @@ const AdminUserType = gql`
     userName: String!
     email: String!
     role: String!
-    companyId: Int!
     password: String!
     phone: String
   }

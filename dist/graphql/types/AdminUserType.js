@@ -21,7 +21,6 @@ const AdminUserType = (0, graphql_tag_1.default) `
     userName: String!
     email: String!
     role: String!
-    companyId: Int!
     password: String!
     phone: String
   }
