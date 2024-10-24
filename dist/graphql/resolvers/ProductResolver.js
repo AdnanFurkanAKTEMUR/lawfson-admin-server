@@ -19,6 +19,8 @@ const ProductResolver = {
                     where: { id },
                     relations: ["category"],
                 });
+                if (!product)
+                    throw new Error("Hata:Ürün bulunamadı!");
                 return product;
             }
             catch (e) {

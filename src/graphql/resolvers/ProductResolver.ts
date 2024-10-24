@@ -7,7 +7,7 @@ import { In } from "typeorm";
 
 const ProductResolver = {
   Query: {
-    getProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
+    getProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product> => {
       const { id } = args.input;
       const { user } = context;
       console.log(user, "user");
@@ -16,6 +16,7 @@ const ProductResolver = {
           where: { id },
           relations: ["category"],
         });
+        if (!product) throw new Error("Hata:Ürün bulunamadı!");
         return product;
       } catch (e) {
         throw new Error(e);

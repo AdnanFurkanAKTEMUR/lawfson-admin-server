@@ -134,6 +134,12 @@ const AdminUserResolver = {
                 if (phone && adminUser.phone != phone) {
                     adminUser.phone = phone;
                 }
+                else if (phone) {
+                    adminUser.phone = phone;
+                }
+                else {
+                    adminUser.phone = "";
+                }
                 await adminUser.save();
                 return adminUser;
             }
