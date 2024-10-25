@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Category_1 = require("../../entities/Category");
 const typeorm_1 = require("typeorm");
+const categoryReady_1 = require("./categoryReady");
 const CategoryResolver = {
     Query: {
         categoryGetAll: async (_parent, _args, _context, _info) => {
@@ -21,6 +22,16 @@ const CategoryResolver = {
                     relations: ["products"],
                 });
                 return category;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
+        categoryLeafs: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            console.log(user);
+            try {
+                return categoryReady_1.categoryLeafs;
             }
             catch (e) {
                 throw new Error(e);

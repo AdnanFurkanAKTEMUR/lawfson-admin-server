@@ -10,6 +10,7 @@ const CategoryType = (0, graphql_tag_1.gql) `
     products: [Product]
     createdAt: String!
     updatedAt: String!
+    fullPathName: String
   }
 
   input createCategoryInput {
@@ -28,6 +29,7 @@ const CategoryType = (0, graphql_tag_1.gql) `
     getCategoryWithSubcategories(input: getWithId): Category
     getAllCategoryTree: [Category]
     categoryGetAll: [Category]
+    categoryLeafs: [Category]
   }
 
   type Mutation {

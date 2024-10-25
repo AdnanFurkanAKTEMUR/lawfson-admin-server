@@ -1,6 +1,7 @@
 import { Context } from "@contextTypes/contextTypes";
 import { Category } from "@entities/Category";
 import { IsNull } from "typeorm";
+import { categoryLeafs } from "./categoryReady";
 
 const CategoryResolver = {
   Query: {
@@ -20,6 +21,57 @@ const CategoryResolver = {
           relations: ["products"],
         });
         return category;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    categoryLeafs: async (_parent: any, _args: any, context: Context, _info: any) => {
+      const { user } = context;
+      console.log(user);
+      // kategori eklenmesi extreme bir durum olduğu için her sorguda dbyi yormaya gerek yok.
+      //bi kere çalıştırılıp sonuç alınıp artık her defasında o sonuç dönecek
+      //yeni kategori eklendiğinde yorum satırları kaldırılıp sonuç alınıp o sonuç categoryReady yapıştıralacak 
+      //eskisi silinecek
+      // sonra tekrar yorum satırı ordan almaya devam
+      try {
+        // const categories = await Category.find({
+        //   relations: ["parentCategory", "subcategories"],
+        // });
+
+        // // Sadece en alt seviyedeki kategorileri filtrele
+        // const leafCategories = categories.filter((category) => !category.subcategories || category.subcategories.length === 0);
+
+        // const addFullCategoryName = async (category: Category): Promise<string> => {
+        //   let name = category.categoryName;
+        //   let parent = category.parentCategory;
+
+        //   // Parent bilgilerini alana kadar döngüde ilerleyin
+        //   while (parent) {
+        //     name = `${parent.categoryName} / ${name}`;
+
+        //     // Her bir parent kategori için ilişkiyi yeniden yükleyin ve await ifadesini doğru şekilde kullanın
+        //     const parentCategoryData = await Category.findOne({
+        //       where: { id: parent.id },
+        //       relations: ["parentCategory"],
+        //     });
+
+        //     // Yeni parent kategori bilgisine geç
+        //     parent = parentCategoryData ? parentCategoryData.parentCategory : undefined;
+        //   }
+        //   return name;
+        // };
+
+        // // Her bir en alt kategoriye `fullPathName` ekle
+        // const result = await Promise.all(
+        //   leafCategories.map(async (category) => {
+        //     return {
+        //       ...category,
+        //       fullPathName: await addFullCategoryName(category),
+        //     };
+        //   })
+        // );
+        // return result
+        return categoryLeafs;
       } catch (e) {
         throw new Error(e);
       }
