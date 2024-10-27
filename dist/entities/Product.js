@@ -26,14 +26,58 @@ __decorate([
     __metadata("design:type", String)
 ], Product.prototype, "productName", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "image", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "widths", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "length", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "thickness", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "color", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "origin", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "surfaceTreatment", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "boolean", default: false }),
+    __metadata("design:type", Boolean)
+], Product.prototype, "onAd", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "location", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "date", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "adDate", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => Category_1.Category, (category) => category.products, {
         nullable: true,
     }),
-    __metadata("design:type", Category_1.Category)
+    __metadata("design:type", Object)
 ], Product.prototype, "category", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.product, { nullable: true }),
-    __metadata("design:type", Array)
+    __metadata("design:type", Object)
 ], Product.prototype, "messages", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Company_1.Company, (company) => company.products),

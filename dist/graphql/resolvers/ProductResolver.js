@@ -64,12 +64,11 @@ const ProductResolver = {
     },
     Mutation: {
         createProduct: async (_parent, args, context, _info) => {
-            const { productName, categoryId } = args.input;
+            const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
             try {
-                console.log(productName, categoryId, user);
                 const company = await Company_1.Company.findOne({ where: { id: parseInt(user.companyId) } });
                 if (!company)
                     throw new Error("Hata: Firma Bulunamadı!");
@@ -79,7 +78,20 @@ const ProductResolver = {
                 }
                 const product = Product_1.Product.create({
                     productName: productName,
+                    image: image || null,
+                    widths: widths || null,
+                    length: length || null,
+                    thickness: thickness || null,
+                    color: color || null,
+                    origin: origin || null,
+                    surfaceTreatment: surfaceTreatment || null,
+                    description: description || null,
+                    onAd: onAd || null,
+                    location: location || null,
                 });
+                if (onAd) {
+                    product.adDate = new Date();
+                }
                 if (category) {
                     product.category = category;
                 }
@@ -88,7 +100,7 @@ const ProductResolver = {
                 return product;
             }
             catch (e) {
-                throw new Error(e);
+                throw new Error(e.message || "Ürün oluşturulurken bir hata oluştu.");
             }
         },
         updateProduct: async (_parent, args, _context, _info) => {

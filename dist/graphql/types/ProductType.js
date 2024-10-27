@@ -8,6 +8,17 @@ const ProductType = (0, graphql_tag_1.default) `
   type Product {
     id: Int
     productName: String
+    image: String
+    widths: String
+    length: String
+    thickness: String
+    color: String
+    origin: String
+    surfaceTreatment: String
+    description: String
+    onAd: Boolean
+    location: String
+    adDate: String
     category: Category
     company: Company
     createdAt: String
@@ -17,12 +28,32 @@ const ProductType = (0, graphql_tag_1.default) `
   input createProductInput {
     productName: String!
     categoryId: Int
+    image: String
+    widths: String
+    length: String
+    thickness: String
+    color: String
+    origin: String
+    surfaceTreatment: String
+    description: String
+    onAd: Boolean
+    location: String
   }
 
   input updateProductInput {
     id: Int!
     productName: String
     categoryId: Int
+    image: String
+    widths: String
+    length: String
+    thickness: String
+    color: String
+    origin: String
+    surfaceTreatment: String
+    description: String
+    onAd: Boolean
+    location: String
   }
 
   input getProductOfCategoryInput {

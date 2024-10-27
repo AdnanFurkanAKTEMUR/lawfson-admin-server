@@ -284,10 +284,6 @@ export const categoryLeafs = [
     fullPathName: "Makine / Makineler / Water Jet",
   },
   {
-    id: 122,
-    fullPathName: "Makine / Atık Kazanı",
-  },
-  {
     id: 62,
     fullPathName: "Sarf Malzeme / Hırdavatlar",
   },

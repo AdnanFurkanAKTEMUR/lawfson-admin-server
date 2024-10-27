@@ -58,29 +58,47 @@ const ProductResolver = {
 
   Mutation: {
     createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId } = args.input;
+      const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location } = args.input;
       const { user } = context;
+
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
+
       try {
-        console.log(productName, categoryId, user);
         const company = await Company.findOne({ where: { id: parseInt(user.companyId) } });
         if (!company) throw new Error("Hata: Firma Bulunamadı!");
+
         let category = null;
         if (categoryId) {
-          //kategori null olabilir.
+          // Kategori null olabilir.
           category = await Category.findOne({ where: { id: categoryId } });
         }
+
         const product = Product.create({
           productName: productName,
+          image: image || null,
+          widths: widths || null,
+          length: length || null,
+          thickness: thickness || null,
+          color: color || null,
+          origin: origin || null,
+          surfaceTreatment: surfaceTreatment || null,
+          description: description || null,
+          onAd: onAd || null,
+          location: location || null,
         });
+        if (onAd) {
+          product.adDate = new Date();
+        }
         if (category) {
           product.category = category;
         }
+
         product.company = company;
         await product.save();
+
         return product;
       } catch (e) {
-        throw new Error(e);
+        throw new Error(e.message || "Ürün oluşturulurken bir hata oluştu.");
       }
     },
     updateProduct: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product | null> => {
