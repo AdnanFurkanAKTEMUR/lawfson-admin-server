@@ -54,7 +54,7 @@ const ProductResolver = {
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
             try {
-                const products = await Product_1.Product.find({ where: { company: { id: parseInt(user.companyId) } }, relations: ["category"] });
+                const products = await Product_1.Product.find({ where: { company: { id: user.companyId } }, relations: ["category"] });
                 return products;
             }
             catch (e) {
@@ -69,7 +69,7 @@ const ProductResolver = {
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
             try {
-                const company = await Company_1.Company.findOne({ where: { id: parseInt(user.companyId) } });
+                const company = await Company_1.Company.findOne({ where: { id: user.companyId } });
                 if (!company)
                     throw new Error("Hata: Firma Bulunamadı!");
                 let category = null;

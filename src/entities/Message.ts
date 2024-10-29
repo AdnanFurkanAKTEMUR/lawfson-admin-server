@@ -1,8 +1,9 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AppUser } from "./AppUser";
 import { AdminUser } from "./AdminUser";
 import { Product } from "./Product";
 import { Company } from "./Company";
+import { AdminNote } from "./AdminNote";
 
 @Entity()
 export class Message extends BaseEntity {
@@ -14,9 +15,6 @@ export class Message extends BaseEntity {
 
   @Column()
   messageText!: string;
-
-  @Column({ nullable: true })
-  adminNote?: string;
 
   @Column({ nullable: true })
   phone?: string;
@@ -35,6 +33,9 @@ export class Message extends BaseEntity {
 
   @ManyToOne(() => Company, (company) => company.messages)
   company: Company;
+
+  @OneToMany(() => AdminNote, (adminNote) => adminNote.message, { nullable: true })
+  adminNotes?: AdminNote[];
 
   @CreateDateColumn()
   createdAt: Date;

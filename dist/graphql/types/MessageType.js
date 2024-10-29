@@ -10,7 +10,7 @@ const MessageType = (0, graphql_tag_1.default) `
     messageHeader: String!
     messageText: String!
     phone: String
-    adminNote: String
+    adminNotes: [AdminNote]
     isReturn: Boolean
     returnedAdmin: AdminUser
     appUser: AppUser
@@ -22,7 +22,6 @@ const MessageType = (0, graphql_tag_1.default) `
 
   input updateMessageInput {
     id: Int!
-    adminNote: String
     isReturn: Boolean
   }
 

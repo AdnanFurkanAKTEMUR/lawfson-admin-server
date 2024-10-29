@@ -26,7 +26,7 @@ const MessageResolver = {
                 throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
             try {
                 const message = await Message_1.Message.find({
-                    where: { company: { id: parseInt(user.companyId) } },
+                    where: { company: { id: user.companyId } },
                     relations: ["product", "appUser", "returnedAdmin"],
                 });
                 return message;
@@ -67,7 +67,7 @@ const MessageResolver = {
             }
         },
         messageUpdate: async (_parent, args, context, _info) => {
-            const { id, adminNote, isReturn } = args.input;
+            const { id, isReturn } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
@@ -75,9 +75,6 @@ const MessageResolver = {
                 const message = await Message_1.Message.findOne({ where: { id } });
                 if (!message)
                     throw new Error("Belirtilen kayıt bulunamadı!");
-                if (adminNote) {
-                    message.adminNote = adminNote;
-                }
                 if (isReturn) {
                     message.isReturn = isReturn;
                 }

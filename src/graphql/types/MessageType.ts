@@ -6,7 +6,7 @@ const MessageType = gql`
     messageHeader: String!
     messageText: String!
     phone: String
-    adminNote: String
+    adminNotes: [AdminNote]
     isReturn: Boolean
     returnedAdmin: AdminUser
     appUser: AppUser
@@ -18,7 +18,6 @@ const MessageType = gql`
 
   input updateMessageInput {
     id: Int!
-    adminNote: String
     isReturn: Boolean
   }
 

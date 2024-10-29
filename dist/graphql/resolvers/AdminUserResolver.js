@@ -53,7 +53,7 @@ const AdminUserResolver = {
                 throw new Error("Hata:Kullanıcı bulunamadı!");
             console.log(user);
             try {
-                const adminUsers = await AdminUser_1.AdminUser.find({ where: { company: { id: parseInt(user.companyId) } } });
+                const adminUsers = await AdminUser_1.AdminUser.find({ where: { company: { id: user.companyId } } });
                 return adminUsers;
             }
             catch (e) {
@@ -87,7 +87,7 @@ const AdminUserResolver = {
                 const hashedPassword = await argon2_1.default.hash(password);
                 const userRole = role;
                 const adminUser = AdminUser_1.AdminUser.create({ userName: userName, email: email, role: userRole, password: hashedPassword, phone: phone });
-                const company = await Company_1.Company.findOne({ where: { id: parseInt(user.companyId) } });
+                const company = await Company_1.Company.findOne({ where: { id: user.companyId } });
                 if (!company)
                     throw new Error("Hata: Firma bulunamadı!");
                 adminUser.company = company;

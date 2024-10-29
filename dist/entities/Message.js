@@ -15,6 +15,7 @@ const AppUser_1 = require("./AppUser");
 const AdminUser_1 = require("./AdminUser");
 const Product_1 = require("./Product");
 const Company_1 = require("./Company");
+const AdminNote_1 = require("./AdminNote");
 let Message = class Message extends typeorm_1.BaseEntity {
 };
 exports.Message = Message;
@@ -30,10 +31,6 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Message.prototype, "messageText", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Message.prototype, "adminNote", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -58,6 +55,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => Company_1.Company, (company) => company.messages),
     __metadata("design:type", Company_1.Company)
 ], Message.prototype, "company", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => AdminNote_1.AdminNote, (adminNote) => adminNote.message, { nullable: true }),
+    __metadata("design:type", Array)
+], Message.prototype, "adminNotes", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

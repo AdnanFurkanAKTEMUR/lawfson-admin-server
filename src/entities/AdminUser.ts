@@ -1,6 +1,7 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Company } from "./Company";
 import { Message } from "./Message";
+import { AdminNote } from "./AdminNote";
 
 export enum UserRole {
   Regular = "regular",
@@ -40,6 +41,9 @@ export class AdminUser extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.returnedAdmin, { nullable: true })
   returnedMessages?: Message[];
+
+  @OneToMany(() => AdminNote, (adminNote) => adminNote.adminUser, { nullable: true })
+  adminNotes?: AdminNote[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -4,7 +4,7 @@ import { DataSource } from "typeorm";
 export type User = {
   id: number;
   userName: string;
-  companyId: string;
+  companyId: number;
   email: string;
   company: any;
   role: string;

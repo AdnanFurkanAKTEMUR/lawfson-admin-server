@@ -6,12 +6,13 @@ import { AdminUser } from "@entities/AdminUser";
 import { Company } from "@entities/Company";
 import { AppUser } from "@entities/AppUser";
 import { Message } from "@entities/Message";
+import { AdminNote } from "@entities/AdminNote";
 
 dotenv.config();
 
 export default new DataSource({
   type: "postgres",
   url: process.env.POSTGRES_CONNECTION_STRING,
-  entities: [Product, Category, AdminUser, Company, AppUser, Message],
+  entities: [Product, Category, AdminUser, Company, AppUser, Message, AdminNote],
   synchronize: true,
 });
