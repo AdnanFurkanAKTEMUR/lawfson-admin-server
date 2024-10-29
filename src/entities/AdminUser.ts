@@ -2,6 +2,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, Pri
 import { Company } from "./Company";
 import { Message } from "./Message";
 import { AdminNote } from "./AdminNote";
+import { SystemLog } from "./SystemLog";
 
 export enum UserRole {
   Regular = "regular",
@@ -41,6 +42,9 @@ export class AdminUser extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.returnedAdmin, { nullable: true })
   returnedMessages?: Message[];
+
+  @OneToMany(() => SystemLog, (systemLog) => systemLog.adminUser, { nullable: true })
+  systemLogs?: SystemLog[];
 
   @OneToMany(() => AdminNote, (adminNote) => adminNote.adminUser, { nullable: true })
   adminNotes?: AdminNote[];

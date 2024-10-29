@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const Company_1 = require("./Company");
 const Message_1 = require("./Message");
 const AdminNote_1 = require("./AdminNote");
+const SystemLog_1 = require("./SystemLog");
 var UserRole;
 (function (UserRole) {
     UserRole["Regular"] = "regular";
@@ -63,6 +64,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.returnedAdmin, { nullable: true }),
     __metadata("design:type", Array)
 ], AdminUser.prototype, "returnedMessages", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => SystemLog_1.SystemLog, (systemLog) => systemLog.adminUser, { nullable: true }),
+    __metadata("design:type", Array)
+], AdminUser.prototype, "systemLogs", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => AdminNote_1.AdminNote, (adminNote) => adminNote.adminUser, { nullable: true }),
     __metadata("design:type", Array)
