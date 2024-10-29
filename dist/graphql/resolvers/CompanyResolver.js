@@ -41,7 +41,7 @@ const CompanyResolver = {
                 console.log(randomPass);
                 const hashedPassword = await argon2_1.default.hash(randomPass);
                 const userRole = "superadmin";
-                const adminUser = AdminUser_1.AdminUser.create({ userName: companyName, email: companyEmail, role: userRole, password: hashedPassword, phone: companyPhone });
+                const adminUser = AdminUser_1.AdminUser.create({ userName: companyName, email: companyEmail, role: userRole, password: hashedPassword, phone: companyPhone, isRoot: true });
                 adminUser.company = company;
                 await adminUser.save();
                 return company;

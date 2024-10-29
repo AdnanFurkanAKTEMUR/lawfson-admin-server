@@ -19,6 +19,9 @@ export class AdminUser extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 
+  @Column({ nullable: true })
+  isRoot?: boolean;
+
   @Column({
     type: "enum",
     enum: UserRole,

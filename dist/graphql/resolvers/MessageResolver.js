@@ -12,6 +12,7 @@ const MessageResolver = {
             try {
                 const message = await Message_1.Message.findOne({
                     where: { id },
+                    relations: ["product", "appUser", "returnedAdmin", "product.category"],
                 });
                 return message;
             }
@@ -19,11 +20,14 @@ const MessageResolver = {
                 throw new Error(e);
             }
         },
-        messagesOfCompany: async (_parent, args, _context, _info) => {
-            const { companyId } = args.input;
+        messagesOfCompany: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user)
+                throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
             try {
                 const message = await Message_1.Message.find({
-                    where: { company: companyId },
+                    where: { company: { id: parseInt(user.companyId) } },
+                    relations: ["product", "appUser", "returnedAdmin"],
                 });
                 return message;
             }
@@ -62,8 +66,11 @@ const MessageResolver = {
                 throw new Error(e);
             }
         },
-        messageUpdate: async (_parent, args, _context, _info) => {
-            const { id, adminNote, isReturn, returnedAdminId } = args.input;
+        messageUpdate: async (_parent, args, context, _info) => {
+            const { id, adminNote, isReturn } = args.input;
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
                 const message = await Message_1.Message.findOne({ where: { id } });
                 if (!message)
@@ -74,12 +81,13 @@ const MessageResolver = {
                 if (isReturn) {
                     message.isReturn = isReturn;
                 }
-                if (returnedAdminId) {
-                    const adminUser = await AdminUser_1.AdminUser.findOne({ where: { id } });
-                    if (!adminUser)
-                        throw new Error("Kullanıcı bulunamadı!");
-                    message.returnedAdmin = adminUser;
+                else {
+                    message.isReturn = false;
                 }
+                const adminUser = await AdminUser_1.AdminUser.findOne({ where: { id: user.id } });
+                if (!adminUser)
+                    throw new Error("Hata:Admin kullanıcı bulunamadı!");
+                message.returnedAdmin = adminUser;
                 await message.save();
                 return message;
             }

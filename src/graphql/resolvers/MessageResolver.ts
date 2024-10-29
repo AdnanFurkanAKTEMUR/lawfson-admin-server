@@ -9,20 +9,24 @@ const MessageResolver = {
   Query: {
     messageGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message | null> => {
       const { id } = args.input;
+
       try {
         const message = await Message.findOne({
           where: { id },
+          relations: ["product", "appUser", "returnedAdmin", "product.category"],
         });
         return message;
       } catch (e) {
         throw new Error(e);
       }
     },
-    messagesOfCompany: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message[] | null> => {
-      const { companyId } = args.input;
+    messagesOfCompany: async (_parent: any, _args: any, context: Context, _info: any): Promise<Message[] | null> => {
+      const { user } = context;
+      if (!user) throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
       try {
         const message = await Message.find({
-          where: { company: companyId },
+          where: { company: { id: parseInt(user.companyId) } },
+          relations: ["product", "appUser", "returnedAdmin"],
         });
         return message;
       } catch (e) {
@@ -34,7 +38,7 @@ const MessageResolver = {
   Mutation: {
     messageCreate: async (_parent: any, args: any, _context: Context, _info: any) => {
       const { messageHeader, messageText, appUserId, companyId, productId, phone } = args.input;
-      //TODO appUserId daha sonra cookie'den alınacak
+      //TODO appUserId daha sonra cookie'den alınacak ve sadece user tarafından
       try {
         if (!appUserId && !companyId && !productId) throw new Error("Parametreler eksik!");
         const message = Message.create({ messageHeader: messageHeader, messageText: messageText });
@@ -62,8 +66,10 @@ const MessageResolver = {
         throw new Error(e);
       }
     },
-    messageUpdate: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message | null> => {
-      const { id, adminNote, isReturn, returnedAdminId } = args.input;
+    messageUpdate: async (_parent: any, args: any, context: Context, _info: any): Promise<Message | null> => {
+      const { id, adminNote, isReturn } = args.input;
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
       try {
         const message = await Message.findOne({ where: { id } });
         if (!message) throw new Error("Belirtilen kayıt bulunamadı!");
@@ -72,12 +78,12 @@ const MessageResolver = {
         }
         if (isReturn) {
           message.isReturn = isReturn;
+        } else {
+          message.isReturn = false;
         }
-        if (returnedAdminId) {
-          const adminUser = await AdminUser.findOne({ where: { id } });
-          if (!adminUser) throw new Error("Kullanıcı bulunamadı!");
-          message.returnedAdmin = adminUser;
-        }
+        const adminUser = await AdminUser.findOne({ where: { id: user.id } });
+        if (!adminUser) throw new Error("Hata:Admin kullanıcı bulunamadı!");
+        message.returnedAdmin = adminUser;
         await message.save();
         return message;
       } catch (e) {

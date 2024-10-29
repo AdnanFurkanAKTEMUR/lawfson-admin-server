@@ -13,6 +13,7 @@ const AdminUserType = (0, graphql_tag_1.default) `
     company: Company!
     password: String!
     phone: String
+    isRoot: Boolean
     createdAt: String!
     updatedAt: String!
   }

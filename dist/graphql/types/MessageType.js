@@ -20,15 +20,10 @@ const MessageType = (0, graphql_tag_1.default) `
     updatedAt: String
   }
 
-  input getMessagesOfCompanyInput {
-    companyId: Int!
-  }
-
   input updateMessageInput {
     id: Int!
     adminNote: String
     isReturn: Boolean
-    returnedAdminId: Int
   }
 
   input createMessageInput {
@@ -43,7 +38,7 @@ const MessageType = (0, graphql_tag_1.default) `
 
   type Query {
     messageGet(input: getWithId): Message
-    messagesOfCompany(input: getMessagesOfCompanyInput): [Message]
+    messagesOfCompany: [Message]
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

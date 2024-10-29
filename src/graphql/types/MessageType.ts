@@ -16,15 +16,10 @@ const MessageType = gql`
     updatedAt: String
   }
 
-  input getMessagesOfCompanyInput {
-    companyId: Int!
-  }
-
   input updateMessageInput {
     id: Int!
     adminNote: String
     isReturn: Boolean
-    returnedAdminId: Int
   }
 
   input createMessageInput {
@@ -39,7 +34,7 @@ const MessageType = gql`
 
   type Query {
     messageGet(input: getWithId): Message
-    messagesOfCompany(input: getMessagesOfCompanyInput): [Message]
+    messagesOfCompany: [Message]
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

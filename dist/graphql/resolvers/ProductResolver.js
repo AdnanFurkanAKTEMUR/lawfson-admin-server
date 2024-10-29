@@ -86,7 +86,7 @@ const ProductResolver = {
                     origin: origin || null,
                     surfaceTreatment: surfaceTreatment || null,
                     description: description || null,
-                    onAd: onAd || null,
+                    onAd: onAd || false,
                     location: location || null,
                     brand: brand || null,
                 });

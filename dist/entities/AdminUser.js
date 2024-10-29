@@ -35,6 +35,10 @@ __decorate([
     __metadata("design:type", String)
 ], AdminUser.prototype, "email", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Boolean)
+], AdminUser.prototype, "isRoot", void 0);
+__decorate([
     (0, typeorm_1.Column)({
         type: "enum",
         enum: UserRole,

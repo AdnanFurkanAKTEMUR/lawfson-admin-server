@@ -9,6 +9,7 @@ const AdminUserType = gql`
     company: Company!
     password: String!
     phone: String
+    isRoot: Boolean
     createdAt: String!
     updatedAt: String!
   }

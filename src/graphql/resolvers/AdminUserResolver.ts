@@ -117,6 +117,7 @@ const AdminUserResolver = {
       try {
         const adminUser = await AdminUser.findOne({ where: { id } });
         if (!adminUser) throw new Error("Kullanıcı bulunamadı!");
+        if (adminUser.isRoot) throw new Error("Hata: Root Kullanıcısı silinemez!");
         await AdminUser.remove(adminUser);
         return { status: true, msg: "Silme başarılı!" };
       } catch (e) {
