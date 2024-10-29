@@ -8,6 +8,7 @@ const ProductType = (0, graphql_tag_1.default) `
   type Product {
     id: Int
     productName: String
+    brand: String
     image: String
     widths: String
     length: String
@@ -28,6 +29,7 @@ const ProductType = (0, graphql_tag_1.default) `
   input createProductInput {
     productName: String!
     categoryId: Int
+    brand: String
     image: String
     widths: String
     length: String
@@ -43,6 +45,7 @@ const ProductType = (0, graphql_tag_1.default) `
   input updateProductInput {
     id: Int!
     productName: String
+    brand: String
     categoryId: Int
     image: String
     widths: String

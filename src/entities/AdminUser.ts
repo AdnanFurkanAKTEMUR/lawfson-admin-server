@@ -29,8 +29,8 @@ export class AdminUser extends BaseEntity {
   @Column()
   password!: string;
 
-  @Column({ nullable: true })
-  phone?: string;
+  @Column({ type: "varchar", nullable: true })
+  phone: string | null;
 
   @ManyToOne(() => Company, (company) => company.adminUsers)
   company: Company;

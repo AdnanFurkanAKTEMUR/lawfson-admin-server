@@ -7,10 +7,6 @@ exports.categoryLeafs = [
         fullPathName: "Makine / Makineler / Blok Kesme Makineleri",
     },
     {
-        id: 120,
-        fullPathName: "Makine / Pompalar",
-    },
-    {
         id: 151,
         fullPathName: "Taş Uygulamaları / Cami Uygulamaları",
     },

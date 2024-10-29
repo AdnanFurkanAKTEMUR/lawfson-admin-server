@@ -56,7 +56,7 @@ const MessageResolver = {
                     throw new Error("Ürün bulunamadı!");
                 message.product = product;
                 await message.save();
-                return message;
+                return { status: true, msg: "Mesaj başarılı bir şekilde oluşturuldu!" };
             }
             catch (e) {
                 throw new Error(e);

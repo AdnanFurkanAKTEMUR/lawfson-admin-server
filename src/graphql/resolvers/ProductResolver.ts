@@ -58,9 +58,8 @@ const ProductResolver = {
 
   Mutation: {
     createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location } = args.input;
+      const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
       const { user } = context;
-
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
 
       try {
@@ -85,6 +84,7 @@ const ProductResolver = {
           description: description || null,
           onAd: onAd || null,
           location: location || null,
+          brand: brand || null,
         });
         if (onAd) {
           product.adDate = new Date();
@@ -98,27 +98,66 @@ const ProductResolver = {
 
         return product;
       } catch (e) {
-        throw new Error(e.message || "Ürün oluşturulurken bir hata oluştu.");
+        throw new Error(e?.message + "Ürün oluşturulurken bir hata oluştu.");
       }
     },
     updateProduct: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product | null> => {
-      const { id, productName, categoryId } = args.input;
+      const { id, productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
       try {
         const product = await Product.findOne({ where: { id: id } });
         if (!product) throw new Error("Ürün bulunamadı!");
+
+        // Kategori güncellemesi
         if (categoryId && product.category?.id != categoryId) {
           const category = await Category.findOne({ where: { id: categoryId } });
           if (!category) throw new Error("Kategori Bulunamadı!");
           product.category = category;
         }
-        if (productName && product.productName != productName) {
+
+        // Ürün adı güncellemesi
+        if (productName && product.productName !== productName) {
           product.productName = productName;
         }
-        await product.save();
 
+        // Yeni alanların güncellenmesi
+        if (image !== undefined) {
+          product.image = image; // null olabilir, bu yüzden undefined kontrolü
+        }
+        if (widths !== undefined) {
+          product.widths = widths;
+        }
+        if (length !== undefined) {
+          product.length = length;
+        }
+        if (thickness !== undefined) {
+          product.thickness = thickness;
+        }
+        if (color !== undefined) {
+          product.color = color;
+        }
+        if (origin !== undefined) {
+          product.origin = origin;
+        }
+        if (surfaceTreatment !== undefined) {
+          product.surfaceTreatment = surfaceTreatment;
+        }
+        if (description !== undefined) {
+          product.description = description;
+        }
+        if (onAd !== undefined) {
+          product.onAd = onAd;
+        }
+        if (location !== undefined) {
+          product.location = location;
+        }
+        if (brand !== undefined) {
+          product.brand = brand;
+        }
+
+        await product.save();
         return product;
       } catch (e) {
-        throw new Error(e);
+        throw new Error(e.message || "Ürün güncellenirken bir hata oluştu.");
       }
     },
     deleteProduct: async (_parent: any, args: any, _context: Context, _info: any) => {

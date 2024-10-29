@@ -11,6 +11,9 @@ export class Product extends BaseEntity {
   @Column()
   productName: string;
 
+  @Column({ nullable: true }) //not: aşağıda ki nullable yapı ile bu aynı
+  brand?: string;
+
   //resim
   @Column({ type: "varchar", nullable: true })
   image: string | null;

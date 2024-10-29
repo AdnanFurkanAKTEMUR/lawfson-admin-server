@@ -32,7 +32,7 @@ const MessageResolver = {
   },
 
   Mutation: {
-    messageCreate: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message | null> => {
+    messageCreate: async (_parent: any, args: any, _context: Context, _info: any) => {
       const { messageHeader, messageText, appUserId, companyId, productId, phone } = args.input;
       //TODO appUserId daha sonra cookie'den alınacak
       try {
@@ -57,7 +57,7 @@ const MessageResolver = {
 
         await message.save();
 
-        return message;
+        return { status: true, msg: "Mesaj başarılı bir şekilde oluşturuldu!" };
       } catch (e) {
         throw new Error(e);
       }

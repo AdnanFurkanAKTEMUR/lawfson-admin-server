@@ -4,6 +4,7 @@ const ProductType = gql`
   type Product {
     id: Int
     productName: String
+    brand: String
     image: String
     widths: String
     length: String
@@ -24,6 +25,7 @@ const ProductType = gql`
   input createProductInput {
     productName: String!
     categoryId: Int
+    brand: String
     image: String
     widths: String
     length: String
@@ -39,6 +41,7 @@ const ProductType = gql`
   input updateProductInput {
     id: Int!
     productName: String
+    brand: String
     categoryId: Int
     image: String
     widths: String

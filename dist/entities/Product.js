@@ -26,6 +26,10 @@ __decorate([
     __metadata("design:type", String)
 ], Product.prototype, "productName", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Product.prototype, "brand", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", Object)
 ], Product.prototype, "image", void 0);
