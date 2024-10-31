@@ -1,7 +1,15 @@
-/*import { AdminUser } from "@entities/AdminUser";
-import { ActionType } from "@entities/SystemLog";
-import { TableType } from "typeorm/metadata/types/TableTypes";
+import { AdminUser } from "@entities/AdminUser";
+import { ActionType, TableName, SystemLog } from "@entities/SystemLog";
 
-export default function createLog(action: ActionType, tableName: TableType, before: string, later: string, adminUserId: number) {
-  const adminUser = await AdminUser
-}*/
+export default async function createLog(action: ActionType, tableName: TableName, adminUserId: number) {
+  const adminUser = await AdminUser.findOne({ where: { id: adminUserId } });
+  if (!adminUser) throw new Error("Admin user not found");
+
+  const logCreate = SystemLog.create({
+    action: action,
+    tableName: tableName,
+    adminUser: adminUser,
+  });
+
+  await logCreate.save();
+}

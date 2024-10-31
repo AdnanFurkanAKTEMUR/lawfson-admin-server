@@ -1,6 +1,8 @@
 import { Context } from "@contextTypes/contextTypes";
 import { AdminUser, UserRole } from "@entities/AdminUser";
 import { Company } from "@entities/Company";
+import { ActionType, TableName } from "@entities/SystemLog";
+import createLog from "@helpers/createLog";
 import argon2, { verify } from "argon2";
 
 const AdminUserResolver = {
@@ -63,6 +65,7 @@ const AdminUserResolver = {
         if (!company) throw new Error("Hata: Firma bulunamadı!");
         adminUser.company = company;
         await adminUser.save();
+        createLog(ActionType.Create, TableName.AdminUser, user.id);
         return adminUser;
       } catch (e) {
         throw new Error(e);

@@ -45,14 +45,6 @@ __decorate([
     __metadata("design:type", String)
 ], SystemLog.prototype, "tableName", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], SystemLog.prototype, "before", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], SystemLog.prototype, "later", void 0);
-__decorate([
     (0, typeorm_1.ManyToOne)(() => AdminUser_1.AdminUser, (adminUser) => adminUser.systemLogs),
     __metadata("design:type", AdminUser_1.AdminUser)
 ], SystemLog.prototype, "adminUser", void 0);

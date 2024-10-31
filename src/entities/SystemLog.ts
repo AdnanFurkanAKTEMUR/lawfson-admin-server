@@ -29,11 +29,11 @@ export class SystemLog extends BaseEntity {
   @Column({ type: "enum", enum: TableName })
   tableName: TableName;
 
-  @Column()
-  before: string;
+  // @Column()
+  // before: string;
 
-  @Column()
-  later: string;
+  // @Column()
+  // later: string;
 
   @ManyToOne(() => AdminUser, (adminUser) => adminUser.systemLogs)
   adminUser: AdminUser;

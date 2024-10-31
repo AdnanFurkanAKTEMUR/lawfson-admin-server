@@ -22,9 +22,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const AdminUser_1 = require("../../entities/AdminUser");
 const Company_1 = require("../../entities/Company");
+const SystemLog_1 = require("../../entities/SystemLog");
+const createLog_1 = __importDefault(require("../../helpers/createLog"));
 const argon2_1 = __importStar(require("argon2"));
 const AdminUserResolver = {
     Query: {
@@ -92,6 +97,7 @@ const AdminUserResolver = {
                     throw new Error("Hata: Firma bulunamadı!");
                 adminUser.company = company;
                 await adminUser.save();
+                (0, createLog_1.default)(SystemLog_1.ActionType.Create, SystemLog_1.TableName.AdminUser, user.id);
                 return adminUser;
             }
             catch (e) {
