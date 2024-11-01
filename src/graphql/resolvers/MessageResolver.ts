@@ -4,6 +4,7 @@ import { AppUser } from "@entities/AppUser";
 import { Company } from "@entities/Company";
 import { Message } from "@entities/Message";
 import { Product } from "@entities/Product";
+import { loggerInfo } from "@helpers/logger";
 
 const MessageResolver = {
   Query: {
@@ -22,12 +23,14 @@ const MessageResolver = {
     },
     messagesOfCompany: async (_parent: any, _args: any, context: Context, _info: any): Promise<Message[] | null> => {
       const { user } = context;
-      if (!user) throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
+
+      if (!user || user.id == undefined) throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
       try {
         const message = await Message.find({
           where: { company: { id: user.companyId } },
           relations: ["product", "appUser", "returnedAdmin"],
         });
+        loggerInfo("Message", "messagesOfCompany", user.id, "Mesajlar çekildi");
         return message;
       } catch (e) {
         throw new Error(e);

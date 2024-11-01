@@ -44,6 +44,7 @@ const AdminUserType = gql`
     adminUserGet(input: getWithId): AdminUser
     adminUserGetAll: [AdminUser]
     adminUsersOfCompany: [AdminUser]
+    getLogs: [String]
   }
 
   type Mutation {

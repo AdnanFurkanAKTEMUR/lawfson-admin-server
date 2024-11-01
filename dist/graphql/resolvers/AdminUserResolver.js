@@ -22,6 +22,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -31,6 +38,8 @@ const Company_1 = require("../../entities/Company");
 const SystemLog_1 = require("../../entities/SystemLog");
 const createLog_1 = __importDefault(require("../../helpers/createLog"));
 const argon2_1 = __importStar(require("argon2"));
+const fs_1 = __importDefault(require("fs"));
+const readline_1 = __importDefault(require("readline"));
 const AdminUserResolver = {
     Query: {
         adminUserGet: async (_parent, args, _context, _info) => {
@@ -56,10 +65,48 @@ const AdminUserResolver = {
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata:Kullanıcı bulunamadı!");
-            console.log(user);
             try {
                 const adminUsers = await AdminUser_1.AdminUser.find({ where: { company: { id: user.companyId } } });
                 return adminUsers;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
+        getLogs: async (_parent, _args, context, _info) => {
+            var _a, e_1, _b, _c;
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata:Kullanıcı bulunamadı!");
+            if (user.role != "superadmin")
+                throw new Error("Hata: Yetkiniz Yok!");
+            try {
+                const logFilePath = "admin.log";
+                const lines = [];
+                const fileStream = fs_1.default.createReadStream(logFilePath);
+                const rl = readline_1.default.createInterface({
+                    input: fileStream,
+                    crlfDelay: Infinity,
+                });
+                try {
+                    for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = await rl_1.next(), _a = rl_1_1.done, !_a; _d = true) {
+                        _c = rl_1_1.value;
+                        _d = false;
+                        const line = _c;
+                        lines.push(line);
+                        if (lines.length > 100) {
+                            lines.shift();
+                        }
+                    }
+                }
+                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                finally {
+                    try {
+                        if (!_d && !_a && (_b = rl_1.return)) await _b.call(rl_1);
+                    }
+                    finally { if (e_1) throw e_1.error; }
+                }
+                return lines;
             }
             catch (e) {
                 throw new Error(e);

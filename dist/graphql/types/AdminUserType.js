@@ -48,6 +48,7 @@ const AdminUserType = (0, graphql_tag_1.default) `
     adminUserGet(input: getWithId): AdminUser
     adminUserGetAll: [AdminUser]
     adminUsersOfCompany: [AdminUser]
+    getLogs: [String]
   }
 
   type Mutation {

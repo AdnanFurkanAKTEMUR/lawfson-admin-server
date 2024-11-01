@@ -5,6 +5,7 @@ const AppUser_1 = require("../../entities/AppUser");
 const Company_1 = require("../../entities/Company");
 const Message_1 = require("../../entities/Message");
 const Product_1 = require("../../entities/Product");
+const logger_1 = require("../../helpers/logger");
 const MessageResolver = {
     Query: {
         messageGet: async (_parent, args, _context, _info) => {
@@ -22,13 +23,14 @@ const MessageResolver = {
         },
         messagesOfCompany: async (_parent, _args, context, _info) => {
             const { user } = context;
-            if (!user)
+            if (!user || user.id == undefined)
                 throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
             try {
                 const message = await Message_1.Message.find({
                     where: { company: { id: user.companyId } },
                     relations: ["product", "appUser", "returnedAdmin"],
                 });
+                (0, logger_1.loggerInfo)("Message", "messagesOfCompany", user.id, "Mesajlar çekildi");
                 return message;
             }
             catch (e) {

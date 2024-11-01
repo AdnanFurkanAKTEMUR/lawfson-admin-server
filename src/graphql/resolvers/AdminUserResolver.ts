@@ -4,6 +4,8 @@ import { Company } from "@entities/Company";
 import { ActionType, TableName } from "@entities/SystemLog";
 import createLog from "@helpers/createLog";
 import argon2, { verify } from "argon2";
+import fs from "fs";
+import readline from "readline";
 
 const AdminUserResolver = {
   Query: {
@@ -27,10 +29,34 @@ const AdminUserResolver = {
     adminUsersOfCompany: async (_parent: any, _args: any, context: Context, _info: any): Promise<AdminUser[] | null> => {
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata:Kullanıcı bulunamadı!");
-      console.log(user);
+
       try {
         const adminUsers = await AdminUser.find({ where: { company: { id: user.companyId } } });
         return adminUsers;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    getLogs: async (_parent: any, _args: any, context: Context, _info: any) => {
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata:Kullanıcı bulunamadı!");
+      if (user.role != "superadmin") throw new Error("Hata: Yetkiniz Yok!"); //graphql shield tarafına da ekle
+      try {
+        const logFilePath = "admin.log";
+        const lines: string[] = [];
+
+        const fileStream = fs.createReadStream(logFilePath);
+        const rl = readline.createInterface({
+          input: fileStream,
+          crlfDelay: Infinity,
+        });
+        for await (const line of rl) {
+          lines.push(line);
+          if (lines.length > 100) {
+            lines.shift(); // İlk elemanı çıkararak son 100 satırın saklanmasını sağlar
+          }
+        }
+        return lines;
       } catch (e) {
         throw new Error(e);
       }

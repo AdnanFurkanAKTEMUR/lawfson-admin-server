@@ -20,11 +20,13 @@
     "graphql-shield": "^7.6.5",
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.46",
     "next-auth": "^4.24.8",
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
     "pg": "^8.13.0",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "winston": "^3.15.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
