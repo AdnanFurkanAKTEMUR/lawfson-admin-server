@@ -49,7 +49,6 @@ const AdminUserResolver = {
       try {
         // İlgili dosya yolunu oluştur
         const logFilePath = path.join(process.cwd(), "logs", `${user.companyName}_${user.companyId}`, `${user.companyName}_${user.companyId}-${moment().format("YYYY-wo")}.log`);
-
         // Dosya var mı kontrol et
         if (!fs.existsSync(logFilePath)) {
           throw new Error("Log dosyası bulunamadı!");
