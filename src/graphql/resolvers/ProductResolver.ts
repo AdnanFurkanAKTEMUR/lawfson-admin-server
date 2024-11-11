@@ -7,10 +7,8 @@ import { In } from "typeorm";
 
 const ProductResolver = {
   Query: {
-    getProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product> => {
+    getProduct: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product> => {
       const { id } = args.input;
-      const { user } = context;
-      console.log(user, "user");
       try {
         const product = await Product.findOne({
           where: { id },

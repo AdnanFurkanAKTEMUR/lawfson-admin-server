@@ -41,6 +41,6 @@ function isAuthTokenPayload(payload) {
         "updatedAt" in payload &&
         "role" in payload &&
         "companyId" in payload &&
-        "company" in payload);
+        "companyName" in payload);
 }
 //# sourceMappingURL=auth.js.map

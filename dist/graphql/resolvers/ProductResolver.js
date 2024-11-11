@@ -10,10 +10,8 @@ const getSubcategoriesIds_1 = __importDefault(require("../../helpers/getSubcateg
 const typeorm_1 = require("typeorm");
 const ProductResolver = {
     Query: {
-        getProduct: async (_parent, args, context, _info) => {
+        getProduct: async (_parent, args, _context, _info) => {
             const { id } = args.input;
-            const { user } = context;
-            console.log(user, "user");
             try {
                 const product = await Product_1.Product.findOne({
                     where: { id },

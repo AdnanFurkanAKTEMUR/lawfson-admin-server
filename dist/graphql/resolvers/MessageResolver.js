@@ -30,7 +30,7 @@ const MessageResolver = {
                     where: { company: { id: user.companyId } },
                     relations: ["product", "appUser", "returnedAdmin"],
                 });
-                (0, logger_1.loggerInfo)("Message", "messagesOfCompany", user.id, "Mesajlar çekildi");
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Message", user.userName, user.id, "Mesajlar çekildi");
                 return message;
             }
             catch (e) {

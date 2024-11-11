@@ -6,6 +6,8 @@ import createLog from "@helpers/createLog";
 import argon2, { verify } from "argon2";
 import fs from "fs";
 import readline from "readline";
+import path from "path";
+import moment from "moment-timezone";
 
 const AdminUserResolver = {
   Query: {
@@ -39,26 +41,38 @@ const AdminUserResolver = {
     },
     getLogs: async (_parent: any, _args: any, context: Context, _info: any) => {
       const { user } = context;
-      if (!user || user.id == undefined) throw new Error("Hata:Kullanıcı bulunamadı!");
-      if (user.role != "superadmin") throw new Error("Hata: Yetkiniz Yok!"); //graphql shield tarafına da ekle
-      try {
-        const logFilePath = "admin.log";
-        const lines: string[] = [];
 
+      // Kullanıcı kontrolü
+      if (!user || user.id === undefined) throw new Error("Hata: Kullanıcı bulunamadı!");
+      if (user.role !== "superadmin") throw new Error("Hata: Yetkiniz Yok!"); // GraphQL Shield tarafına da eklenebilir
+
+      try {
+        // İlgili dosya yolunu oluştur
+        const logFilePath = path.join(process.cwd(), "logs", `${user.companyName}_${user.companyId}`, `${user.companyName}_${user.companyId}-${moment().format("YYYY-wo")}.log`);
+
+        // Dosya var mı kontrol et
+        if (!fs.existsSync(logFilePath)) {
+          throw new Error("Log dosyası bulunamadı!");
+        }
+
+        const lines: string[] = [];
         const fileStream = fs.createReadStream(logFilePath);
         const rl = readline.createInterface({
           input: fileStream,
           crlfDelay: Infinity,
         });
+
+        // Dosyayı satır satır oku ve son 100 satırı tut
         for await (const line of rl) {
           lines.push(line);
           if (lines.length > 100) {
-            lines.shift(); // İlk elemanı çıkararak son 100 satırın saklanmasını sağlar
+            lines.shift(); // İlk elemanı çıkararak son 100 satırın tutulmasını sağlar
           }
         }
+
         return lines;
       } catch (e) {
-        throw new Error(e);
+        throw new Error(`Log dosyası okunurken hata oluştu: ${e.message}`);
       }
     },
   },
@@ -71,7 +85,6 @@ const AdminUserResolver = {
         const isVerify = await verify(adminUser.password, password);
         if (!isVerify) throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
         //last login ip address gibi bilgiler olabilir
-        console.log(adminUser);
         return adminUser;
       } catch (e) {
         throw new Error(e);

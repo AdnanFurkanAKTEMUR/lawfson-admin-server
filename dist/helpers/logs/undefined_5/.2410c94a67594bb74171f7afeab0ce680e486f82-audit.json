@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 4
+    },
+    "auditLog": "/Users/adnan/Documents/GitHub/lawfson-admin-server/dist/helpers/logs/undefined_5/.2410c94a67594bb74171f7afeab0ce680e486f82-audit.json",
+    "files": [
+        {
+            "date": 1730543918097,
+            "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/dist/helpers/logs/undefined_5/undefined_5-2024-44th.log",
+            "hash": "1a572dcb5de8c57b125b0d453792663203422d80f0f4b014fef93febb9cf21a0"
+        }
+    ],
+    "hashType": "sha256"
+}

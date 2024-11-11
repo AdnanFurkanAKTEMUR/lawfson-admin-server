@@ -40,6 +40,8 @@ const createLog_1 = __importDefault(require("../../helpers/createLog"));
 const argon2_1 = __importStar(require("argon2"));
 const fs_1 = __importDefault(require("fs"));
 const readline_1 = __importDefault(require("readline"));
+const path_1 = __importDefault(require("path"));
+const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const AdminUserResolver = {
     Query: {
         adminUserGet: async (_parent, args, _context, _info) => {
@@ -76,12 +78,15 @@ const AdminUserResolver = {
         getLogs: async (_parent, _args, context, _info) => {
             var _a, e_1, _b, _c;
             const { user } = context;
-            if (!user || user.id == undefined)
-                throw new Error("Hata:Kullanıcı bulunamadı!");
-            if (user.role != "superadmin")
+            if (!user || user.id === undefined)
+                throw new Error("Hata: Kullanıcı bulunamadı!");
+            if (user.role !== "superadmin")
                 throw new Error("Hata: Yetkiniz Yok!");
             try {
-                const logFilePath = "admin.log";
+                const logFilePath = path_1.default.join(process.cwd(), "logs", `${user.companyName}_${user.companyId}`, `${user.companyName}_${user.companyId}-${(0, moment_timezone_1.default)().format("YYYY-wo")}.log`);
+                if (!fs_1.default.existsSync(logFilePath)) {
+                    throw new Error("Log dosyası bulunamadı!");
+                }
                 const lines = [];
                 const fileStream = fs_1.default.createReadStream(logFilePath);
                 const rl = readline_1.default.createInterface({
@@ -109,7 +114,7 @@ const AdminUserResolver = {
                 return lines;
             }
             catch (e) {
-                throw new Error(e);
+                throw new Error(`Log dosyası okunurken hata oluştu: ${e.message}`);
             }
         },
     },
@@ -123,7 +128,6 @@ const AdminUserResolver = {
                 const isVerify = await (0, argon2_1.verify)(adminUser.password, password);
                 if (!isVerify)
                     throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
-                console.log(adminUser);
                 return adminUser;
             }
             catch (e) {

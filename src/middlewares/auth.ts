@@ -7,7 +7,7 @@ export interface AuthTokenPayload {
   userName: string;
   companyId: string;
   email: string;
-  company: any;
+  companyName: string;
   role: string;
   createdAt: string;
   updatedAt: string;
@@ -69,6 +69,6 @@ function isAuthTokenPayload(payload: any): payload is AuthTokenPayload {
     "updatedAt" in payload &&
     "role" in payload &&
     "companyId" in payload &&
-    "company" in payload
+    "companyName" in payload
   );
 }

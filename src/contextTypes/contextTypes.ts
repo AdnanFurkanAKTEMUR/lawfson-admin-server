@@ -5,8 +5,8 @@ export type User = {
   id: number;
   userName: string;
   companyId: number;
+  companyName: string;
   email: string;
-  company: any;
   role: string;
   createdAt: string;
   updatedAt: string;
