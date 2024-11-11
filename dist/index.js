@@ -35,7 +35,6 @@ async function startServer() {
             else if (req.headers.cookie) {
                 token = await (0, auth_1.auth)("", req.headers.cookie);
             }
-            console.log(token);
             return {
                 user: {
                     id: token === null || token === void 0 ? void 0 : token.id,

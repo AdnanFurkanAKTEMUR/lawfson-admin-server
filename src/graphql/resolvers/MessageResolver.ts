@@ -8,14 +8,17 @@ import { loggerInfo } from "@helpers/logger";
 
 const MessageResolver = {
   Query: {
-    messageGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<Message | null> => {
+    messageGet: async (_parent: any, args: any, context: Context, _info: any): Promise<Message | null> => {
       const { id } = args.input;
+      const { user } = context;
 
+      if (!user || user.id == undefined) throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
       try {
         const message = await Message.findOne({
           where: { id },
           relations: ["product", "appUser", "returnedAdmin", "product.category"],
         });
+        loggerInfo(user.companyName, user.companyId, "Message", user.userName, user.id, `Mesaja girildi. Mesaj id: ${id}`);
         return message;
       } catch (e) {
         throw new Error(e);
@@ -30,7 +33,7 @@ const MessageResolver = {
           where: { company: { id: user.companyId } },
           relations: ["product", "appUser", "returnedAdmin"],
         });
-        loggerInfo(user.companyName, user.companyId, "Message", user.userName, user.id, "Mesajlar çekildi");
+        loggerInfo(user.companyName, user.companyId, "Message", user.userName, user.id, "Mesajlar Listelendi");
         return message;
       } catch (e) {
         throw new Error(e);
@@ -86,6 +89,7 @@ const MessageResolver = {
         if (!adminUser) throw new Error("Hata:Admin kullanıcı bulunamadı!");
         message.returnedAdmin = adminUser;
         await message.save();
+        loggerInfo(user.companyName, user.companyId, "Message", user.userName, user.id, `Mesaja güncellendi. Mesaj id: ${id}`);
         return message;
       } catch (e) {
         throw new Error(e);

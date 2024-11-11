@@ -1,25 +1,28 @@
 import { Context } from "@contextTypes/contextTypes";
 import { AdminUser, UserRole } from "@entities/AdminUser";
 import { Company } from "@entities/Company";
-import { ActionType, TableName } from "@entities/SystemLog";
-import createLog from "@helpers/createLog";
 import argon2, { verify } from "argon2";
 import fs from "fs";
 import readline from "readline";
 import path from "path";
 import moment from "moment-timezone";
+import { loggerInfo } from "@helpers/logger";
 
 const AdminUserResolver = {
   Query: {
-    adminUserGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
+    adminUserGet: async (_parent: any, args: any, context: Context, _info: any): Promise<AdminUser | null> => {
       const { id } = args.input;
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
       try {
         const adminUser = await AdminUser.findOne({ where: { id } });
+        loggerInfo(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User gösterildi. id:${id}. `);
         return adminUser;
       } catch (e) {
         throw new Error(e);
       }
     },
+    //todo sadece biz çekebiliriz
     adminUserGetAll: async (_parent: any, _args: any, _context: Context, _info: any): Promise<AdminUser[] | null> => {
       try {
         const adminUsers = await AdminUser.find();
@@ -34,6 +37,7 @@ const AdminUserResolver = {
 
       try {
         const adminUsers = await AdminUser.find({ where: { company: { id: user.companyId } } });
+        loggerInfo(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin Listesi Çekildi. `);
         return adminUsers;
       } catch (e) {
         throw new Error(e);
@@ -84,6 +88,8 @@ const AdminUserResolver = {
         const isVerify = await verify(adminUser.password, password);
         if (!isVerify) throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
         //last login ip address gibi bilgiler olabilir
+
+        loggerInfo(adminUser.company.companyName, adminUser.company.id, "AdminUser", adminUser.userName, adminUser.id, `Admin User giriş yaptı. id:${adminUser.id}. `);
         return adminUser;
       } catch (e) {
         throw new Error(e);
@@ -103,14 +109,16 @@ const AdminUserResolver = {
         if (!company) throw new Error("Hata: Firma bulunamadı!");
         adminUser.company = company;
         await adminUser.save();
-        createLog(ActionType.Create, TableName.AdminUser, user.id);
+        loggerInfo(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User oluşturuldu. Oluşturan id:${user.id}, oluşturulan id:${adminUser.id}. `);
         return adminUser;
       } catch (e) {
         throw new Error(e);
       }
     },
-    adminUserChangePassword: async (_parent: any, args: any, _context: Context, _info: any) => {
+    adminUserChangePassword: async (_parent: any, args: any, context: Context, _info: any) => {
       const { id, password, newPassword } = args.input;
+      const { user } = context;
+      if (!user || user.companyId == undefined) throw new Error("Hata: Yetki hatası!");
       try {
         const adminUser = await AdminUser.findOne({ where: { id } });
         if (!adminUser) throw new Error("Kullanıcı bulunamadı!");
@@ -119,6 +127,7 @@ const AdminUserResolver = {
         const hashedPassword = await argon2.hash(newPassword);
         adminUser.password = hashedPassword;
         await adminUser.save();
+        loggerInfo(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User şifre değişimi. Değiştiren id:${user.id}, değiştirilen id:${adminUser.id}. `);
         return { status: true, msg: "şifreniz başarıyla değiştirildi!" };
       } catch (e) {
         throw new Error(e);

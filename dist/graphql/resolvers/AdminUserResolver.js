@@ -35,19 +35,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AdminUser_1 = require("../../entities/AdminUser");
 const Company_1 = require("../../entities/Company");
-const SystemLog_1 = require("../../entities/SystemLog");
-const createLog_1 = __importDefault(require("../../helpers/createLog"));
 const argon2_1 = __importStar(require("argon2"));
 const fs_1 = __importDefault(require("fs"));
 const readline_1 = __importDefault(require("readline"));
 const path_1 = __importDefault(require("path"));
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
+const logger_1 = require("../../helpers/logger");
 const AdminUserResolver = {
     Query: {
-        adminUserGet: async (_parent, args, _context, _info) => {
+        adminUserGet: async (_parent, args, context, _info) => {
             const { id } = args.input;
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
                 const adminUser = await AdminUser_1.AdminUser.findOne({ where: { id } });
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User gösterildi. id:${id}. `);
                 return adminUser;
             }
             catch (e) {
@@ -69,6 +72,7 @@ const AdminUserResolver = {
                 throw new Error("Hata:Kullanıcı bulunamadı!");
             try {
                 const adminUsers = await AdminUser_1.AdminUser.find({ where: { company: { id: user.companyId } } });
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin Listesi Çekildi. `);
                 return adminUsers;
             }
             catch (e) {
@@ -128,6 +132,7 @@ const AdminUserResolver = {
                 const isVerify = await (0, argon2_1.verify)(adminUser.password, password);
                 if (!isVerify)
                     throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
+                (0, logger_1.loggerInfo)(adminUser.company.companyName, adminUser.company.id, "AdminUser", adminUser.userName, adminUser.id, `Admin User giriş yaptı. id:${adminUser.id}. `);
                 return adminUser;
             }
             catch (e) {
@@ -148,15 +153,18 @@ const AdminUserResolver = {
                     throw new Error("Hata: Firma bulunamadı!");
                 adminUser.company = company;
                 await adminUser.save();
-                (0, createLog_1.default)(SystemLog_1.ActionType.Create, SystemLog_1.TableName.AdminUser, user.id);
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User oluşturuldu. Oluşturan id:${user.id}, oluşturulan id:${adminUser.id}. `);
                 return adminUser;
             }
             catch (e) {
                 throw new Error(e);
             }
         },
-        adminUserChangePassword: async (_parent, args, _context, _info) => {
+        adminUserChangePassword: async (_parent, args, context, _info) => {
             const { id, password, newPassword } = args.input;
+            const { user } = context;
+            if (!user || user.companyId == undefined)
+                throw new Error("Hata: Yetki hatası!");
             try {
                 const adminUser = await AdminUser_1.AdminUser.findOne({ where: { id } });
                 if (!adminUser)
@@ -167,6 +175,7 @@ const AdminUserResolver = {
                 const hashedPassword = await argon2_1.default.hash(newPassword);
                 adminUser.password = hashedPassword;
                 await adminUser.save();
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User şifre değişimi. Değiştiren id:${user.id}, değiştirilen id:${adminUser.id}. `);
                 return { status: true, msg: "şifreniz başarıyla değiştirildi!" };
             }
             catch (e) {
