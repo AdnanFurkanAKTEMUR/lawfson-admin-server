@@ -182,8 +182,11 @@ const AdminUserResolver = {
                 throw new Error(e);
             }
         },
-        adminUserUpdate: async (_parent, args, _context, _info) => {
+        adminUserUpdate: async (_parent, args, context, _info) => {
             const { id, userName, role, phone } = args.input;
+            const { user } = context;
+            if (!user || user.companyId == undefined)
+                throw new Error("Hata:Yetkisiz işlem.");
             try {
                 const adminUser = await AdminUser_1.AdminUser.findOne({ where: { id } });
                 if (!adminUser)
@@ -207,14 +210,18 @@ const AdminUserResolver = {
                     adminUser.phone = "";
                 }
                 await adminUser.save();
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User update. Değiştiren id:${user.id}, değiştirilen id:${adminUser.id}. `);
                 return adminUser;
             }
             catch (e) {
                 throw new Error(e);
             }
         },
-        adminUserDelete: async (_parent, args, _context, _info) => {
+        adminUserDelete: async (_parent, args, context, _info) => {
             const { id } = args.input;
+            const { user } = context;
+            if (!user || user.companyId == undefined)
+                throw new Error("Hata:Yetkisiz işlem.");
             try {
                 const adminUser = await AdminUser_1.AdminUser.findOne({ where: { id } });
                 if (!adminUser)
@@ -222,6 +229,7 @@ const AdminUserResolver = {
                 if (adminUser.isRoot)
                     throw new Error("Hata: Root Kullanıcısı silinemez!");
                 await AdminUser_1.AdminUser.remove(adminUser);
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User delete. Değiştiren id:${user.id}, değiştirilen id:${adminUser.id}. `);
                 return { status: true, msg: "Silme başarılı!" };
             }
             catch (e) {

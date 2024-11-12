@@ -133,15 +133,17 @@ const AdminUserResolver = {
         throw new Error(e);
       }
     },
-    adminUserUpdate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
+    adminUserUpdate: async (_parent: any, args: any, context: Context, _info: any): Promise<AdminUser | null> => {
       const { id, userName, role, phone } = args.input;
-
+      const { user } = context;
+      if (!user || user.companyId == undefined) throw new Error("Hata:Yetkisiz işlem.");
       try {
         const adminUser = await AdminUser.findOne({ where: { id } });
         if (!adminUser) throw new Error("Kullanıcı bulunamadı!");
         if (userName && adminUser.userName != userName) {
           adminUser.userName = userName;
         }
+        //todo rolü sadece belirli yetkililer değiştirebilir.
         if (role) {
           const userRole: UserRole = role as UserRole;
           if (userRole != adminUser.role) {
@@ -157,18 +159,23 @@ const AdminUserResolver = {
           adminUser.phone = "";
         }
         await adminUser.save();
+        loggerInfo(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User update. Değiştiren id:${user.id}, değiştirilen id:${adminUser.id}. `);
         return adminUser;
       } catch (e) {
         throw new Error(e);
       }
     },
-    adminUserDelete: async (_parent: any, args: any, _context: Context, _info: any) => {
+    adminUserDelete: async (_parent: any, args: any, context: Context, _info: any) => {
       const { id } = args.input;
+      const { user } = context;
+      if (!user || user.companyId == undefined) throw new Error("Hata:Yetkisiz işlem.");
+      //todo yetki kontrolü
       try {
         const adminUser = await AdminUser.findOne({ where: { id } });
         if (!adminUser) throw new Error("Kullanıcı bulunamadı!");
         if (adminUser.isRoot) throw new Error("Hata: Root Kullanıcısı silinemez!");
         await AdminUser.remove(adminUser);
+        loggerInfo(user.companyName, user.companyId, "AdminUser", user.userName, user.id, `Admin User delete. Değiştiren id:${user.id}, değiştirilen id:${adminUser.id}. `);
         return { status: true, msg: "Silme başarılı!" };
       } catch (e) {
         throw new Error(e);

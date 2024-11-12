@@ -3,6 +3,7 @@ import { Category } from "@entities/Category";
 import { Company } from "@entities/Company";
 import { Product } from "@entities/Product";
 import getAllSubcategoryIds from "@helpers/getSubcategoriesIds";
+import { loggerInfo } from "@helpers/logger";
 import { In } from "typeorm";
 
 const ProductResolver = {
@@ -59,7 +60,7 @@ const ProductResolver = {
       const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
-
+      //todo yetki kontrolü
       try {
         const company = await Company.findOne({ where: { id: user.companyId } });
         if (!company) throw new Error("Hata: Firma Bulunamadı!");
@@ -93,14 +94,17 @@ const ProductResolver = {
 
         product.company = company;
         await product.save();
-
+        loggerInfo(user.companyName, user.companyId, "Product", user.userName, user.id, `Ürün oluşturuldu. Ürün id:${product.id}. `);
         return product;
       } catch (e) {
         throw new Error(e?.message + "Ürün oluşturulurken bir hata oluştu.");
       }
     },
-    updateProduct: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product | null> => {
+    updateProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
       const { id, productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
+      //todo yetki kontrolü
       try {
         const product = await Product.findOne({ where: { id: id } });
         if (!product) throw new Error("Ürün bulunamadı!");
@@ -153,19 +157,22 @@ const ProductResolver = {
         }
 
         await product.save();
+        loggerInfo(user.companyName, user.companyId, "Product", user.userName, user.id, `Ürün bilgileri güncellendi. Değiştirilen id:${product.id}. `);
         return product;
       } catch (e) {
         throw new Error(e.message || "Ürün güncellenirken bir hata oluştu.");
       }
     },
-    deleteProduct: async (_parent: any, args: any, _context: Context, _info: any) => {
+    deleteProduct: async (_parent: any, args: any, context: Context, _info: any) => {
       const { id } = args.input;
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       try {
         const product = await Product.findOne({ where: { id } });
         if (!product) throw new Error("Ürün bulunamadı!");
 
         await product.remove();
-
+        loggerInfo(user.companyName, user.companyId, "Product", user.userName, user.id, `Ürün silindi. Değiştirilen id:${product.id}. `);
         return { status: true, msg: "Ürün Başarı ile silindi!" };
       } catch (e) {
         throw new Error(e);

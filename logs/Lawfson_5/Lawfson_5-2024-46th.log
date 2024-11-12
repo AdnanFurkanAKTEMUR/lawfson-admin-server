@@ -1,1 +1,7 @@
 2024-11-11 16:44:35 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar çekildi
+2024-11-12 20:52:18 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-12 20:53:29 [INFO]: Entities&Type: Product || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Ürün oluşturuldu. Ürün id:25. 
+2024-11-12 20:56:17 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-12 20:56:24 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesaja girildi. Mesaj id: 5
+2024-11-12 20:56:24 [INFO]: Entities&Type: Note || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Notlar çekildi. Mesaj id: 5
+2024-11-12 20:58:16 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi

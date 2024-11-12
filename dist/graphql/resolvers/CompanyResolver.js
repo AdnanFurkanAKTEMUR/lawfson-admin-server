@@ -6,16 +6,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const AdminUser_1 = require("../../entities/AdminUser");
 const Company_1 = require("../../entities/Company");
 const generateRandomPassword_1 = __importDefault(require("../../helpers/generateRandomPassword"));
+const logger_1 = require("../../helpers/logger");
 const argon2_1 = __importDefault(require("argon2"));
 const CompanyResolver = {
     Query: {
-        getCompanyWithUsers: async (_parent, args, _context, _info) => {
+        getCompanyWithUsers: async (_parent, args, context, _info) => {
             const { id } = args.input;
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
                 const company = await Company_1.Company.findOne({
                     where: { id },
                     relations: ["adminUsers"],
                 });
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Company", user.userName, user.id, `Kullanıcılar ile birlikte firma görüntülendi. `);
                 return company;
             }
             catch (e) {
@@ -50,8 +55,11 @@ const CompanyResolver = {
                 throw new Error(e);
             }
         },
-        updateCompany: async (_parent, args, _context, _info) => {
+        updateCompany: async (_parent, args, context, _info) => {
             const { id, companyName } = args.input;
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
                 const company = await Company_1.Company.findOne({ where: { id: id } });
                 if (!company)
@@ -60,6 +68,7 @@ const CompanyResolver = {
                     company.companyName = companyName;
                 }
                 await company.save();
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Company", user.userName, user.id, `Firma bilgileri güncellendi. Değiştiren id:${user.id}, değiştirilen id:${company.id}. `);
                 return company;
             }
             catch (e) {

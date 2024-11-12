@@ -34,7 +34,6 @@ export const auth = async (_header: string, cookie: any): Promise<AuthTokenPaylo
         token: webToken,
         secret: process.env.NEXTAUTH_SECRET || "",
       });
-
       if (decoded) {
         const payload = decoded as unknown;
         if (isAuthTokenPayload(payload)) {

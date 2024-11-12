@@ -2,23 +2,28 @@ import { Context } from "@contextTypes/contextTypes";
 import { AdminUser, UserRole } from "@entities/AdminUser";
 import { Company } from "@entities/Company";
 import generateRandomPassword from "@helpers/generateRandomPassword";
+import { loggerInfo } from "@helpers/logger";
 import argon2 from "argon2";
 
 const CompanyResolver = {
   Query: {
-    getCompanyWithUsers: async (_parent: any, args: any, _context: Context, _info: any): Promise<Company | null> => {
+    getCompanyWithUsers: async (_parent: any, args: any, context: Context, _info: any): Promise<Company | null> => {
       const { id } = args.input;
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
       try {
         const company = await Company.findOne({
           where: { id },
           relations: ["adminUsers"],
         });
+        loggerInfo(user.companyName, user.companyId, "Company", user.userName, user.id, `Kullanıcılar ile birlikte firma görüntülendi. `);
         return company;
       } catch (e) {
         throw new Error(e);
       }
     },
     getAllCompany: async (_parent: any, _args: any, _context: Context, _info: any): Promise<Company[] | null> => {
+      //todo sadece biz
       try {
         const company = await Company.find();
         return company;
@@ -44,8 +49,10 @@ const CompanyResolver = {
         throw new Error(e);
       }
     },
-    updateCompany: async (_parent: any, args: any, _context: Context, _info: any): Promise<Company | null> => {
+    updateCompany: async (_parent: any, args: any, context: Context, _info: any): Promise<Company | null> => {
       const { id, companyName } = args.input;
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
       try {
         const company = await Company.findOne({ where: { id: id } });
         if (!company) throw new Error("cannot find company");
@@ -54,6 +61,7 @@ const CompanyResolver = {
         }
 
         await company.save();
+        loggerInfo(user.companyName, user.companyId, "Company", user.userName, user.id, `Firma bilgileri güncellendi. Değiştiren id:${user.id}, değiştirilen id:${company.id}. `);
         return company;
       } catch (e) {
         throw new Error(e);
@@ -61,6 +69,7 @@ const CompanyResolver = {
     },
     deleteCompany: async (_parent: any, args: any, _context: Context, _info: any) => {
       const { id } = args.input;
+      //todo sadece biz
       try {
         const company = await Company.findOne({ where: { id: id }, relations: ["adminUsers"] });
         if (!company) throw new Error("cannot find Company");
