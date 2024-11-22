@@ -19,21 +19,25 @@ export const auth = async (_header: string, cookie: any): Promise<AuthTokenPaylo
     // const token = header.split(" ")[1] || "";
     //burası web tarafından gelen token için
     let webToken: any;
-    if (cookie) {
-      const next_auth_session_token = cookie.split(" ")[2];
-      const equalText = next_auth_session_token.indexOf("=");
-      webToken = next_auth_session_token.substring(equalText + 1);
-    }
 
+    if (cookie) {
+      webToken = cookie
+        .split("; ")
+        .find((cookiee: any) => cookiee.startsWith("next-auth.session-token"))
+        ?.split("=")[1];
+    }
+    //console.log(cookie);
     // if (!token && !webToken) {
     //   throw new Error("Invalid Token");
     // }
     if (!webToken) throw new Error("Invalid Token");
+
     if (webToken) {
       const decoded = await decode({
         token: webToken,
         secret: process.env.NEXTAUTH_SECRET || "",
       });
+
       if (decoded) {
         const payload = decoded as unknown;
         if (isAuthTokenPayload(payload)) {
