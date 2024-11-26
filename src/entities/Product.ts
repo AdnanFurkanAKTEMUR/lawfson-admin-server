@@ -11,7 +11,7 @@ export class Product extends BaseEntity {
   @Column()
   productName: string;
 
-  @Column({ nullable: true }) //not: aşağıda ki nullable yapı ile bu aynı
+  @Column({ nullable: true }) //not: aşağıda ki nullable yapı ile bu aynı. sadece ilişkilerde farklı
   brand?: string;
 
   //resim

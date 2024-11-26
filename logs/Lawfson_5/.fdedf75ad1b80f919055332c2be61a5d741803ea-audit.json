@@ -19,6 +19,11 @@
             "date": 1732278842693,
             "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/Lawfson_5-2024-47th.log",
             "hash": "15f512329113d1e2461b90b67c1794edd425924b674e4ba436e5eba4d5d06e03"
+        },
+        {
+            "date": 1732537167277,
+            "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/Lawfson_5-2024-48th.log",
+            "hash": "f3fbc93cc2f33a13bcf666330755e740cea1e64bbcb5a911f914c7fad7c4cea9"
         }
     ],
     "hashType": "sha256"
