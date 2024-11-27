@@ -3,13 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 const jwt_1 = require("next-auth/jwt");
 const auth = async (_header, cookie) => {
-    var _a;
+    var _a, _b;
     try {
         let webToken;
-        if (cookie) {
-            webToken = (_a = cookie
-                .split("; ")
-                .find((cookiee) => cookiee.startsWith("next-auth.session-token"))) === null || _a === void 0 ? void 0 : _a.split("=")[1];
+        if (process.env.ORTAM == "DEV") {
+            if (cookie) {
+                webToken = (_a = cookie
+                    .split("; ")
+                    .find((cookiee) => cookiee.startsWith("next-auth.session-token"))) === null || _a === void 0 ? void 0 : _a.split("=")[1];
+            }
+        }
+        else if (process.env.ORTAM == "PROD") {
+            if (cookie) {
+                webToken = (_b = cookie
+                    .split("; ")
+                    .find((cookiee) => cookiee.startsWith("__Secure-next-auth.session-token"))) === null || _b === void 0 ? void 0 : _b.split("=")[1];
+            }
         }
         if (!webToken)
             throw new Error("Invalid Token");

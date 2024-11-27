@@ -3,3 +3,27 @@
 2024-11-25 15:21:12 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin Listesi Çekildi. 
 2024-11-25 15:30:02 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin Listesi Çekildi. 
 2024-11-25 15:31:19 [INFO]: Entities&Type: Product || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Ürün oluşturuldu. Ürün id:26. 
+2024-11-27 11:09:47 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-27 11:09:52 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:10:32 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-27 11:11:19 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-27 11:11:32 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:12:43 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-27 11:12:47 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:19:45 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-27 11:19:47 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:22:08 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Admin User giriş yaptı. id:18. 
+2024-11-27 11:22:26 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:24:25 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
+2024-11-27 11:24:31 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:42:10 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
+2024-11-27 11:42:20 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:43:02 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
+2024-11-27 11:43:06 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:43:21 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
+2024-11-27 11:45:06 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
+2024-11-27 11:45:26 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:47:18 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Mesajlar Listelendi
+2024-11-27 11:49:40 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
+2024-11-27 11:54:05 [INFO]: Entities&Type: Message || Kullanıcı Admin Ismi: Lawfson || Kullanıcı Admin Id: 18 || Mesaj: Mesajlar Listelendi
+2024-11-27 14:10:44 [INFO]: Entities&Type: AdminUser || Kullanıcı Admin Ismi: Ahmet Tür || Kullanıcı Admin Id: 20 || Mesaj: Admin User giriş yaptı. id:20. 
