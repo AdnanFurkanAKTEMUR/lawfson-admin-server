@@ -18,9 +18,7 @@ exports.permissions = (0, graphql_shield_1.shield)({
     Query: {
         sayHello: (0, graphql_shield_1.or)(isSuperAdmin, isCompanyUser, (0, graphql_shield_1.not)(isAuthenticated)),
     },
-    Mutation: {
-        adminUserLogin: (0, graphql_shield_1.not)(isAuthenticated),
-    },
+    Mutation: {},
 }, {
     fallbackError: new Error("Erişim izni reddedildi!"),
     allowExternalErrors: true,

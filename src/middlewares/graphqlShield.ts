@@ -25,7 +25,7 @@ export const permissions = shield(
     },
     Mutation: {
       // adminOnlyMutation: isAdmin,
-      adminUserLogin: not(isAuthenticated),
+      //adminUserLogin: not(isAuthenticated),
     },
   },
   {
