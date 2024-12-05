@@ -31,8 +31,10 @@ async function startServer() {
     app.use((0, cookie_parser_1.default)());
     app.use("/", (0, express4_1.expressMiddleware)(server, {
         context: async ({ req, res }) => {
-            const token = await (0, auth_1.auth)("", req.cookies);
-            console.log(req.cookies, "req.cookies");
+            let token = null;
+            if (req === null || req === void 0 ? void 0 : req.cookies) {
+                token = await (0, auth_1.auth)("", req === null || req === void 0 ? void 0 : req.cookies);
+            }
             console.log(req === null || req === void 0 ? void 0 : req.cookies, "req.cookies");
             return {
                 user: token
