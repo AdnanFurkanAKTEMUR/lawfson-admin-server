@@ -39,11 +39,11 @@ async function startServer() {
     "/",
     expressMiddleware(server, {
       context: async ({ req, res }) => {
+        console.log(req?.cookies, "req.cookies");
         let token = null;
         if (req?.cookies) {
           token = await auth("", req?.cookies);
         }
-        console.log(req?.cookies, "req.cookies");
 
         return {
           user: token
