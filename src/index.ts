@@ -36,7 +36,7 @@ async function startServer() {
         } else if (req.headers.cookie) {
           token = await auth("", req.headers.cookie);
         }
-        console.log(req?.headers?.cookie, "asdsda");
+        //console.log(req?.headers?.cookie, "req.headers.cookie");
         return {
           user: {
             id: token?.id,

@@ -3,6 +3,7 @@ import { gql } from "graphql-tag";
 const HelloType = gql`
   type Hello {
     hello: String
+    adnan: String
   }
 
   type Query {

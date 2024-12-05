@@ -56,7 +56,7 @@ const AdminUserType = (0, graphql_tag_1.default) `
     adminUserUpdate(input: updateAdminUserInput): AdminUser
     adminUserChangePassword(input: changeAdminUserPasswordInput): msg
     adminUserDelete(input: getWithId): msg
-    adminUserLogin(input: adminUserLoginInput): AdminUser
+    adminUserLogin(input: adminUserLoginInput): AdminUser!
   }
 `;
 exports.default = AdminUserType;

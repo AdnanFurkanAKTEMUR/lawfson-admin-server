@@ -124,6 +124,7 @@ const AdminUserResolver = {
     },
     Mutation: {
         adminUserLogin: async (_parent, args, _context, _info) => {
+            console.log(args.input);
             const { email, password } = args.input;
             try {
                 const adminUser = await AdminUser_1.AdminUser.findOne({ where: { email: email }, relations: ["company"] });
@@ -133,6 +134,7 @@ const AdminUserResolver = {
                 if (!isVerify)
                     throw new Error("Hata: Şifreniz veya emailiniz yanlış!");
                 (0, logger_1.loggerInfo)(adminUser.company.companyName, adminUser.company.id, "AdminUser", adminUser.userName, adminUser.id, `Admin User giriş yaptı. id:${adminUser.id}. `);
+                console.log(adminUser);
                 return adminUser;
             }
             catch (e) {

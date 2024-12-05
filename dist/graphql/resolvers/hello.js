@@ -5,7 +5,7 @@ const HelloResolver = {
         sayHello: async (_parent, _args, context, _info) => {
             const { user } = context;
             console.log(user, "user hello resolvers");
-            return { hello: "hello world" };
+            return { hello: "hello world", adnan: "güncelleme geldi mi?" };
         },
     },
 };

@@ -52,7 +52,7 @@ const AdminUserType = gql`
     adminUserUpdate(input: updateAdminUserInput): AdminUser
     adminUserChangePassword(input: changeAdminUserPasswordInput): msg
     adminUserDelete(input: getWithId): msg
-    adminUserLogin(input: adminUserLoginInput): AdminUser
+    adminUserLogin(input: adminUserLoginInput): AdminUser!
   }
 `;
 

@@ -4,6 +4,7 @@ const graphql_tag_1 = require("graphql-tag");
 const HelloType = (0, graphql_tag_1.gql) `
   type Hello {
     hello: String
+    adnan: String
   }
 
   type Query {
