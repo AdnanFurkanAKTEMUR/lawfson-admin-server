@@ -2,7 +2,7 @@ import { decode } from "next-auth/jwt";
 
 // role 0 superadmin 1 admin 2 kullanıcı
 export interface AuthTokenPayload {
-  id: number;
+  id: string;
   userName: string;
   companyId: string;
   email: string;
