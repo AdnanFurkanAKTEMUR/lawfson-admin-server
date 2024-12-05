@@ -81,7 +81,7 @@ const AdminUserResolver = {
   },
   Mutation: {
     adminUserLogin: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
-      console.log(args.input);
+      console.log(args.input, "asd");
       const { email, password } = args.input;
 
       try {

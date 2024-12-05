@@ -1,10 +1,11 @@
-// npm install @apollo/server express graphql cors
+// npm install @apollo/server express graphql cors cookie-parser
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import express from "express";
 import http from "http";
 import cors from "cors";
+import cookieParser from "cookie-parser"; // Cookie parser
 import shieldedSchema from "@graphql/schema";
 import { auth } from "@middlewares/auth";
 import typeormConfig from "./typeorm.config";
@@ -14,40 +15,47 @@ async function startServer() {
 
   const app = express();
   const httpServer = http.createServer(app);
-  //origin daha sonra url olacak
+
+  // CORS ayarları
   const corsOptions = {
-    origin: true,
+    origin: true, // Daha sonra belirli URL ile değiştirin
     credentials: true,
   };
+
+  // ApolloServer oluşturma
   const server = new ApolloServer({
     schema: shieldedSchema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
+
   await server.start();
+
+  // Middleware ekleme
+  app.use(cors(corsOptions)); // CORS
+  app.use(express.json()); // JSON işleme
+  app.use(cookieParser()); // Cookie parsing
+
   app.use(
     "/",
-    cors(corsOptions),
-    express.json(),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
-        let token: any;
-        if (req?.headers?.authorization) {
-          token = await auth(req.headers.authorization, "");
-        } else if (req.headers.cookie) {
-          token = await auth("", req.headers.cookie);
-        }
-        //console.log(req?.headers?.cookie, "req.headers.cookie");
+        const token = await auth("", req.cookies); // Cookie-parser'dan gelen cookies
+        console.log(req.cookies, "req.cookies"); // Cookie debug log
+        console.log(req?.cookies, "req.cookies");
+
         return {
-          user: {
-            id: token?.id,
-            userName: token?.userName,
-            email: token?.email,
-            role: token?.role,
-            companyId: token?.companyId,
-            companyName: token?.companyName,
-            createdAt: token?.createdAt,
-            updatedAt: token?.createdAt,
-          },
+          user: token
+            ? {
+                id: token?.id,
+                userName: token?.userName,
+                email: token?.email,
+                role: token?.role,
+                companyId: token?.companyId,
+                companyName: token?.companyName,
+                createdAt: token?.createdAt,
+                updatedAt: token?.createdAt,
+              }
+            : null,
           req,
           res,
           SqlConnection,
@@ -56,6 +64,7 @@ async function startServer() {
     })
   );
 
+  // Sunucuyu başlat
   await new Promise<void>((resolve, reject) => {
     httpServer.listen(2000, (err?: Error) => {
       if (err) {
@@ -65,6 +74,8 @@ async function startServer() {
       }
     });
   });
+
   console.log(`🚀 Server ready at http://localhost:2000`);
 }
+
 startServer();

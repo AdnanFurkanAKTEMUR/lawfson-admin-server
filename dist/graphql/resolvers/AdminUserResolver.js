@@ -124,7 +124,7 @@ const AdminUserResolver = {
     },
     Mutation: {
         adminUserLogin: async (_parent, args, _context, _info) => {
-            console.log(args.input);
+            console.log(args.input, "asd");
             const { email, password } = args.input;
             try {
                 const adminUser = await AdminUser_1.AdminUser.findOne({ where: { email: email }, relations: ["company"] });

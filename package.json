@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/server": "^4.10.5",
     "argon2": "^0.40.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
@@ -30,6 +31,7 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6.4.15",
