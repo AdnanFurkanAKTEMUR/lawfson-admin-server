@@ -1,3 +1,4 @@
+//import * as jwt from "jsonwebtoken";
 import { decode } from "next-auth/jwt";
 
 // role 0 superadmin 1 admin 2 kullanıcı
@@ -12,42 +13,63 @@ export interface AuthTokenPayload {
   updatedAt: string;
 }
 
-export const auth = async (_header: string, cookies: Record<string, string>): Promise<AuthTokenPayload | null> => {
+export const auth = async (_header: string, cookie: any): Promise<AuthTokenPayload | null> => {
   try {
-    let webToken: string | undefined;
-
-    // Ortama göre cookie adını belirleme
-    const tokenName = process.env.ORTAM === "PROD" ? "__Secure-next-auth.session-token" : "next-auth.session-token";
-
-    // cookie-parser ile alınan cookie'den token seçimi
-    webToken = cookies[tokenName];
-
-    // Eğer webToken bulunamazsa hata fırlat
-    if (!webToken) {
-      throw new Error("Invalid Token");
-    }
-
-    // Token'ı decode et
-    const decoded = await decode({
-      token: webToken,
-      secret: process.env.NEXTAUTH_SECRET || "",
-    });
-
-    if (decoded) {
-      const payload = decoded as unknown;
-      if (isAuthTokenPayload(payload)) {
-        return payload;
+    //burası mobilden gelen token iiçn
+    // const token = header.split(" ")[1] || "";
+    //burası web tarafından gelen token için
+    let webToken: any;
+    if (process.env.ORTAM == "DEV") {
+      if (cookie) {
+        webToken = cookie
+          .split("; ")
+          .find((cookiee: any) => cookiee.startsWith("next-auth.session-token"))
+          ?.split("=")[1];
+      }
+    } else if (process.env.ORTAM == "PROD") {
+      if (cookie) {
+        webToken = cookie
+          .split("; ")
+          .find((cookiee: any) => cookiee.startsWith("__Secure-next-auth.session-token"))
+          ?.split("=")[1];
       }
     }
 
+    //console.log(cookie);
+    // if (!token && !webToken) {
+    //   throw new Error("Invalid Token");
+    // }
+    if (!webToken) throw new Error("Invalid Token");
+
+    if (webToken) {
+      const decoded = await decode({
+        token: webToken,
+        secret: process.env.NEXTAUTH_SECRET || "",
+      });
+
+      if (decoded) {
+        const payload = decoded as unknown;
+        if (isAuthTokenPayload(payload)) {
+          return payload;
+        }
+      }
+    }
+
+    // if (token) {
+    //   const verified = jwt.verify(token, process.env.TOKEN_SECRET as jwt.Secret);
+    //   const payload = verified as unknown;
+    //   if (isAuthTokenPayload(payload)) {
+    //     payload.from = "mobil";
+    //     return payload;
+    //   }
+    // }
+
     return null;
   } catch (error) {
-    console.error("Authentication Error:", error);
     return null;
   }
 };
 
-// Gelen decoded token'ın doğru bir AuthTokenPayload olup olmadığını kontrol et
 function isAuthTokenPayload(payload: any): payload is AuthTokenPayload {
   return (
     typeof payload === "object" &&

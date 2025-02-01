@@ -9,7 +9,6 @@ const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const schema_1 = __importDefault(require("./graphql/schema"));
 const auth_1 = require("./middlewares/auth");
 const typeorm_config_1 = __importDefault(require("./typeorm.config"));
@@ -26,31 +25,28 @@ async function startServer() {
         plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
     });
     await server.start();
-    app.use((0, cors_1.default)(corsOptions));
-    app.use(express_1.default.json());
-    app.use((0, cookie_parser_1.default)());
-    app.use("/", (0, express4_1.expressMiddleware)(server, {
+    app.use("/", (0, cors_1.default)(corsOptions), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
         context: async ({ req, res }) => {
-            var _a;
-            console.log(req === null || req === void 0 ? void 0 : req.cookies, "req.cookies");
-            console.log((_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.cookie, "headers");
-            let token = null;
-            if (req === null || req === void 0 ? void 0 : req.cookies) {
-                token = await (0, auth_1.auth)("", req === null || req === void 0 ? void 0 : req.cookies);
+            var _a, _b;
+            let token;
+            if ((_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.authorization) {
+                token = await (0, auth_1.auth)(req.headers.authorization, "");
             }
+            else if (req.headers.cookie) {
+                token = await (0, auth_1.auth)("", req.headers.cookie);
+            }
+            console.log((_b = req === null || req === void 0 ? void 0 : req.headers) === null || _b === void 0 ? void 0 : _b.cookie, "asdsda");
             return {
-                user: token
-                    ? {
-                        id: token === null || token === void 0 ? void 0 : token.id,
-                        userName: token === null || token === void 0 ? void 0 : token.userName,
-                        email: token === null || token === void 0 ? void 0 : token.email,
-                        role: token === null || token === void 0 ? void 0 : token.role,
-                        companyId: token === null || token === void 0 ? void 0 : token.companyId,
-                        companyName: token === null || token === void 0 ? void 0 : token.companyName,
-                        createdAt: token === null || token === void 0 ? void 0 : token.createdAt,
-                        updatedAt: token === null || token === void 0 ? void 0 : token.createdAt,
-                    }
-                    : null,
+                user: {
+                    id: token === null || token === void 0 ? void 0 : token.id,
+                    userName: token === null || token === void 0 ? void 0 : token.userName,
+                    email: token === null || token === void 0 ? void 0 : token.email,
+                    role: token === null || token === void 0 ? void 0 : token.role,
+                    companyId: token === null || token === void 0 ? void 0 : token.companyId,
+                    companyName: token === null || token === void 0 ? void 0 : token.companyName,
+                    createdAt: token === null || token === void 0 ? void 0 : token.createdAt,
+                    updatedAt: token === null || token === void 0 ? void 0 : token.createdAt,
+                },
                 req,
                 res,
                 SqlConnection,

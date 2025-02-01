@@ -2,28 +2,41 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 const jwt_1 = require("next-auth/jwt");
-const auth = async (_header, cookies) => {
+const auth = async (_header, cookie) => {
+    var _a, _b;
     try {
         let webToken;
-        const tokenName = process.env.ORTAM === "PROD" ? "__Secure-next-auth.session-token" : "next-auth.session-token";
-        webToken = cookies[tokenName];
-        if (!webToken) {
-            throw new Error("Invalid Token");
+        if (process.env.ORTAM == "DEV") {
+            if (cookie) {
+                webToken = (_a = cookie
+                    .split("; ")
+                    .find((cookiee) => cookiee.startsWith("next-auth.session-token"))) === null || _a === void 0 ? void 0 : _a.split("=")[1];
+            }
         }
-        const decoded = await (0, jwt_1.decode)({
-            token: webToken,
-            secret: process.env.NEXTAUTH_SECRET || "",
-        });
-        if (decoded) {
-            const payload = decoded;
-            if (isAuthTokenPayload(payload)) {
-                return payload;
+        else if (process.env.ORTAM == "PROD") {
+            if (cookie) {
+                webToken = (_b = cookie
+                    .split("; ")
+                    .find((cookiee) => cookiee.startsWith("__Secure-next-auth.session-token"))) === null || _b === void 0 ? void 0 : _b.split("=")[1];
+            }
+        }
+        if (!webToken)
+            throw new Error("Invalid Token");
+        if (webToken) {
+            const decoded = await (0, jwt_1.decode)({
+                token: webToken,
+                secret: process.env.NEXTAUTH_SECRET || "",
+            });
+            if (decoded) {
+                const payload = decoded;
+                if (isAuthTokenPayload(payload)) {
+                    return payload;
+                }
             }
         }
         return null;
     }
     catch (error) {
-        console.error("Authentication Error:", error);
         return null;
     }
 };
