@@ -26,6 +26,57 @@ const ProductResolver = {
                 throw new Error(e);
             }
         },
+        productMostClicked: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user || !user.companyId) {
+                throw new Error("Unauthorized");
+            }
+            try {
+                const now = new Date();
+                const startOfDay = new Date();
+                startOfDay.setHours(0, 0, 0, 0);
+                const startOfWeek = new Date();
+                startOfWeek.setDate(now.getDate() - 7);
+                startOfWeek.setHours(0, 0, 0, 0);
+                const startOfMonth = new Date();
+                startOfMonth.setDate(now.getDate() - 30);
+                startOfMonth.setHours(0, 0, 0, 0);
+                const daily = await Product_1.Product.find({
+                    where: {
+                        updatedAt: (0, typeorm_1.Between)(startOfDay, now),
+                        company: { id: user.companyId },
+                    },
+                    order: { clickedRate: "DESC" },
+                    take: 5,
+                });
+                const weekly = await Product_1.Product.find({
+                    where: {
+                        updatedAt: (0, typeorm_1.MoreThanOrEqual)(startOfWeek),
+                        company: { id: user.companyId },
+                    },
+                    order: { clickedRate: "DESC" },
+                    take: 5,
+                });
+                console.log(weekly);
+                const monthly = await Product_1.Product.find({
+                    where: {
+                        updatedAt: (0, typeorm_1.MoreThanOrEqual)(startOfMonth),
+                        company: { id: user.companyId },
+                    },
+                    order: { clickedRate: "DESC" },
+                    take: 5,
+                });
+                return {
+                    daily: daily || [],
+                    weekly: weekly || [],
+                    monthly: monthly || [],
+                };
+            }
+            catch (e) {
+                console.error("Error fetching most clicked products:", e);
+                throw new Error("Something went wrong");
+            }
+        },
         getProductOfCategory: async (_parent, args, _context, _info) => {
             const { categoryId } = args.input;
             try {
@@ -176,6 +227,25 @@ const ProductResolver = {
                 await product.remove();
                 (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Product", user.userName, user.id, `Ürün silindi. Değiştirilen id:${product.id}. `);
                 return { status: true, msg: "Ürün Başarı ile silindi!" };
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
+        updateProductClickedRate: async (_parent, args, _context, _info) => {
+            const { id } = args.input;
+            try {
+                const product = await Product_1.Product.findOne({ where: { id } });
+                if (!product)
+                    throw new Error("Hata: Ürün Bulunamadı");
+                if (product.clickedRate == null) {
+                    product.clickedRate = 1;
+                }
+                else {
+                    product.clickedRate = product.clickedRate + 1;
+                }
+                await product.save();
+                return "Başarılı!";
             }
             catch (e) {
                 throw new Error(e);

@@ -4,7 +4,7 @@ import { Company } from "@entities/Company";
 import { Product } from "@entities/Product";
 import getAllSubcategoryIds from "@helpers/getSubcategoriesIds";
 import { loggerInfo } from "@helpers/logger";
-import { In } from "typeorm";
+import { Between, In, MoreThanOrEqual } from "typeorm";
 
 const ProductResolver = {
   Query: {
@@ -19,6 +19,65 @@ const ProductResolver = {
         return product;
       } catch (e) {
         throw new Error(e);
+      }
+    },
+    productMostClicked: async (_parent: any, _args: any, context: Context, _info: any) => {
+      const { user } = context;
+
+      if (!user || !user.companyId) {
+        throw new Error("Unauthorized");
+      }
+
+      try {
+        const now = new Date();
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const startOfWeek = new Date();
+        startOfWeek.setDate(now.getDate() - 7);
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const startOfMonth = new Date();
+        startOfMonth.setDate(now.getDate() - 30);
+        startOfMonth.setHours(0, 0, 0, 0);
+
+        const daily = await Product.find({
+          where: {
+            updatedAt: Between(startOfDay, now),
+            company: { id: user.companyId },
+          },
+
+          order: { clickedRate: "DESC" },
+          take: 5, // İlk 10 ürünü getir
+        });
+
+        const weekly = await Product.find({
+          where: {
+            updatedAt: MoreThanOrEqual(startOfWeek),
+            company: { id: user.companyId },
+          },
+          order: { clickedRate: "DESC" },
+          take: 5,
+        });
+        console.log(weekly);
+
+        const monthly = await Product.find({
+          where: {
+            updatedAt: MoreThanOrEqual(startOfMonth),
+            company: { id: user.companyId },
+          },
+          order: { clickedRate: "DESC" },
+          take: 5,
+        });
+
+        return {
+          daily: daily || [], // Eğer `null` ise boş array döndür
+          weekly: weekly || [],
+          monthly: monthly || [],
+        };
+      } catch (e) {
+        console.error("Error fetching most clicked products:", e);
+        throw new Error("Something went wrong");
       }
     },
     getProductOfCategory: async (_parent: any, args: any, _context: Context, _info: any): Promise<Product[] | null> => {
@@ -174,6 +233,23 @@ const ProductResolver = {
         await product.remove();
         loggerInfo(user.companyName, user.companyId, "Product", user.userName, user.id, `Ürün silindi. Değiştirilen id:${product.id}. `);
         return { status: true, msg: "Ürün Başarı ile silindi!" };
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    updateProductClickedRate: async (_parent: any, args: any, _context: Context, _info: any) => {
+      const { id } = args.input;
+
+      try {
+        const product = await Product.findOne({ where: { id } });
+        if (!product) throw new Error("Hata: Ürün Bulunamadı");
+        if (product.clickedRate == null) {
+          product.clickedRate = 1;
+        } else {
+          product.clickedRate = product.clickedRate + 1;
+        }
+        await product.save();
+        return "Başarılı!";
       } catch (e) {
         throw new Error(e);
       }

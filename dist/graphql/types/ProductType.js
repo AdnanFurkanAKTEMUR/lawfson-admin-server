@@ -22,8 +22,15 @@ const ProductType = (0, graphql_tag_1.default) `
     adDate: String
     category: Category
     company: Company
+    clickedRate: Int
     createdAt: String
     updatedAt: String
+  }
+
+  type MostClickedProductType {
+    daily: [Product]
+    weekly: [Product]
+    monthly: [Product]
   }
 
   input createProductInput {
@@ -71,12 +78,14 @@ const ProductType = (0, graphql_tag_1.default) `
     getProduct(input: getWithId): Product
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
     productsOfCompany: [Product] #companyId zaten tokendan gelecek
+    productMostClicked: MostClickedProductType
   }
 
   type Mutation {
     createProduct(input: createProductInput): Product
     updateProduct(input: updateProductInput): Product
     deleteProduct(input: getWithId): msg
+    updateProductClickedRate(input: getWithId): String
   }
 `;
 exports.default = ProductType;

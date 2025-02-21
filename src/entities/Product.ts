@@ -1,4 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Category } from "./Category";
 import { Message } from "./Message";
 import { Company } from "./Company";
@@ -17,6 +17,9 @@ export class Product extends BaseEntity {
   //resim
   @Column({ type: "varchar", nullable: true })
   image: string | null;
+
+  @Column({ type: "int", nullable: true })
+  clickedRate: number | null;
 
   //en
   @Column({ type: "varchar", nullable: true })
@@ -72,6 +75,6 @@ export class Product extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 }

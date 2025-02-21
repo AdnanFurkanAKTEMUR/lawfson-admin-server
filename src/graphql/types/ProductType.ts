@@ -18,8 +18,15 @@ const ProductType = gql`
     adDate: String
     category: Category
     company: Company
+    clickedRate: Int
     createdAt: String
     updatedAt: String
+  }
+
+  type MostClickedProductType {
+    daily: [Product]
+    weekly: [Product]
+    monthly: [Product]
   }
 
   input createProductInput {
@@ -67,12 +74,14 @@ const ProductType = gql`
     getProduct(input: getWithId): Product
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
     productsOfCompany: [Product] #companyId zaten tokendan gelecek
+    productMostClicked: MostClickedProductType
   }
 
   type Mutation {
     createProduct(input: createProductInput): Product
     updateProduct(input: updateProductInput): Product
     deleteProduct(input: getWithId): msg
+    updateProductClickedRate(input: getWithId): String
   }
 `;
 

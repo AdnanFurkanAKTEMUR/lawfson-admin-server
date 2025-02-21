@@ -27,7 +27,7 @@ async function startServer() {
     await server.start();
     app.use("/", (0, cors_1.default)(corsOptions), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
         context: async ({ req, res }) => {
-            var _a, _b;
+            var _a;
             let token;
             if ((_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.authorization) {
                 token = await (0, auth_1.auth)(req.headers.authorization, "");
@@ -35,7 +35,6 @@ async function startServer() {
             else if (req.headers.cookie) {
                 token = await (0, auth_1.auth)("", req.headers.cookie);
             }
-            console.log((_b = req === null || req === void 0 ? void 0 : req.headers) === null || _b === void 0 ? void 0 : _b.cookie, "asdsda");
             return {
                 user: {
                     id: token === null || token === void 0 ? void 0 : token.id,
