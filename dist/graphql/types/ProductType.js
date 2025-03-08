@@ -23,6 +23,7 @@ const ProductType = (0, graphql_tag_1.default) `
     category: Category
     company: Company
     clickedRate: Int
+    inStock: Boolean
     createdAt: String
     updatedAt: String
   }
@@ -47,6 +48,7 @@ const ProductType = (0, graphql_tag_1.default) `
     description: String
     onAd: Boolean
     location: String
+    inStock: Boolean
   }
 
   input updateProductInput {
@@ -64,6 +66,7 @@ const ProductType = (0, graphql_tag_1.default) `
     description: String
     onAd: Boolean
     location: String
+    inStock: Boolean
   }
 
   input getProductOfCategoryInput {

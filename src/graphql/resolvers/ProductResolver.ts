@@ -116,7 +116,7 @@ const ProductResolver = {
 
   Mutation: {
     createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
+      const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       //todo yetki kontrolü
@@ -143,6 +143,7 @@ const ProductResolver = {
           onAd: onAd || false,
           location: location || null,
           brand: brand || null,
+          inStock: inStock || false,
         });
         if (onAd) {
           product.adDate = new Date();

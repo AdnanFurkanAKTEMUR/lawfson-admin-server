@@ -19,6 +19,7 @@ const ProductType = gql`
     category: Category
     company: Company
     clickedRate: Int
+    inStock: Boolean
     createdAt: String
     updatedAt: String
   }
@@ -43,6 +44,7 @@ const ProductType = gql`
     description: String
     onAd: Boolean
     location: String
+    inStock: Boolean
   }
 
   input updateProductInput {
@@ -60,6 +62,7 @@ const ProductType = gql`
     description: String
     onAd: Boolean
     location: String
+    inStock: Boolean
   }
 
   input getProductOfCategoryInput {

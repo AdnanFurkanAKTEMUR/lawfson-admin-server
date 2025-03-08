@@ -68,6 +68,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: "boolean", default: false }),
     __metadata("design:type", Boolean)
+], Product.prototype, "inStock", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "boolean", default: false }),
+    __metadata("design:type", Boolean)
 ], Product.prototype, "onAd", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
