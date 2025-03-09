@@ -7,7 +7,7 @@ const JobOrderResolver = {
     getJobOrder: async (_parent: any, args: any, context: Context, _info: any) => {
       const { id } = args.input;
       const { user } = context;
-      if (!user || user.companyId) throw new Error("Hata: Yetkisiz İşlen");
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem");
 
       try {
         //jo = JobOrder
@@ -22,9 +22,10 @@ const JobOrderResolver = {
     },
     getCompanyAllJobOrder: async (_parent: any, _args: any, context: Context, _info: any) => {
       const { user } = context;
-      if (!user || user.companyId) throw new Error("Hata: Yetkisiz İşlen");
+      console.log(user);
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem");
       try {
-        const jos = await JobOrder.find({ where: { company: { id: user.companyId } } });
+        const jos = await JobOrder.find({ where: { company: { id: user.companyId } }, relations: ["company", "adminUser", "createdAdminUser"] });
         return jos;
       } catch (e) {
         throw new Error(e);
@@ -35,7 +36,7 @@ const JobOrderResolver = {
     createJobOrder: async (_parent: any, args: any, context: Context, _info: any) => {
       const { note, adminUserId } = args.input;
       const { user } = context;
-      if (!user || user.companyId) throw new Error("Hata: Yetkisiz İşlen");
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem");
       try {
         const createdAdminUser = await AdminUser.findOne({ where: { id: user.id } });
         //atanan
@@ -58,7 +59,7 @@ const JobOrderResolver = {
     updateJobOrder: async (_parent: any, args: any, context: Context, _info: any) => {
       const { id, note, adminUserId, status } = args.input;
       const { user } = context;
-      if (!user || user.companyId) throw new Error("Hata: Yetkisiz İşlen");
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem");
       try {
         //todo status için enum belirle
         //todo değişiklik yapan kullanıcı da tutulmalı belki loglarda
