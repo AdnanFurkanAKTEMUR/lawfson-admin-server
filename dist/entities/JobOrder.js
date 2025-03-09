@@ -45,7 +45,7 @@ __decorate([
     __metadata("design:type", Date)
 ], JobOrder.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
+    (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], JobOrder.prototype, "updatedAt", void 0);
 exports.JobOrder = JobOrder = __decorate([
