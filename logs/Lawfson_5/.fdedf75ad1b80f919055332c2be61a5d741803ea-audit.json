@@ -6,11 +6,6 @@
     "auditLog": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/.fdedf75ad1b80f919055332c2be61a5d741803ea-audit.json",
     "files": [
         {
-            "date": 1732537167277,
-            "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/Lawfson_5-2024-48th.log",
-            "hash": "f3fbc93cc2f33a13bcf666330755e740cea1e64bbcb5a911f914c7fad7c4cea9"
-        },
-        {
             "date": 1733386193611,
             "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/Lawfson_5-2024-49th.log",
             "hash": "66087a83d5fba1ff4d9a90ceb7ad803e315bedaee24fa4e6da9e9ccf7abefb4d"
@@ -24,6 +19,11 @@
             "date": 1740138851727,
             "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/Lawfson_5-2025-8th.log",
             "hash": "a6bef599e19dc99c21b532f5a4221b60ad42fc67e7bbccabb3fdf86131ff3e81"
+        },
+        {
+            "date": 1741473907851,
+            "name": "/Users/adnan/Documents/GitHub/lawfson-admin-server/logs/Lawfson_5/Lawfson_5-2025-11th.log",
+            "hash": "b6bb2bdef93266b135380b4855b794c8f13a902a7f949bf525c00a24be89da84"
         }
     ],
     "hashType": "sha256"

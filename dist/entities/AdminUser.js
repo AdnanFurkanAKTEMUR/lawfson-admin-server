@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const Company_1 = require("./Company");
 const Message_1 = require("./Message");
 const AdminNote_1 = require("./AdminNote");
+const JobOrder_1 = require("./JobOrder");
 var UserRole;
 (function (UserRole) {
     UserRole["Regular"] = "regular";
@@ -67,6 +68,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => AdminNote_1.AdminNote, (adminNote) => adminNote.adminUser, { nullable: true }),
     __metadata("design:type", Array)
 ], AdminUser.prototype, "adminNotes", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => JobOrder_1.JobOrder, (jobOrder) => jobOrder.adminUser, { nullable: true }),
+    __metadata("design:type", Array)
+], AdminUser.prototype, "adminJobs", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => JobOrder_1.JobOrder, (jobOrder) => jobOrder.createdAdminUser, { nullable: true }),
+    __metadata("design:type", Array)
+], AdminUser.prototype, "createdAdminJobs", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

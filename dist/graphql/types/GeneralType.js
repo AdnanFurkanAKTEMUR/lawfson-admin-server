@@ -8,6 +8,9 @@ const GeneralType = (0, graphql_tag_1.default) `
   input getWithId {
     id: Int!
   }
+  input getWithCompanyId {
+    companyId: Int!
+  }
   type msg {
     status: Boolean
     msg: String

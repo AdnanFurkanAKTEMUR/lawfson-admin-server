@@ -2,6 +2,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, Pri
 import { Company } from "./Company";
 import { Message } from "./Message";
 import { AdminNote } from "./AdminNote";
+import { JobOrder } from "./JobOrder";
 
 export enum UserRole {
   Regular = "regular",
@@ -44,6 +45,12 @@ export class AdminUser extends BaseEntity {
 
   @OneToMany(() => AdminNote, (adminNote) => adminNote.adminUser, { nullable: true })
   adminNotes?: AdminNote[];
+
+  @OneToMany(() => JobOrder, (jobOrder) => jobOrder.adminUser, { nullable: true })
+  adminJobs?: JobOrder[];
+
+  @OneToMany(() => JobOrder, (jobOrder) => jobOrder.createdAdminUser, { nullable: true })
+  createdAdminJobs?: JobOrder[];
 
   @CreateDateColumn()
   createdAt: Date;

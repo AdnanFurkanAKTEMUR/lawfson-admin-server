@@ -2,6 +2,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGenerat
 import { AdminUser } from "./AdminUser";
 import { Product } from "./Product";
 import { Message } from "./Message";
+import { JobOrder } from "./JobOrder";
 
 @Entity()
 export class Company extends BaseEntity {
@@ -19,6 +20,9 @@ export class Company extends BaseEntity {
 
   @OneToMany(() => AdminUser, (adminuser) => adminuser.company, { nullable: true })
   adminUsers?: AdminUser[];
+
+  @OneToMany(() => JobOrder, (jobOrder) => jobOrder.company, { nullable: true })
+  jobOrders?: JobOrder[];
 
   @OneToMany(() => Product, (product) => product.company, { nullable: true })
   products?: Product[];
