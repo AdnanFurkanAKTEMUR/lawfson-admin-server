@@ -22,7 +22,6 @@ const JobOrderResolver = {
         },
         getCompanyAllJobOrder: async (_parent, _args, context, _info) => {
             const { user } = context;
-            console.log(user);
             if (!user || !user.companyId)
                 throw new Error("Hata: Yetkisiz İşlem");
             try {

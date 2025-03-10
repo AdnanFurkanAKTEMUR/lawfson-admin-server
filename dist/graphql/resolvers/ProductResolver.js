@@ -28,7 +28,6 @@ const ProductResolver = {
         },
         productMostClickedThree: async (_parent, _args, context, _info) => {
             const { user } = context;
-            console.log(user);
             if (!user || !user.companyId)
                 throw new Error("Hata: Yetkisiz İşlem!");
             try {
@@ -75,7 +74,6 @@ const ProductResolver = {
                     order: { clickedRate: "DESC" },
                     take: 5,
                 });
-                console.log(weekly);
                 const monthly = await Product_1.Product.find({
                     where: {
                         updatedAt: (0, typeorm_1.MoreThanOrEqual)(startOfMonth),

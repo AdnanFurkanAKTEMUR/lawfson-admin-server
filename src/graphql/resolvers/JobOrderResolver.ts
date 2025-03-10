@@ -22,7 +22,7 @@ const JobOrderResolver = {
     },
     getCompanyAllJobOrder: async (_parent: any, _args: any, context: Context, _info: any) => {
       const { user } = context;
-      console.log(user);
+    
       if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem");
       try {
         const jos = await JobOrder.find({ where: { company: { id: user.companyId } }, relations: ["company", "adminUser", "createdAdminUser"] });

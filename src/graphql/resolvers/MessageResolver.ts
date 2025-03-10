@@ -41,6 +41,41 @@ const MessageResolver = {
         throw new Error(e);
       }
     },
+    latestMessagesByReturnStatus: async (_parent: any, _args: any, context: Context) => {
+      const { user } = context;
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem!");
+
+      try {
+        // 📌 Dönüş Yapılan İlk 5 Mesaj
+        const returnedMessages = await Message.find({
+          where: {
+            company: { id: user.companyId },
+            isReturn: true,
+          },
+          order: { createdAt: "DESC" }, // En son eklenenleri getir
+          take: 5, // İlk 5 mesaj
+          relations: ["appUser", "returnedAdmin"], // İlişkili tabloları getir
+        });
+        console.log(returnedMessages);
+        // 📌 Dönüş Yapılmayan İlk 5 Mesaj
+        const notReturnedMessages = await Message.find({
+          where: {
+            company: { id: user.companyId },
+            isReturn: false,
+          },
+          order: { createdAt: "DESC" },
+          take: 5,
+          relations: ["appUser", "product"], // Sadece kullanıcı bilgisi yeterli
+        });
+
+        return {
+          returnedMessages,
+          notReturnedMessages,
+        };
+      } catch (error) {
+        throw new Error(`Hata: ${error.message}`);
+      }
+    },
     messageCounts: async (_parent: any, _args: any, context: Context) => {
       const { user } = context;
       if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem!");

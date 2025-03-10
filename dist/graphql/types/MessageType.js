@@ -39,12 +39,18 @@ const MessageType = (0, graphql_tag_1.default) `
     productId: Int!
     phone: String
   }
+
+  type latestMessagesByReturnStatusType {
+    returnedMessages: [Message]
+    notReturnedMessages: [Message]
+  }
   #appUser'da phone zorunlu değil. mesaj bırakan kullanıcı eğer varsa phonu gelir yoksa önce isteriz
 
   type Query {
     messageGet(input: getWithId): Message
     messagesOfCompany: [Message]
     messageCounts: messageCounts
+    latestMessagesByReturnStatus: latestMessagesByReturnStatusType
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

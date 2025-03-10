@@ -43,6 +43,39 @@ const MessageResolver = {
                 throw new Error(e);
             }
         },
+        latestMessagesByReturnStatus: async (_parent, _args, context) => {
+            const { user } = context;
+            if (!user || !user.companyId)
+                throw new Error("Hata: Yetkisiz İşlem!");
+            try {
+                const returnedMessages = await Message_1.Message.find({
+                    where: {
+                        company: { id: user.companyId },
+                        isReturn: true,
+                    },
+                    order: { createdAt: "DESC" },
+                    take: 5,
+                    relations: ["appUser", "returnedAdmin"],
+                });
+                console.log(returnedMessages);
+                const notReturnedMessages = await Message_1.Message.find({
+                    where: {
+                        company: { id: user.companyId },
+                        isReturn: false,
+                    },
+                    order: { createdAt: "DESC" },
+                    take: 5,
+                    relations: ["appUser", "product"],
+                });
+                return {
+                    returnedMessages,
+                    notReturnedMessages,
+                };
+            }
+            catch (error) {
+                throw new Error(`Hata: ${error.message}`);
+            }
+        },
         messageCounts: async (_parent, _args, context) => {
             const { user } = context;
             if (!user || !user.companyId)

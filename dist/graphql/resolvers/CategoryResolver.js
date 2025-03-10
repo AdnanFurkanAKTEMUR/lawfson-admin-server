@@ -27,9 +27,7 @@ const CategoryResolver = {
                 throw new Error(e);
             }
         },
-        categoryLeafs: async (_parent, _args, context, _info) => {
-            const { user } = context;
-            console.log(user);
+        categoryLeafs: async (_parent, _args, _context, _info) => {
             try {
                 return categoryReady_1.categoryLeafs;
             }

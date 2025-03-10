@@ -25,12 +25,12 @@ const CategoryResolver = {
         throw new Error(e);
       }
     },
-    categoryLeafs: async (_parent: any, _args: any, context: Context, _info: any) => {
-      const { user } = context;
-      console.log(user);
+    categoryLeafs: async (_parent: any, _args: any, _context: Context, _info: any) => {
+      // const { user } = context;
+
       // kategori eklenmesi extreme bir durum olduğu için her sorguda dbyi yormaya gerek yok.
       //bi kere çalıştırılıp sonuç alınıp artık her defasında o sonuç dönecek
-      //yeni kategori eklendiğinde yorum satırları kaldırılıp sonuç alınıp o sonuç categoryReady yapıştıralacak 
+      //yeni kategori eklendiğinde yorum satırları kaldırılıp sonuç alınıp o sonuç categoryReady yapıştıralacak
       //eskisi silinecek
       // sonra tekrar yorum satırı ordan almaya devam
       try {
