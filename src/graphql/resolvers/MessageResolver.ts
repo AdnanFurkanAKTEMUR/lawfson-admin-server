@@ -5,6 +5,8 @@ import { Company } from "@entities/Company";
 import { Message } from "@entities/Message";
 import { Product } from "@entities/Product";
 import { loggerInfo } from "@helpers/logger";
+import { Between } from "typeorm";
+import { startOfWeek, startOfMonth } from "date-fns";
 
 const MessageResolver = {
   Query: {
@@ -37,6 +39,45 @@ const MessageResolver = {
         return message;
       } catch (e) {
         throw new Error(e);
+      }
+    },
+    messageCounts: async (_parent: any, _args: any, context: Context) => {
+      const { user } = context;
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem!");
+
+      try {
+        const today = new Date();
+        const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1 }); // Pazartesi'den itibaren
+        const startOfThisMonth = startOfMonth(today);
+
+        // 📌 Günlük Mesaj Sayısı
+        const dailyCount = await Message.count({
+          where: {
+            company: { id: user.companyId },
+            createdAt: Between(startOfToday, today),
+          },
+        });
+
+        // 📌 Haftalık Mesaj Sayısı
+        const weeklyCount = await Message.count({
+          where: {
+            company: { id: user.companyId },
+            createdAt: Between(startOfThisWeek, today),
+          },
+        });
+
+        // 📌 Aylık Mesaj Sayısı
+        const monthlyCount = await Message.count({
+          where: {
+            company: { id: user.companyId },
+            createdAt: Between(startOfThisMonth, today),
+          },
+        });
+
+        return { dailyCount, weeklyCount, monthlyCount };
+      } catch (error) {
+        throw new Error(`Hata: ${error.message}`);
       }
     },
   },

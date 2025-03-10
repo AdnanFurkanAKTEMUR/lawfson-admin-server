@@ -16,6 +16,12 @@ const MessageType = gql`
     updatedAt: String
   }
 
+  type messageCounts {
+    dailyCount: Int
+    weeklyCount: Int
+    monthlyCount: Int
+  }
+
   input updateMessageInput {
     id: Int!
     isReturn: Boolean
@@ -34,6 +40,7 @@ const MessageType = gql`
   type Query {
     messageGet(input: getWithId): Message
     messagesOfCompany: [Message]
+    messageCounts: messageCounts
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

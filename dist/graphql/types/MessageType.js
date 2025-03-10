@@ -20,6 +20,12 @@ const MessageType = (0, graphql_tag_1.default) `
     updatedAt: String
   }
 
+  type messageCounts {
+    dailyCount: Int
+    weeklyCount: Int
+    monthlyCount: Int
+  }
+
   input updateMessageInput {
     id: Int!
     isReturn: Boolean
@@ -38,6 +44,7 @@ const MessageType = (0, graphql_tag_1.default) `
   type Query {
     messageGet(input: getWithId): Message
     messagesOfCompany: [Message]
+    messageCounts: messageCounts
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

@@ -6,6 +6,8 @@ const Company_1 = require("../../entities/Company");
 const Message_1 = require("../../entities/Message");
 const Product_1 = require("../../entities/Product");
 const logger_1 = require("../../helpers/logger");
+const typeorm_1 = require("typeorm");
+const date_fns_1 = require("date-fns");
 const MessageResolver = {
     Query: {
         messageGet: async (_parent, args, context, _info) => {
@@ -39,6 +41,39 @@ const MessageResolver = {
             }
             catch (e) {
                 throw new Error(e);
+            }
+        },
+        messageCounts: async (_parent, _args, context) => {
+            const { user } = context;
+            if (!user || !user.companyId)
+                throw new Error("Hata: Yetkisiz İşlem!");
+            try {
+                const today = new Date();
+                const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const startOfThisWeek = (0, date_fns_1.startOfWeek)(today, { weekStartsOn: 1 });
+                const startOfThisMonth = (0, date_fns_1.startOfMonth)(today);
+                const dailyCount = await Message_1.Message.count({
+                    where: {
+                        company: { id: user.companyId },
+                        createdAt: (0, typeorm_1.Between)(startOfToday, today),
+                    },
+                });
+                const weeklyCount = await Message_1.Message.count({
+                    where: {
+                        company: { id: user.companyId },
+                        createdAt: (0, typeorm_1.Between)(startOfThisWeek, today),
+                    },
+                });
+                const monthlyCount = await Message_1.Message.count({
+                    where: {
+                        company: { id: user.companyId },
+                        createdAt: (0, typeorm_1.Between)(startOfThisMonth, today),
+                    },
+                });
+                return { dailyCount, weeklyCount, monthlyCount };
+            }
+            catch (error) {
+                throw new Error(`Hata: ${error.message}`);
             }
         },
     },
