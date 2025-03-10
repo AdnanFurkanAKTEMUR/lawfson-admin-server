@@ -78,6 +78,7 @@ const ProductType = gql`
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
     productsOfCompany: [Product] #companyId zaten tokendan gelecek
     productMostClicked: MostClickedProductType
+    productMostClickedThree: [Product]
   }
 
   type Mutation {

@@ -4,7 +4,7 @@ import { Company } from "@entities/Company";
 import { Product } from "@entities/Product";
 import getAllSubcategoryIds from "@helpers/getSubcategoriesIds";
 import { loggerInfo } from "@helpers/logger";
-import { Between, In, MoreThanOrEqual } from "typeorm";
+import { Between, In, LessThan, MoreThanOrEqual } from "typeorm";
 
 const ProductResolver = {
   Query: {
@@ -19,6 +19,24 @@ const ProductResolver = {
         return product;
       } catch (e) {
         throw new Error(e);
+      }
+    },
+    productMostClickedThree: async (_parent: any, _args: any, context: Context, _info: any) => {
+      const { user } = context;
+      console.log(user);
+      if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem!");
+
+      try {
+        const topProducts = await Product.find({
+          where: { company: { id: user.companyId }, clickedRate: LessThan(999999) }, // company'ye ait ürünler
+          order: { clickedRate: "DESC" }, // En çok tıklananı önce getir
+          take: 3, // İlk 3 ürünü al
+          relations: ["category"], // Kategori ilişkisini getir
+        });
+
+        return topProducts;
+      } catch (error) {
+        throw new Error(`Hata: ${error.message}`);
       }
     },
     productMostClicked: async (_parent: any, _args: any, context: Context, _info: any) => {

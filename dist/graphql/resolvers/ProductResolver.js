@@ -26,6 +26,24 @@ const ProductResolver = {
                 throw new Error(e);
             }
         },
+        productMostClickedThree: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            console.log(user);
+            if (!user || !user.companyId)
+                throw new Error("Hata: Yetkisiz İşlem!");
+            try {
+                const topProducts = await Product_1.Product.find({
+                    where: { company: { id: user.companyId }, clickedRate: (0, typeorm_1.LessThan)(999999) },
+                    order: { clickedRate: "DESC" },
+                    take: 3,
+                    relations: ["category"],
+                });
+                return topProducts;
+            }
+            catch (error) {
+                throw new Error(`Hata: ${error.message}`);
+            }
+        },
         productMostClicked: async (_parent, _args, context, _info) => {
             const { user } = context;
             if (!user || !user.companyId) {

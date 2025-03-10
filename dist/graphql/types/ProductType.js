@@ -82,6 +82,7 @@ const ProductType = (0, graphql_tag_1.default) `
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
     productsOfCompany: [Product] #companyId zaten tokendan gelecek
     productMostClicked: MostClickedProductType
+    productMostClickedThree: [Product]
   }
 
   type Mutation {
