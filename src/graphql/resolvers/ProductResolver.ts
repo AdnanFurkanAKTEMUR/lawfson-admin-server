@@ -134,7 +134,7 @@ const ProductResolver = {
 
   Mutation: {
     createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
+      const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       //todo yetki kontrolü
@@ -150,7 +150,7 @@ const ProductResolver = {
 
         const product = Product.create({
           productName: productName,
-          image: image || null,
+          images: images || null,
           widths: widths || null,
           length: length || null,
           thickness: thickness || null,
@@ -179,7 +179,7 @@ const ProductResolver = {
       }
     },
     updateProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { id, productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
+      const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       //todo yetki kontrolü
@@ -200,8 +200,8 @@ const ProductResolver = {
         }
 
         // Yeni alanların güncellenmesi
-        if (image !== undefined) {
-          product.image = image; // null olabilir, bu yüzden undefined kontrolü
+        if (images !== undefined) {
+          product.images = images; // null olabilir, bu yüzden undefined kontrolü
         }
         if (widths !== undefined) {
           product.widths = widths;

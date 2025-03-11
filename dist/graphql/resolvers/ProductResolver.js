@@ -130,7 +130,7 @@ const ProductResolver = {
     },
     Mutation: {
         createProduct: async (_parent, args, context, _info) => {
-            const { productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
+            const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -144,7 +144,7 @@ const ProductResolver = {
                 }
                 const product = Product_1.Product.create({
                     productName: productName,
-                    image: image || null,
+                    images: images || null,
                     widths: widths || null,
                     length: length || null,
                     thickness: thickness || null,
@@ -174,7 +174,7 @@ const ProductResolver = {
         },
         updateProduct: async (_parent, args, context, _info) => {
             var _a;
-            const { id, productName, categoryId, image, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
+            const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -191,8 +191,8 @@ const ProductResolver = {
                 if (productName && product.productName !== productName) {
                     product.productName = productName;
                 }
-                if (image !== undefined) {
-                    product.image = image;
+                if (images !== undefined) {
+                    product.images = images;
                 }
                 if (widths !== undefined) {
                     product.widths = widths;

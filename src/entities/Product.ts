@@ -14,8 +14,8 @@ export class Product extends BaseEntity {
   @Column({ nullable: true })
   brand?: string;
 
-  @Column({ type: "varchar", nullable: true })
-  image: string | null;
+  @Column({ type: "text", array: true, nullable: true })
+  images: string[] | null;
 
   @Column({ type: "int", nullable: true })
   clickedRate: number | null;

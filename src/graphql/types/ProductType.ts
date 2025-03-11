@@ -5,7 +5,7 @@ const ProductType = gql`
     id: Int
     productName: String
     brand: String
-    image: String
+    images: [String]
     widths: String
     length: String
     thickness: String
@@ -34,7 +34,7 @@ const ProductType = gql`
     productName: String!
     categoryId: Int
     brand: String
-    image: String
+    images: [String]
     widths: String
     length: String
     thickness: String
@@ -52,7 +52,7 @@ const ProductType = gql`
     productName: String
     brand: String
     categoryId: Int
-    image: String
+    images: [String]
     widths: String
     length: String
     thickness: String

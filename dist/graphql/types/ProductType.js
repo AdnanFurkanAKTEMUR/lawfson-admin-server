@@ -9,7 +9,7 @@ const ProductType = (0, graphql_tag_1.default) `
     id: Int
     productName: String
     brand: String
-    image: String
+    images: [String]
     widths: String
     length: String
     thickness: String
@@ -38,7 +38,7 @@ const ProductType = (0, graphql_tag_1.default) `
     productName: String!
     categoryId: Int
     brand: String
-    image: String
+    images: [String]
     widths: String
     length: String
     thickness: String
@@ -56,7 +56,7 @@ const ProductType = (0, graphql_tag_1.default) `
     productName: String
     brand: String
     categoryId: Int
-    image: String
+    images: [String]
     widths: String
     length: String
     thickness: String
