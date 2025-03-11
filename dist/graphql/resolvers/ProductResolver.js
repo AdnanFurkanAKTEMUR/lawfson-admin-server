@@ -174,7 +174,7 @@ const ProductResolver = {
         },
         updateProduct: async (_parent, args, context, _info) => {
             var _a;
-            const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
+            const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -193,6 +193,9 @@ const ProductResolver = {
                 }
                 if (images !== undefined) {
                     product.images = images;
+                }
+                if (inStock !== undefined) {
+                    product.inStock = inStock;
                 }
                 if (widths !== undefined) {
                     product.widths = widths;

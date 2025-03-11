@@ -23,7 +23,7 @@ const ProductResolver = {
     },
     productMostClickedThree: async (_parent: any, _args: any, context: Context, _info: any) => {
       const { user } = context;
-     
+
       if (!user || !user.companyId) throw new Error("Hata: Yetkisiz İşlem!");
 
       try {
@@ -77,7 +77,6 @@ const ProductResolver = {
           order: { clickedRate: "DESC" },
           take: 5,
         });
-        
 
         const monthly = await Product.find({
           where: {
@@ -179,7 +178,7 @@ const ProductResolver = {
       }
     },
     updateProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand } = args.input;
+      const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       //todo yetki kontrolü
@@ -202,6 +201,9 @@ const ProductResolver = {
         // Yeni alanların güncellenmesi
         if (images !== undefined) {
           product.images = images; // null olabilir, bu yüzden undefined kontrolü
+        }
+        if (inStock !== undefined) {
+          product.inStock = inStock; // null olabilir, bu yüzden undefined kontrolü
         }
         if (widths !== undefined) {
           product.widths = widths;

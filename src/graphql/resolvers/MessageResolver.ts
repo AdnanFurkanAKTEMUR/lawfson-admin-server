@@ -123,14 +123,11 @@ const MessageResolver = {
       //TODO appUserId daha sonra cookie'den alınacak ve sadece user tarafından
       try {
         if (!appUserId && !companyId && !productId) throw new Error("Parametreler eksik!");
-        const message = Message.create({ messageHeader: messageHeader, messageText: messageText });
+        const message = Message.create({ messageHeader: messageHeader, messageText: messageText, phone: phone });
 
         const appUser = await AppUser.findOne({ where: { id: appUserId } });
         if (!appUser) throw new Error("Kullanıcı bulunamadı!");
-        if (!appUser.phone && phone) {
-          appUser.phone = phone;
-          await appUser.save();
-        }
+
         message.appUser = appUser;
 
         const company = await Company.findOne({ where: { id: companyId } });
