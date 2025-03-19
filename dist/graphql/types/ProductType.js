@@ -25,6 +25,7 @@ const ProductType = (0, graphql_tag_1.default) `
     company: Company
     clickedRate: Int
     inStock: Boolean
+    price: Float
     createdAt: String
     updatedAt: String
   }
@@ -49,6 +50,7 @@ const ProductType = (0, graphql_tag_1.default) `
     description: String
     onAd: Boolean
     country: String
+    price: Float
     city: String
     inStock: Boolean
   }
@@ -67,6 +69,7 @@ const ProductType = (0, graphql_tag_1.default) `
     surfaceTreatment: String
     description: String
     onAd: Boolean
+    price: Float
     country: String
     city: String
     inStock: Boolean
@@ -79,13 +82,22 @@ const ProductType = (0, graphql_tag_1.default) `
   # input getProductOfCompanyInput {
   #   companyId: Int!
   # } bunu sadece user tarafında
-
+  input searchForProductsInput {
+    productName: String
+    color: String
+    city: String
+    country: String
+    minPrice: String
+    maxPrice: String
+    categoryId: String
+  }
   type Query {
     getProduct(input: getWithId): Product
     getProductOfCategory(input: getProductOfCategoryInput): [Product]
     productsOfCompany: [Product] #companyId zaten tokendan gelecek
     productMostClicked: MostClickedProductType
     productMostClickedThree: [Product]
+    searchForProducts(input: searchForProductsInput): [Product]
   }
 
   type Mutation {

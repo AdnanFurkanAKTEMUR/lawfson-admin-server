@@ -127,10 +127,50 @@ const ProductResolver = {
                 throw new Error(e);
             }
         },
+        searchForProducts: async (_parent, args, _context, _info) => {
+            var _a;
+            const { productName, color, city, country, minPrice, maxPrice, categoryId } = args.input;
+            try {
+                const where = {};
+                if (productName) {
+                    where.productName = (0, typeorm_1.ILike)(`%${productName}%`);
+                }
+                if (color) {
+                    where.color = (0, typeorm_1.ILike)(`%${color}%`);
+                }
+                if (city) {
+                    where.city = (0, typeorm_1.ILike)(`%${city}%`);
+                }
+                if (country) {
+                    where.country = (0, typeorm_1.ILike)(`%${country}%`);
+                }
+                if (minPrice !== undefined && maxPrice !== undefined) {
+                    where.price = (0, typeorm_1.Between)(minPrice, maxPrice);
+                }
+                else if (minPrice !== undefined) {
+                    where.price = (0, typeorm_1.MoreThanOrEqual)(minPrice);
+                }
+                else if (maxPrice !== undefined) {
+                    where.price = (0, typeorm_1.LessThanOrEqual)(maxPrice);
+                }
+                if (categoryId) {
+                    const category = await Category_1.Category.findOne({ where: { id: parseInt(categoryId) }, relations: ["subcategories"] });
+                    if (category) {
+                        const categoryIds = [category.id, ...(((_a = category.subcategories) === null || _a === void 0 ? void 0 : _a.map((sub) => sub.id)) || [])];
+                        where.category = { id: (0, typeorm_1.In)(categoryIds) };
+                    }
+                }
+                const products = await Product_1.Product.find({ where, relations: ["company", "category"] });
+                return products;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
     },
     Mutation: {
         createProduct: async (_parent, args, context, _info) => {
-            const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, city, onAd, country, brand, inStock } = args.input;
+            const { productName, categoryId, images, widths, length, thickness, color, origin, price, surfaceTreatment, description, city, onAd, country, brand, inStock } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -157,6 +197,7 @@ const ProductResolver = {
                     city: city || null,
                     brand: brand || null,
                     inStock: inStock || false,
+                    price: parseFloat(price) || null,
                 });
                 if (onAd) {
                     product.adDate = new Date();
@@ -175,7 +216,7 @@ const ProductResolver = {
         },
         updateProduct: async (_parent, args, context, _info) => {
             var _a;
-            const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, city, country, brand, inStock } = args.input;
+            const { id, productName, price, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, city, country, brand, inStock } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -197,6 +238,12 @@ const ProductResolver = {
                 }
                 if (inStock !== undefined) {
                     product.inStock = inStock;
+                }
+                if (price !== undefined) {
+                    const pp = parseFloat(price);
+                    console.log(pp);
+                    console.log(typeof pp);
+                    product.price = parseFloat(price);
                 }
                 if (widths !== undefined) {
                     product.widths = widths;

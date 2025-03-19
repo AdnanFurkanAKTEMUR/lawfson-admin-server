@@ -41,6 +41,9 @@ export class Product extends BaseEntity {
   @Column({ type: "varchar", nullable: true })
   description: string | null;
 
+  @Column({ type: "decimal", precision: 10, scale: 2, nullable: true })
+  price: number | null;
+
   @Column({ type: "boolean", default: false })
   inStock: boolean; // 🆕 Varsayılan olarak false (önceki kayıtları etkilemez)
 
