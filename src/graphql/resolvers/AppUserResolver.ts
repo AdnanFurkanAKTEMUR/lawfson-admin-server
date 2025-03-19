@@ -6,7 +6,6 @@ const AppUserResolver = {
   Query: {
     appUserGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<AppUser | null> => {
       const { id } = args.input;
-
       try {
         const appuser = await AppUser.findOne({ where: { id } });
         return appuser;
@@ -83,6 +82,23 @@ const AppUserResolver = {
         if (!appUser) throw new Error("Hata:Kullanıcı bulunamadı!");
         await AppUser.remove(appUser);
         return { status: true, msg: "Silme Başarılı" };
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    appUserLogin: async (_parent: any, args: any, _context: Context, _info: any) => {
+      const { email, password } = args.input;
+
+      try {
+        const appUser = await AppUser.findOne({
+          where: {
+            email: email,
+          },
+        });
+        if (!appUser) throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
+        const isVerifyPassword = await verify(appUser.password, password);
+        if (!isVerifyPassword) throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
+        return appUser;
       } catch (e) {
         throw new Error(e);
       }

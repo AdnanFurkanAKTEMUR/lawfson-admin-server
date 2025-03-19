@@ -24,6 +24,9 @@ export class AppUser extends BaseEntity {
   @Column({ nullable: true, default: 1 }) // Veritabanında default 1 olacak
   role?: number;
 
+  @Column({ nullable: true, default: false }) // Veritabanında default false olacak
+  verify?: boolean;
+
   @OneToMany(() => Message, (message) => message.appUser, { nullable: true })
   messages?: Message[];
 

@@ -13,6 +13,7 @@ const AppUserType = (0, graphql_tag_1.default) `
     phone: String
     phoneCode: String
     role: Int
+    verify: Boolean
     messages: [Message]
     createdAt: String
     updatedAt: String
@@ -39,6 +40,11 @@ const AppUserType = (0, graphql_tag_1.default) `
     newPassword: String!
   }
 
+  input appUserLoginInput {
+    email: String!
+    password: String!
+  }
+
   type Query {
     appUserGet(input: getWithId): AppUser
     appUsersGetAll: [AppUser]
@@ -49,6 +55,7 @@ const AppUserType = (0, graphql_tag_1.default) `
     appUserUpdate(input: updateAppUserInput): AppUser
     appUserChangePassword(input: changeAppUserPasswordInput): msg
     appUserDelete(input: getWithId): msg
+    appUserLogin(input: appUserLoginInput): AppUser
   }
 `;
 exports.default = AppUserType;

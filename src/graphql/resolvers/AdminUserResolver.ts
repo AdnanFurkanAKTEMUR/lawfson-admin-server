@@ -81,7 +81,6 @@ const AdminUserResolver = {
   },
   Mutation: {
     adminUserLogin: async (_parent: any, args: any, _context: Context, _info: any): Promise<AdminUser | null> => {
-      
       const { email, password } = args.input;
 
       try {
@@ -92,7 +91,7 @@ const AdminUserResolver = {
         //last login ip address gibi bilgiler olabilir
 
         loggerInfo(adminUser.company.companyName, adminUser.company.id, "AdminUser", adminUser.userName, adminUser.id, `Admin User giriş yaptı. id:${adminUser.id}. `);
-        
+
         return adminUser;
       } catch (e) {
         throw new Error(e);

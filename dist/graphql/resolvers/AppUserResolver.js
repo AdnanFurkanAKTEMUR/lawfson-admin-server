@@ -96,6 +96,25 @@ const AppUserResolver = {
                 throw new Error(e);
             }
         },
+        appUserLogin: async (_parent, args, _context, _info) => {
+            const { email, password } = args.input;
+            try {
+                const appUser = await AppUser_1.AppUser.findOne({
+                    where: {
+                        email: email,
+                    },
+                });
+                if (!appUser)
+                    throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
+                const isVerifyPassword = await (0, argon2_1.verify)(appUser.password, password);
+                if (!isVerifyPassword)
+                    throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
+                return appUser;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
     },
 };
 exports.default = AppUserResolver;
