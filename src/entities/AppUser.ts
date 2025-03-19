@@ -18,6 +18,12 @@ export class AppUser extends BaseEntity {
   @Column({ nullable: true })
   phone?: string;
 
+  @Column({ nullable: true })
+  phoneCode?: string;
+
+  @Column({ nullable: true, default: 1 }) // Veritabanında default 1 olacak
+  role?: number;
+
   @OneToMany(() => Message, (message) => message.appUser, { nullable: true })
   messages?: Message[];
 

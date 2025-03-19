@@ -1,6 +1,7 @@
 import { Context } from "@contextTypes/contextTypes";
 import { AppUser } from "@entities/AppUser";
 import { hash, verify } from "argon2";
+import { isEmail } from "validator"; // Email doğrulama için
 const AppUserResolver = {
   Query: {
     appUserGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<AppUser | null> => {
@@ -26,12 +27,20 @@ const AppUserResolver = {
 
   Mutation: {
     appUserCreate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AppUser | null> => {
-      const { userName, email, password, phone } = args.input;
-
+      const { userName, email, password, phone, phoneCode } = args.input;
       try {
         if (!userName || !email || !password) throw new Error("Eksik parametreler!");
+        // Email format kontrolü
+        if (!isEmail(email)) {
+          throw new Error("Geçersiz email formatı!");
+        }
+        // Şifre doğrulama (min 6 karakter, harf ve rakam içermeli)
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        if (!passwordRegex.test(password)) {
+          throw new Error("Şifre en az 6 karakter olmalı ve harf ile rakam içermelidir!");
+        }
         const hashedPassword = await hash(password);
-        const appUser = await AppUser.create({ userName: userName, email: email, password: hashedPassword, phone: phone }).save();
+        const appUser = await AppUser.create({ userName: userName, email: email, password: hashedPassword, phone: phone, phoneCode: phoneCode }).save();
         return appUser;
       } catch (e) {
         throw new Error(e);

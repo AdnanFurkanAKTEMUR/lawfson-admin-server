@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const AppUser_1 = require("../../entities/AppUser");
 const argon2_1 = require("argon2");
+const validator_1 = require("validator");
 const AppUserResolver = {
     Query: {
         appUserGet: async (_parent, args, _context, _info) => {
@@ -26,12 +27,19 @@ const AppUserResolver = {
     },
     Mutation: {
         appUserCreate: async (_parent, args, _context, _info) => {
-            const { userName, email, password, phone } = args.input;
+            const { userName, email, password, phone, phoneCode } = args.input;
             try {
                 if (!userName || !email || !password)
                     throw new Error("Eksik parametreler!");
+                if (!(0, validator_1.isEmail)(email)) {
+                    throw new Error("Geçersiz email formatı!");
+                }
+                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+                if (!passwordRegex.test(password)) {
+                    throw new Error("Şifre en az 6 karakter olmalı ve harf ile rakam içermelidir!");
+                }
                 const hashedPassword = await (0, argon2_1.hash)(password);
-                const appUser = await AppUser_1.AppUser.create({ userName: userName, email: email, password: hashedPassword, phone: phone }).save();
+                const appUser = await AppUser_1.AppUser.create({ userName: userName, email: email, password: hashedPassword, phone: phone, phoneCode: phoneCode }).save();
                 return appUser;
             }
             catch (e) {

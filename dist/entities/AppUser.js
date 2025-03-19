@@ -36,6 +36,14 @@ __decorate([
     __metadata("design:type", String)
 ], AppUser.prototype, "phone", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], AppUser.prototype, "phoneCode", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, default: 1 }),
+    __metadata("design:type", Number)
+], AppUser.prototype, "role", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.appUser, { nullable: true }),
     __metadata("design:type", Array)
 ], AppUser.prototype, "messages", void 0);

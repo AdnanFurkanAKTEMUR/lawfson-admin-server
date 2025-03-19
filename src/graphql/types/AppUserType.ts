@@ -7,6 +7,8 @@ const AppUserType = gql`
     email: String!
     password: String
     phone: String
+    phoneCode: String
+    role: Int
     messages: [Message]
     createdAt: String
     updatedAt: String
@@ -17,12 +19,14 @@ const AppUserType = gql`
     email: String!
     password: String!
     phone: String
+    phoneCode: String
   }
 
   input updateAppUserInput {
     id: Int!
     userName: String
     phone: String
+    phoneCode: String
   }
 
   input changeAppUserPasswordInput {
