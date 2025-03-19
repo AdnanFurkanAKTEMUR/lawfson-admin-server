@@ -14,7 +14,8 @@ const ProductType = gql`
     surfaceTreatment: String
     description: String
     onAd: Boolean
-    location: String
+    country: String
+    city: String
     adDate: String
     category: Category
     company: Company
@@ -43,7 +44,8 @@ const ProductType = gql`
     surfaceTreatment: String
     description: String
     onAd: Boolean
-    location: String
+    country: String
+    city: String
     inStock: Boolean
   }
 
@@ -61,7 +63,8 @@ const ProductType = gql`
     surfaceTreatment: String
     description: String
     onAd: Boolean
-    location: String
+    country: String
+    city: String
     inStock: Boolean
   }
 

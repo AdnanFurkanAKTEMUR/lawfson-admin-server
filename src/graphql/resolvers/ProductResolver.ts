@@ -133,7 +133,7 @@ const ProductResolver = {
 
   Mutation: {
     createProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
+      const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, city, onAd, country, brand, inStock } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       //todo yetki kontrolü
@@ -158,7 +158,8 @@ const ProductResolver = {
           surfaceTreatment: surfaceTreatment || null,
           description: description || null,
           onAd: onAd || false,
-          location: location || null,
+          country: country || null,
+          city: city || null,
           brand: brand || null,
           inStock: inStock || false,
         });
@@ -178,7 +179,7 @@ const ProductResolver = {
       }
     },
     updateProduct: async (_parent: any, args: any, context: Context, _info: any): Promise<Product | null> => {
-      const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
+      const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, city, country, brand, inStock } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata: Giriş yapmalısınız!");
       //todo yetki kontrolü
@@ -229,8 +230,11 @@ const ProductResolver = {
         if (onAd !== undefined) {
           product.onAd = onAd;
         }
-        if (location !== undefined) {
-          product.location = location;
+        if (country !== undefined) {
+          product.country = country;
+        }
+        if (city !== undefined) {
+          product.city = city;
         }
         if (brand !== undefined) {
           product.brand = brand;

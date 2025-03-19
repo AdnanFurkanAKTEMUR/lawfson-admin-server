@@ -130,7 +130,7 @@ const ProductResolver = {
     },
     Mutation: {
         createProduct: async (_parent, args, context, _info) => {
-            const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
+            const { productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, city, onAd, country, brand, inStock } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -153,7 +153,8 @@ const ProductResolver = {
                     surfaceTreatment: surfaceTreatment || null,
                     description: description || null,
                     onAd: onAd || false,
-                    location: location || null,
+                    country: country || null,
+                    city: city || null,
                     brand: brand || null,
                     inStock: inStock || false,
                 });
@@ -174,7 +175,7 @@ const ProductResolver = {
         },
         updateProduct: async (_parent, args, context, _info) => {
             var _a;
-            const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, location, brand, inStock } = args.input;
+            const { id, productName, categoryId, images, widths, length, thickness, color, origin, surfaceTreatment, description, onAd, city, country, brand, inStock } = args.input;
             const { user } = context;
             if (!user || user.id == undefined)
                 throw new Error("Hata: Giriş yapmalısınız!");
@@ -221,8 +222,11 @@ const ProductResolver = {
                 if (onAd !== undefined) {
                     product.onAd = onAd;
                 }
-                if (location !== undefined) {
-                    product.location = location;
+                if (country !== undefined) {
+                    product.country = country;
+                }
+                if (city !== undefined) {
+                    product.city = city;
                 }
                 if (brand !== undefined) {
                     product.brand = brand;

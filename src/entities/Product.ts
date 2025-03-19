@@ -48,7 +48,10 @@ export class Product extends BaseEntity {
   onAd: boolean;
 
   @Column({ type: "varchar", nullable: true })
-  location: string | null;
+  country: string | null;
+
+  @Column({ type: "varchar", nullable: true })
+  city: string | null;
 
   @Column({ type: "date", nullable: true })
   adDate: Date | null;

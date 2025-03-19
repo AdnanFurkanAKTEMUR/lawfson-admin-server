@@ -76,7 +76,11 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", Object)
-], Product.prototype, "location", void 0);
+], Product.prototype, "country", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "city", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "date", nullable: true }),
     __metadata("design:type", Object)
