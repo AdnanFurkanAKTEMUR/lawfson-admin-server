@@ -71,6 +71,7 @@ const CategoryResolver = {
         //   })
         // );
         // return result
+        
         return categoryLeafs;
       } catch (e) {
         throw new Error(e);

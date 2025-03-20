@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tag_1 = require("graphql-tag");
 const CategoryType = (0, graphql_tag_1.gql) `
   type Category {
-    id: Int!
+    id: Int
     categoryName: String!
     parentCategory: Category
     subcategories: [Category]

@@ -2,7 +2,7 @@ import { gql } from "graphql-tag";
 
 const CategoryType = gql`
   type Category {
-    id: Int!
+    id: Int
     categoryName: String!
     parentCategory: Category
     subcategories: [Category]
