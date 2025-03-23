@@ -13,7 +13,7 @@ const ProductResolver = {
       try {
         const product = await Product.findOne({
           where: { id },
-          relations: ["category"],
+          relations: ["category", "company"],
         });
         if (!product) throw new Error("Hata:Ürün bulunamadı!");
         return product;

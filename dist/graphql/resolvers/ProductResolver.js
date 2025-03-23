@@ -16,7 +16,7 @@ const ProductResolver = {
             try {
                 const product = await Product_1.Product.findOne({
                     where: { id },
-                    relations: ["category"],
+                    relations: ["category", "company"],
                 });
                 if (!product)
                     throw new Error("Hata:Ürün bulunamadı!");
