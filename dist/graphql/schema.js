@@ -27,8 +27,10 @@ const JobOrderType_1 = __importDefault(require("./types/JobOrderType"));
 const JobOrderResolver_1 = __importDefault(require("./resolvers/JobOrderResolver"));
 const AppUserFavoriteProductType_1 = __importDefault(require("./types/AppUserFavoriteProductType"));
 const AppUserFavoriteProductResolver_1 = __importDefault(require("./resolvers/AppUserFavoriteProductResolver"));
+const ReportProductResolver_1 = __importDefault(require("./resolvers/ReportProductResolver"));
+const ReportProductType_1 = __importDefault(require("./types/ReportProductType"));
 const schema = (0, schema_1.makeExecutableSchema)({
-    typeDefs: [AppUserFavoriteProductType_1.default, helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default, CompanyType_1.default, AdminUserType_1.default, MessageType_1.default, AppUserType_1.default, AdminNoteType_1.default, JobOrderType_1.default],
+    typeDefs: [ReportProductType_1.default, AppUserFavoriteProductType_1.default, helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default, CompanyType_1.default, AdminUserType_1.default, MessageType_1.default, AppUserType_1.default, AdminNoteType_1.default, JobOrderType_1.default],
     resolvers: [
         AppUserFavoriteProductResolver_1.default,
         hello_1.default,
@@ -40,6 +42,7 @@ const schema = (0, schema_1.makeExecutableSchema)({
         AppUserResolver_1.default,
         AdminNoteResolver_1.default,
         JobOrderResolver_1.default,
+        ReportProductResolver_1.default,
     ],
 });
 const shieldedSchema = (0, graphql_middleware_1.applyMiddleware)(schema, graphqlShield_1.permissions);

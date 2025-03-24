@@ -7,7 +7,7 @@ import { Message } from "./Message";
 export class AdminNote extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
-
+ 
   @Column()
   note!: string;
 

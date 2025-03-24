@@ -15,6 +15,7 @@ const Category_1 = require("./Category");
 const Message_1 = require("./Message");
 const Company_1 = require("./Company");
 const AppUserFavoriteProduct_1 = require("./AppUserFavoriteProduct");
+const ReportProduct_1 = require("./ReportProduct");
 let Product = class Product extends typeorm_1.BaseEntity {
 };
 exports.Product = Product;
@@ -108,6 +109,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => AppUserFavoriteProduct_1.AppUserFavoriteProduct, (aufp) => aufp.product, { nullable: true }),
     __metadata("design:type", Object)
 ], Product.prototype, "onFavorites", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => ReportProduct_1.ReportProduct, (report) => report.reportedProduct, { nullable: true }),
+    __metadata("design:type", Object)
+], Product.prototype, "reports", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

@@ -3,6 +3,7 @@ import { AdminUser } from "./AdminUser";
 import { Product } from "./Product";
 import { Message } from "./Message";
 import { JobOrder } from "./JobOrder";
+import { ReportProduct } from "./ReportProduct";
 
 @Entity()
 export class Company extends BaseEntity {
@@ -29,6 +30,9 @@ export class Company extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.company, { nullable: true })
   messages?: Message[];
+
+  @OneToMany(() => ReportProduct, (rp) => rp.company, { nullable: true })
+  reportedProducts?: ReportProduct[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -22,9 +22,11 @@ import JobOrderType from "./types/JobOrderType";
 import JobOrderResolver from "./resolvers/JobOrderResolver";
 import AppUserFavoriteProductType from "./types/AppUserFavoriteProductType";
 import AppUserFavoriteProductResolver from "./resolvers/AppUserFavoriteProductResolver";
+import ReportProductResolver from "./resolvers/ReportProductResolver";
+import ReportProductType from "./types/ReportProductType";
 
 const schema = makeExecutableSchema({
-  typeDefs: [AppUserFavoriteProductType, HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType, MessageType, AppUserType, AdminNoteType, JobOrderType],
+  typeDefs: [ReportProductType, AppUserFavoriteProductType, HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType, MessageType, AppUserType, AdminNoteType, JobOrderType],
   resolvers: [
     AppUserFavoriteProductResolver,
     HelloResolver,
@@ -36,6 +38,7 @@ const schema = makeExecutableSchema({
     AppUserResolver,
     AdminNoteResolver,
     JobOrderResolver,
+    ReportProductResolver,
   ],
 });
 

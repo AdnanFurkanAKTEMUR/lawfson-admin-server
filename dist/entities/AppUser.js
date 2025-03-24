@@ -13,6 +13,7 @@ exports.AppUser = void 0;
 const typeorm_1 = require("typeorm");
 const Message_1 = require("./Message");
 const AppUserFavoriteProduct_1 = require("./AppUserFavoriteProduct");
+const ReportProduct_1 = require("./ReportProduct");
 let AppUser = class AppUser extends typeorm_1.BaseEntity {
 };
 exports.AppUser = AppUser;
@@ -52,6 +53,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.appUser, { nullable: true }),
     __metadata("design:type", Array)
 ], AppUser.prototype, "messages", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => ReportProduct_1.ReportProduct, (rp) => rp.appUser, { nullable: true }),
+    __metadata("design:type", Array)
+], AppUser.prototype, "reportedProducts", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => AppUserFavoriteProduct_1.AppUserFavoriteProduct, (aufp) => aufp.appUser, { nullable: true }),
     __metadata("design:type", Object)

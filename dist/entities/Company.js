@@ -15,6 +15,7 @@ const AdminUser_1 = require("./AdminUser");
 const Product_1 = require("./Product");
 const Message_1 = require("./Message");
 const JobOrder_1 = require("./JobOrder");
+const ReportProduct_1 = require("./ReportProduct");
 let Company = class Company extends typeorm_1.BaseEntity {
 };
 exports.Company = Company;
@@ -50,6 +51,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Message_1.Message, (message) => message.company, { nullable: true }),
     __metadata("design:type", Array)
 ], Company.prototype, "messages", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => ReportProduct_1.ReportProduct, (rp) => rp.company, { nullable: true }),
+    __metadata("design:type", Array)
+], Company.prototype, "reportedProducts", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
