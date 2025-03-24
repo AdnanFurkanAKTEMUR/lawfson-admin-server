@@ -49,7 +49,7 @@ export const auth = async (_header: string, cookie: any): Promise<AuthTokenPaylo
 
       if (decoded) {
         const payload = decoded as unknown;
-        if (isAuthTokenPayload(payload)) {
+        if (isAuthTokenPayload(payload, decoded?.role)) {
           return payload;
         }
       }
@@ -70,17 +70,31 @@ export const auth = async (_header: string, cookie: any): Promise<AuthTokenPaylo
   }
 };
 
-function isAuthTokenPayload(payload: any): payload is AuthTokenPayload {
-  return (
-    typeof payload === "object" &&
-    payload !== null &&
-    "id" in payload &&
-    "userName" in payload &&
-    "email" in payload &&
-    "createdAt" in payload &&
-    "updatedAt" in payload &&
-    "role" in payload &&
-    "companyId" in payload &&
-    "companyName" in payload
-  );
+function isAuthTokenPayload(payload: any, role: any): payload is AuthTokenPayload {
+  if (role == "1") {
+    return (
+      typeof payload === "object" &&
+      payload !== null &&
+      "id" in payload &&
+      "userName" in payload &&
+      "email" in payload &&
+      "createdAt" in payload &&
+      "updatedAt" in payload &&
+      "role" in payload &&
+      "verify" in payload
+    );
+  } else {
+    return (
+      typeof payload === "object" &&
+      payload !== null &&
+      "id" in payload &&
+      "userName" in payload &&
+      "email" in payload &&
+      "createdAt" in payload &&
+      "updatedAt" in payload &&
+      "role" in payload &&
+      "companyId" in payload &&
+      "companyName" in payload
+    );
+  }
 }

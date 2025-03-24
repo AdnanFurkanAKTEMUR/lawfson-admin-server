@@ -20,10 +20,23 @@ import AdminNoteType from "./types/AdminNoteType";
 import AdminNoteResolver from "./resolvers/AdminNoteResolver";
 import JobOrderType from "./types/JobOrderType";
 import JobOrderResolver from "./resolvers/JobOrderResolver";
+import AppUserFavoriteProductType from "./types/AppUserFavoriteProductType";
+import AppUserFavoriteProductResolver from "./resolvers/AppUserFavoriteProductResolver";
 
 const schema = makeExecutableSchema({
-  typeDefs: [HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType, MessageType, AppUserType, AdminNoteType, JobOrderType],
-  resolvers: [HelloResolver, ProductResolver, CategoryResolver, CompanyResolver, AdminUserResolver, MessageResolver, AppUserResolver, AdminNoteResolver, JobOrderResolver],
+  typeDefs: [AppUserFavoriteProductType, HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType, MessageType, AppUserType, AdminNoteType, JobOrderType],
+  resolvers: [
+    AppUserFavoriteProductResolver,
+    HelloResolver,
+    ProductResolver,
+    CategoryResolver,
+    CompanyResolver,
+    AdminUserResolver,
+    MessageResolver,
+    AppUserResolver,
+    AdminNoteResolver,
+    JobOrderResolver,
+  ],
 });
 
 const shieldedSchema = applyMiddleware(schema, permissions);

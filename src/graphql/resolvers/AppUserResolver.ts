@@ -98,6 +98,7 @@ const AppUserResolver = {
         if (!appUser) throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
         const isVerifyPassword = await verify(appUser.password, password);
         if (!isVerifyPassword) throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
+
         return appUser;
       } catch (e) {
         throw new Error(e);

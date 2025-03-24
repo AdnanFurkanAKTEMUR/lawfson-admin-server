@@ -2,6 +2,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, Pri
 import { Category } from "./Category";
 import { Message } from "./Message";
 import { Company } from "./Company";
+import { AppUserFavoriteProduct } from "./AppUserFavoriteProduct";
 
 @Entity()
 export class Product extends BaseEntity {
@@ -69,6 +70,9 @@ export class Product extends BaseEntity {
 
   @ManyToOne(() => Company, (company) => company.products)
   company: Company;
+
+  @OneToMany(() => AppUserFavoriteProduct, (aufp) => aufp.product, { nullable: true })
+  onFavorites: AppUserFavoriteProduct[] | null;
 
   @CreateDateColumn()
   createdAt: Date;

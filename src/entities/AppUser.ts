@@ -1,5 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Message } from "./Message";
+import { AppUserFavoriteProduct } from "./AppUserFavoriteProduct";
 
 @Entity()
 export class AppUser extends BaseEntity {
@@ -29,6 +30,9 @@ export class AppUser extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.appUser, { nullable: true })
   messages?: Message[];
+
+  @OneToMany(() => AppUserFavoriteProduct, (aufp) => aufp.appUser, { nullable: true })
+  favoriteProducts?: AppUserFavoriteProduct[] | null;
 
   @CreateDateColumn()
   createdAt: Date;

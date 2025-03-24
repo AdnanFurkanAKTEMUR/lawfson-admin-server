@@ -29,7 +29,7 @@ const auth = async (_header, cookie) => {
             });
             if (decoded) {
                 const payload = decoded;
-                if (isAuthTokenPayload(payload)) {
+                if (isAuthTokenPayload(payload, decoded === null || decoded === void 0 ? void 0 : decoded.role)) {
                     return payload;
                 }
             }
@@ -41,16 +41,29 @@ const auth = async (_header, cookie) => {
     }
 };
 exports.auth = auth;
-function isAuthTokenPayload(payload) {
-    return (typeof payload === "object" &&
-        payload !== null &&
-        "id" in payload &&
-        "userName" in payload &&
-        "email" in payload &&
-        "createdAt" in payload &&
-        "updatedAt" in payload &&
-        "role" in payload &&
-        "companyId" in payload &&
-        "companyName" in payload);
+function isAuthTokenPayload(payload, role) {
+    if (role == "1") {
+        return (typeof payload === "object" &&
+            payload !== null &&
+            "id" in payload &&
+            "userName" in payload &&
+            "email" in payload &&
+            "createdAt" in payload &&
+            "updatedAt" in payload &&
+            "role" in payload &&
+            "verify" in payload);
+    }
+    else {
+        return (typeof payload === "object" &&
+            payload !== null &&
+            "id" in payload &&
+            "userName" in payload &&
+            "email" in payload &&
+            "createdAt" in payload &&
+            "updatedAt" in payload &&
+            "role" in payload &&
+            "companyId" in payload &&
+            "companyName" in payload);
+    }
 }
 //# sourceMappingURL=auth.js.map
