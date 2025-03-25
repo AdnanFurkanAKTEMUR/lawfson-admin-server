@@ -132,8 +132,31 @@ const ProductResolver = {
     //client tarafı
     searchForProducts: async (_parent: any, args: any, _context: any, _info: any) => {
       const { productName, color, city, country, minPrice, maxPrice, categoryId } = args.input;
-
       try {
+        if (productName == "tumurunler") {
+          const products = await Product.find({ where: { onAd: true } });
+          return products;
+        }
+        const prefix = "catafa";
+
+        if (productName.startsWith(prefix)) {
+          const afterPrefix = productName.substring(prefix.length); // veya slice(prefix.length)
+          console.log(afterPrefix); // "75"
+          const category = await Category.findOne({
+            where: { id: parseInt(afterPrefix) },
+            relations: ["subcategories", "subcategories.subcategories"],
+          });
+          if (!category) {
+            throw new Error("Category not found");
+          }
+          const categoryIds = getAllSubcategoryIds(category);
+          const products = await Product.find({
+            where: {
+              category: In(categoryIds),
+            },
+          });
+          return products;
+        }
         const where: any = {};
 
         if (productName) {
@@ -155,6 +178,7 @@ const ProductResolver = {
         } else if (maxPrice !== undefined) {
           where.price = LessThanOrEqual(maxPrice);
         }
+        where.onAd = true;
         if (categoryId) {
           const category = await Category.findOne({ where: { id: parseInt(categoryId) }, relations: ["subcategories"] });
           if (category) {

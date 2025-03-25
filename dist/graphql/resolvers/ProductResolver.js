@@ -131,6 +131,29 @@ const ProductResolver = {
             var _a;
             const { productName, color, city, country, minPrice, maxPrice, categoryId } = args.input;
             try {
+                if (productName == "tumurunler") {
+                    const products = await Product_1.Product.find({ where: { onAd: true } });
+                    return products;
+                }
+                const prefix = "catafa";
+                if (productName.startsWith(prefix)) {
+                    const afterPrefix = productName.substring(prefix.length);
+                    console.log(afterPrefix);
+                    const category = await Category_1.Category.findOne({
+                        where: { id: parseInt(afterPrefix) },
+                        relations: ["subcategories", "subcategories.subcategories"],
+                    });
+                    if (!category) {
+                        throw new Error("Category not found");
+                    }
+                    const categoryIds = (0, getSubcategoriesIds_1.default)(category);
+                    const products = await Product_1.Product.find({
+                        where: {
+                            category: (0, typeorm_1.In)(categoryIds),
+                        },
+                    });
+                    return products;
+                }
                 const where = {};
                 if (productName) {
                     where.productName = (0, typeorm_1.ILike)(`%${productName}%`);
@@ -153,6 +176,7 @@ const ProductResolver = {
                 else if (maxPrice !== undefined) {
                     where.price = (0, typeorm_1.LessThanOrEqual)(maxPrice);
                 }
+                where.onAd = true;
                 if (categoryId) {
                     const category = await Category_1.Category.findOne({ where: { id: parseInt(categoryId) }, relations: ["subcategories"] });
                     if (category) {
