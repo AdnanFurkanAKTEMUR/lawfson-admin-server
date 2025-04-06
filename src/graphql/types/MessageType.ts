@@ -30,7 +30,7 @@ const MessageType = gql`
   input createMessageInput {
     messageHeader: String!
     messageText: String!
-    appUserId: Int!
+
     companyId: Int!
     productId: Int!
     phone: String
@@ -47,6 +47,8 @@ const MessageType = gql`
     messagesOfCompany: [Message]
     messageCounts: messageCounts
     latestMessagesByReturnStatus: latestMessagesByReturnStatusType
+    getAppUserMessages: [Message]
+    getAppUserMessage(input: getWithId): Message
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

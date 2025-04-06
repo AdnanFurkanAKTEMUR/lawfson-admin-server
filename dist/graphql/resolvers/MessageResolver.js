@@ -109,15 +109,50 @@ const MessageResolver = {
                 throw new Error(`Hata: ${error.message}`);
             }
         },
+        getAppUserMessages: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
+            try {
+                const message = await Message_1.Message.find({ where: { appUser: { id: user.id } }, relations: ["product", "product.category", "appUser", "returnedAdmin", "company"] });
+                if (!message)
+                    throw new Error("Belirtilen kayıt bulunamadı!");
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Message", user.userName, user.id, `Mesajlar Listelendi. Kullanıcı id: ${user.id}`);
+                return message;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
+        getAppUserMessage: async (_parent, args, context, _info) => {
+            const { id } = args.input;
+            const { user } = context;
+            console.log(id, user);
+            if (!user || user.id == undefined)
+                throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
+            try {
+                const message = await Message_1.Message.findOne({ where: { id }, relations: ["product", "product.category", "appUser", "returnedAdmin", "company"] });
+                if (!message)
+                    throw new Error("Belirtilen kayıt bulunamadı!");
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Message", user.userName, user.id, `Mesaja girildi. Mesaj id: ${id}`);
+                return message;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
     },
     Mutation: {
-        messageCreate: async (_parent, args, _context, _info) => {
-            const { messageHeader, messageText, appUserId, companyId, productId, phone } = args.input;
+        messageCreate: async (_parent, args, context, _info) => {
+            const { messageHeader, messageText, companyId, productId, phone } = args.input;
+            const { user } = context;
+            if (!user || !user.id)
+                throw new Error("Hata: Yetkisiz İşlem!");
             try {
-                if (!appUserId && !companyId && !productId)
+                if (!companyId && !productId)
                     throw new Error("Parametreler eksik!");
                 const message = Message_1.Message.create({ messageHeader: messageHeader, messageText: messageText, phone: phone });
-                const appUser = await AppUser_1.AppUser.findOne({ where: { id: appUserId } });
+                const appUser = await AppUser_1.AppUser.findOne({ where: { id: user.id } });
                 if (!appUser)
                     throw new Error("Kullanıcı bulunamadı!");
                 message.appUser = appUser;

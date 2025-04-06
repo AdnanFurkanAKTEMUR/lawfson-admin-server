@@ -10,7 +10,10 @@ const AppUserType = gql`
     phoneCode: String
     role: Int
     verify: Boolean
+    note: String
     messages: [Message]
+    reportedProducts: [Product]
+    favoriteProducts: [AppUserFavoriteProduct]
     createdAt: String
     updatedAt: String
   }
@@ -21,6 +24,7 @@ const AppUserType = gql`
     password: String!
     phone: String
     phoneCode: String
+    note: String
   }
 
   input updateAppUserInput {
@@ -28,6 +32,7 @@ const AppUserType = gql`
     userName: String
     phone: String
     phoneCode: String
+    note: String
   }
 
   input changeAppUserPasswordInput {
@@ -42,7 +47,7 @@ const AppUserType = gql`
   }
 
   type Query {
-    appUserGet(input: getWithId): AppUser
+    appUserGet: AppUser
     appUsersGetAll: [AppUser]
   }
 

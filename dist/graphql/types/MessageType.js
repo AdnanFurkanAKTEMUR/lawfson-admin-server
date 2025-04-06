@@ -34,7 +34,7 @@ const MessageType = (0, graphql_tag_1.default) `
   input createMessageInput {
     messageHeader: String!
     messageText: String!
-    appUserId: Int!
+
     companyId: Int!
     productId: Int!
     phone: String
@@ -51,6 +51,8 @@ const MessageType = (0, graphql_tag_1.default) `
     messagesOfCompany: [Message]
     messageCounts: messageCounts
     latestMessagesByReturnStatus: latestMessagesByReturnStatusType
+    getAppUserMessages: [Message]
+    getAppUserMessage(input: getWithId): Message
   }
 
   #create fonksiyonu user-backende taşınacak! test için şimdilik burada

@@ -40,6 +40,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], AppUser.prototype, "note", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], AppUser.prototype, "phoneCode", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, default: 1 }),

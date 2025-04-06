@@ -21,6 +21,9 @@ export class AppUser extends BaseEntity {
   phone?: string;
 
   @Column({ nullable: true })
+  note?: string;
+
+  @Column({ nullable: true })
   phoneCode?: string;
 
   @Column({ nullable: true, default: 1 }) // Veritabanında default 1 olacak

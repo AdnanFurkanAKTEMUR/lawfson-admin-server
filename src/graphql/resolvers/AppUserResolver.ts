@@ -4,10 +4,11 @@ import { hash, verify } from "argon2";
 import { isEmail } from "validator"; // Email doğrulama için
 const AppUserResolver = {
   Query: {
-    appUserGet: async (_parent: any, args: any, _context: Context, _info: any): Promise<AppUser | null> => {
-      const { id } = args.input;
+    appUserGet: async (_parent: any, _args: any, context: Context, _info: any): Promise<AppUser | null> => {
+      const { user } = context;
+      if (!user || user.id == undefined) throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
       try {
-        const appuser = await AppUser.findOne({ where: { id } });
+        const appuser = await AppUser.findOne({ where: { id: user.id } });
         return appuser;
       } catch (e) {
         throw new Error(e);
@@ -62,12 +63,13 @@ const AppUserResolver = {
       }
     },
     appUserUpdate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AppUser | null> => {
-      const { id, userName, phone } = args.input;
+      const { id, userName, phone, note } = args.input;
       try {
         const appUser = await AppUser.findOne({ where: { id } });
         if (!appUser) throw new Error("Hata:Kullanıcı bulunamadı!");
         if (userName && appUser.userName != userName) appUser.userName = userName;
         if (phone && appUser.phone != phone) appUser.phone = phone;
+        if (note && appUser.note != note) appUser.note = note;
         await appUser.save();
         return appUser;
       } catch (e) {

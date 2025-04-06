@@ -62,8 +62,10 @@ const AppUserFavoriteProductResolver = {
       const { id } = args.input;
       const { user } = context;
       if (!user || user.id == undefined) throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
+      console.log(id, user.id);
       try {
         const aufp = await AppUserFavoriteProduct.findOne({ where: { product: { id: id }, appUser: { id: user.id } } });
+        console.log(aufp);
         if (!aufp) throw new Error("Favori ürün bulunamadı!");
         await AppUserFavoriteProduct.remove(aufp);
 

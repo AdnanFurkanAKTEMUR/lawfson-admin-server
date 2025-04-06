@@ -5,10 +5,12 @@ const argon2_1 = require("argon2");
 const validator_1 = require("validator");
 const AppUserResolver = {
     Query: {
-        appUserGet: async (_parent, args, _context, _info) => {
-            const { id } = args.input;
+        appUserGet: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata: Yetkisiz İşlem. Kullanıcı bulunamadı!");
             try {
-                const appuser = await AppUser_1.AppUser.findOne({ where: { id } });
+                const appuser = await AppUser_1.AppUser.findOne({ where: { id: user.id } });
                 return appuser;
             }
             catch (e) {
@@ -67,7 +69,7 @@ const AppUserResolver = {
             }
         },
         appUserUpdate: async (_parent, args, _context, _info) => {
-            const { id, userName, phone } = args.input;
+            const { id, userName, phone, note } = args.input;
             try {
                 const appUser = await AppUser_1.AppUser.findOne({ where: { id } });
                 if (!appUser)
@@ -76,6 +78,8 @@ const AppUserResolver = {
                     appUser.userName = userName;
                 if (phone && appUser.phone != phone)
                     appUser.phone = phone;
+                if (note && appUser.note != note)
+                    appUser.note = note;
                 await appUser.save();
                 return appUser;
             }
