@@ -10,7 +10,7 @@ const AppUserFavoriteProductResolver = {
             if (!user || user.id == undefined)
                 throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
-                const favorites = await AppUserFavoriteProduct_1.AppUserFavoriteProduct.find({ where: { appUser: { id: user.id } }, relations: ["appUser", "product"] });
+                const favorites = await AppUserFavoriteProduct_1.AppUserFavoriteProduct.find({ where: { appUser: { id: user.id } }, relations: ["appUser", "product", "product.company", "product.category"] });
                 return favorites || [];
             }
             catch (e) {
@@ -20,7 +20,6 @@ const AppUserFavoriteProductResolver = {
         isFavorite: async (_parent, args, context, _info) => {
             const { id } = args.input;
             const { user } = context;
-            console.log(user, "isFavorite");
             if (!user || user.id == undefined)
                 throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
@@ -41,7 +40,6 @@ const AppUserFavoriteProductResolver = {
         createFavoriteProduct: async (_parent, args, context, _info) => {
             const { productId } = args.input;
             const { user } = context;
-            console.log(user, "asd");
             if (!user || user.id == undefined)
                 throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
