@@ -29,8 +29,25 @@ const AppUserFavoriteProductType_1 = __importDefault(require("./types/AppUserFav
 const AppUserFavoriteProductResolver_1 = __importDefault(require("./resolvers/AppUserFavoriteProductResolver"));
 const ReportProductResolver_1 = __importDefault(require("./resolvers/ReportProductResolver"));
 const ReportProductType_1 = __importDefault(require("./types/ReportProductType"));
+const CompanyAddressType_1 = __importDefault(require("./types/CompanyAddressType"));
+const CompanyFinanceInfoType_1 = __importDefault(require("./types/CompanyFinanceInfoType"));
 const schema = (0, schema_1.makeExecutableSchema)({
-    typeDefs: [ReportProductType_1.default, AppUserFavoriteProductType_1.default, helloType_1.default, ProductType_1.default, CategoryType_1.default, GeneralType_1.default, CompanyType_1.default, AdminUserType_1.default, MessageType_1.default, AppUserType_1.default, AdminNoteType_1.default, JobOrderType_1.default],
+    typeDefs: [
+        CompanyFinanceInfoType_1.default,
+        CompanyAddressType_1.default,
+        ReportProductType_1.default,
+        AppUserFavoriteProductType_1.default,
+        helloType_1.default,
+        ProductType_1.default,
+        CategoryType_1.default,
+        GeneralType_1.default,
+        CompanyType_1.default,
+        AdminUserType_1.default,
+        MessageType_1.default,
+        AppUserType_1.default,
+        AdminNoteType_1.default,
+        JobOrderType_1.default,
+    ],
     resolvers: [
         AppUserFavoriteProductResolver_1.default,
         hello_1.default,

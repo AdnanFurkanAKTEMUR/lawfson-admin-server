@@ -24,9 +24,26 @@ import AppUserFavoriteProductType from "./types/AppUserFavoriteProductType";
 import AppUserFavoriteProductResolver from "./resolvers/AppUserFavoriteProductResolver";
 import ReportProductResolver from "./resolvers/ReportProductResolver";
 import ReportProductType from "./types/ReportProductType";
+import CompanyAddressType from "./types/CompanyAddressType";
+import CompanyFinanceInfoType from "./types/CompanyFinanceInfoType";
 
 const schema = makeExecutableSchema({
-  typeDefs: [ReportProductType, AppUserFavoriteProductType, HelloType, ProductType, CategoryType, GeneralType, CompanyType, AdminUserType, MessageType, AppUserType, AdminNoteType, JobOrderType],
+  typeDefs: [
+    CompanyFinanceInfoType,
+    CompanyAddressType,
+    ReportProductType,
+    AppUserFavoriteProductType,
+    HelloType,
+    ProductType,
+    CategoryType,
+    GeneralType,
+    CompanyType,
+    AdminUserType,
+    MessageType,
+    AppUserType,
+    AdminNoteType,
+    JobOrderType,
+  ],
   resolvers: [
     AppUserFavoriteProductResolver,
     HelloResolver,

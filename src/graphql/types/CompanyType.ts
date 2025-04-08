@@ -6,6 +6,17 @@ const CompanyType = gql`
     companyName: String!
     companyEmail: String!
     companyPhone: String!
+    companyTaxNumber: String
+    companyTaxOffice: String
+    status: String
+    registrationNumber: String
+    description: String
+    sector: String
+    companyType: String
+    website: String
+    companyAddresses: [CompanyAddress]
+    companyFinanceInfos: [CompanyFinanceInfo]
+    jobOrders: [JobOrder]
     adminUsers: [AdminUser]
     products: [Product]
     messages: [Message]
@@ -17,12 +28,25 @@ const CompanyType = gql`
     companyName: String!
     companyEmail: String!
     companyPhone: String!
+    companyTaxNumber: String
+    companyTaxOffice: String
+    status: String
+    registrationNumber: String
+    description: String
+    sector: String
+    companyType: String
+    website: String
   }
 
   input updateCompanyInput {
-    id: Int!
-    companyName: String!
-    companyPhone: String!
+    companyTaxNumber: String
+    companyTaxOffice: String
+    status: String
+    registrationNumber: String
+    description: String
+    sector: String
+    companyType: String
+    website: String
   }
 
   type Query {

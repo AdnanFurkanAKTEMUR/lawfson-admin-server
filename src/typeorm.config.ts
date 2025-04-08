@@ -10,12 +10,14 @@ import { AdminNote } from "@entities/AdminNote";
 import { JobOrder } from "@entities/JobOrder";
 import { AppUserFavoriteProduct } from "@entities/AppUserFavoriteProduct";
 import { ReportProduct } from "@entities/ReportProduct";
+import { CompanyFinanceInfo } from "@entities/CompanyFinanceInfo";
+import { CompanyAddress } from "@entities/CompanyAddress";
 
 dotenv.config();
 
 export default new DataSource({
   type: "postgres",
   url: process.env.POSTGRES_CONNECTION_STRING,
-  entities: [Product, Category, AdminUser, Company, AppUser, Message, AdminNote, JobOrder, AppUserFavoriteProduct, ReportProduct],
+  entities: [Product, Category, AdminUser, Company, AppUser, Message, AdminNote, JobOrder, AppUserFavoriteProduct, ReportProduct, CompanyFinanceInfo, CompanyAddress],
   synchronize: true,
 });

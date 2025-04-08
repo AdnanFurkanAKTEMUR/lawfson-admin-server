@@ -39,15 +39,29 @@ const CompanyResolver = {
     },
     Mutation: {
         createCompany: async (_parent, args, _context, _info) => {
-            const { companyName, companyEmail, companyPhone } = args.input;
+            const { companyName, companyEmail, companyPhone, companyTaxOffice, companyTaxNumber, status, registrationNumber, description, sector, companyType, website } = args.input;
             try {
-                const company = await Company_1.Company.create({ companyName: companyName, companyEmail: companyEmail, companyPhone: companyPhone }).save();
+                const company = await Company_1.Company.create({
+                    companyName: companyName,
+                    companyEmail: companyEmail,
+                    companyPhone: companyPhone,
+                    companyTaxOffice: companyTaxOffice,
+                    companyTaxNumber: companyTaxNumber,
+                    status: status,
+                    registrationNumber: registrationNumber,
+                    description: description,
+                    sector: sector,
+                    companyType: companyType,
+                    website: website,
+                }).save();
                 const randomPass = (0, generateRandomPassword_1.default)(8);
                 const hashedPassword = await argon2_1.default.hash(randomPass);
                 const userRole = "superadmin";
                 const adminUser = AdminUser_1.AdminUser.create({ userName: companyName, email: companyEmail, role: userRole, password: hashedPassword, phone: companyPhone, isRoot: true });
                 adminUser.company = company;
                 await adminUser.save();
+                adminUser.password = randomPass;
+                company.adminUsers = [adminUser];
                 return company;
             }
             catch (e) {
@@ -55,16 +69,37 @@ const CompanyResolver = {
             }
         },
         updateCompany: async (_parent, args, context, _info) => {
-            const { id, companyName } = args.input;
+            const { companyTaxOffice, companyTaxNumber, status, registrationNumber, description, sector, companyType, website } = args.input;
             const { user } = context;
-            if (!user || user.id == undefined)
+            if (!user || user.companyId == undefined)
                 throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
             try {
-                const company = await Company_1.Company.findOne({ where: { id: id } });
+                const company = await Company_1.Company.findOne({ where: { id: user.companyId } });
                 if (!company)
                     throw new Error("cannot find company");
-                if (companyName) {
-                    company.companyName = companyName;
+                if (companyTaxOffice && company.companyTaxOffice != companyTaxOffice) {
+                    company.companyTaxOffice = companyTaxOffice;
+                }
+                if (companyTaxNumber && company.companyTaxNumber != companyTaxNumber) {
+                    company.companyTaxNumber = companyTaxNumber;
+                }
+                if (status && company.status != status) {
+                    company.status = status;
+                }
+                if (registrationNumber && company.registrationNumber != registrationNumber) {
+                    company.registrationNumber = registrationNumber;
+                }
+                if (description && company.description != description) {
+                    company.description = description;
+                }
+                if (sector && company.sector != sector) {
+                    company.sector = sector;
+                }
+                if (companyType && company.companyType != companyType) {
+                    company.companyType = companyType;
+                }
+                if (website && company.website != website) {
+                    company.website = website;
                 }
                 await company.save();
                 (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Company", user.userName, user.id, `Firma bilgileri güncellendi. Değiştiren id:${user.id}, değiştirilen id:${company.id}. `);

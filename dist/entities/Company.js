@@ -16,6 +16,8 @@ const Product_1 = require("./Product");
 const Message_1 = require("./Message");
 const JobOrder_1 = require("./JobOrder");
 const ReportProduct_1 = require("./ReportProduct");
+const CompanyFinanceInfo_1 = require("./CompanyFinanceInfo");
+const CompanyAddress_1 = require("./CompanyAddress");
 let Company = class Company extends typeorm_1.BaseEntity {
 };
 exports.Company = Company;
@@ -36,6 +38,38 @@ __decorate([
     __metadata("design:type", String)
 ], Company.prototype, "companyPhone", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "companyTaxNumber", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "companyTaxOffice", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "registrationNumber", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "sector", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "companyType", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Company.prototype, "website", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => AdminUser_1.AdminUser, (adminuser) => adminuser.company, { nullable: true }),
     __metadata("design:type", Array)
 ], Company.prototype, "adminUsers", void 0);
@@ -43,6 +77,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => JobOrder_1.JobOrder, (jobOrder) => jobOrder.company, { nullable: true }),
     __metadata("design:type", Array)
 ], Company.prototype, "jobOrders", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => CompanyFinanceInfo_1.CompanyFinanceInfo, (cfi) => cfi.company, { nullable: true }),
+    __metadata("design:type", Array)
+], Company.prototype, "companyFinanceInfos", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => CompanyAddress_1.CompanyAddress, (ca) => ca.company, { nullable: true }),
+    __metadata("design:type", Array)
+], Company.prototype, "companyAddresses", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => Product_1.Product, (product) => product.company, { nullable: true }),
     __metadata("design:type", Array)
