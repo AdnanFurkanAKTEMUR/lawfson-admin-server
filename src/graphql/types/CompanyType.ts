@@ -52,6 +52,7 @@ const CompanyType = gql`
   type Query {
     getCompanyWithUsers(input: getWithId): Company
     getAllCompany: [Company]
+    getCompany: Company
   }
 
   type Mutation {

@@ -56,6 +56,7 @@ const CompanyType = (0, graphql_tag_1.default) `
   type Query {
     getCompanyWithUsers(input: getWithId): Company
     getAllCompany: [Company]
+    getCompany: Company
   }
 
   type Mutation {

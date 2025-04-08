@@ -36,6 +36,21 @@ const CompanyResolver = {
                 throw new Error(e);
             }
         },
+        getCompany: async (_parent, _args, context, _info) => {
+            const { user } = context;
+            if (!user || user.companyId == undefined)
+                throw new Error("Hata:Yetkisiz işlem. Kullanıcı bulunamadı!");
+            try {
+                const company = await Company_1.Company.findOne({ where: { id: user.companyId }, relations: ["adminUsers", "companyAddresses", "companyFinanceInfos"] });
+                if (!company)
+                    throw new Error("cannot find company");
+                (0, logger_1.loggerInfo)(user.companyName, user.companyId, "Company", user.userName, user.id, `Firma görüntülendi. `);
+                return company;
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+        },
     },
     Mutation: {
         createCompany: async (_parent, args, _context, _info) => {
