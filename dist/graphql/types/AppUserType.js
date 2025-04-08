@@ -40,7 +40,6 @@ const AppUserType = (0, graphql_tag_1.default) `
   }
 
   input changeAppUserPasswordInput {
-    id: Int!
     password: String!
     newPassword: String!
   }

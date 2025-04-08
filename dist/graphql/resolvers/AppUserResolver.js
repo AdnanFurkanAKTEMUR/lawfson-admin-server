@@ -48,18 +48,21 @@ const AppUserResolver = {
                 throw new Error(e);
             }
         },
-        appUserChangePassword: async (_parent, args, _context, _info) => {
-            const { id, password, newPassword } = args.input;
+        appUserChangePassword: async (_parent, args, context, _info) => {
+            const { password, newPassword } = args.input;
+            const { user } = context;
+            if (!user || user.id == undefined)
+                throw new Error("Hata: Yetki hatası!");
             try {
-                if (!id || !password || !newPassword)
+                if (!password || !newPassword)
                     throw new Error("Eksik Parametreler!");
-                const appUser = await AppUser_1.AppUser.findOne({ where: { id } });
+                const appUser = await AppUser_1.AppUser.findOne({ where: { id: user.id } });
                 if (!appUser)
                     throw new Error("Kullanıcı bulunamadı!");
                 const isValidPass = await (0, argon2_1.verify)(appUser.password, password);
                 if (!isValidPass)
                     throw new Error("Hata:Şifre yanlış!");
-                const hashPass = await (0, argon2_1.hash)(password);
+                const hashPass = await (0, argon2_1.hash)(newPassword);
                 appUser.password = hashPass;
                 await appUser.save();
                 return { status: true, msg: "şifreniz başarıyla değiştirildi!" };
@@ -102,6 +105,8 @@ const AppUserResolver = {
         },
         appUserLogin: async (_parent, args, _context, _info) => {
             const { email, password } = args.input;
+            if (!email || !password)
+                throw new Error("Eksik parametreler!");
             try {
                 const appUser = await AppUser_1.AppUser.findOne({
                     where: {

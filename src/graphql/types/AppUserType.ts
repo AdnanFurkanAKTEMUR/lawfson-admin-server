@@ -36,7 +36,6 @@ const AppUserType = gql`
   }
 
   input changeAppUserPasswordInput {
-    id: Int!
     password: String!
     newPassword: String!
   }

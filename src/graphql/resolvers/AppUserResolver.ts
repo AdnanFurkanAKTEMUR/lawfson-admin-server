@@ -28,6 +28,7 @@ const AppUserResolver = {
   Mutation: {
     appUserCreate: async (_parent: any, args: any, _context: Context, _info: any): Promise<AppUser | null> => {
       const { userName, email, password, phone, phoneCode } = args.input;
+
       try {
         if (!userName || !email || !password) throw new Error("Eksik parametreler!");
         // Email format kontrolü
@@ -46,15 +47,18 @@ const AppUserResolver = {
         throw new Error(e);
       }
     },
-    appUserChangePassword: async (_parent: any, args: any, _context: Context, _info: any) => {
-      const { id, password, newPassword } = args.input;
+    appUserChangePassword: async (_parent: any, args: any, context: Context, _info: any) => {
+      const { password, newPassword } = args.input;
+      const { user } = context;
+
+      if (!user || user.id == undefined) throw new Error("Hata: Yetki hatası!");
       try {
-        if (!id || !password || !newPassword) throw new Error("Eksik Parametreler!");
-        const appUser = await AppUser.findOne({ where: { id } });
+        if (!password || !newPassword) throw new Error("Eksik Parametreler!");
+        const appUser = await AppUser.findOne({ where: { id: user.id } });
         if (!appUser) throw new Error("Kullanıcı bulunamadı!");
         const isValidPass = await verify(appUser.password, password);
         if (!isValidPass) throw new Error("Hata:Şifre yanlış!");
-        const hashPass = await hash(password);
+        const hashPass = await hash(newPassword);
         appUser.password = hashPass;
         await appUser.save();
         return { status: true, msg: "şifreniz başarıyla değiştirildi!" };
@@ -90,6 +94,7 @@ const AppUserResolver = {
     },
     appUserLogin: async (_parent: any, args: any, _context: Context, _info: any) => {
       const { email, password } = args.input;
+      if (!email || !password) throw new Error("Eksik parametreler!");
 
       try {
         const appUser = await AppUser.findOne({
@@ -99,6 +104,7 @@ const AppUserResolver = {
         });
         if (!appUser) throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
         const isVerifyPassword = await verify(appUser.password, password);
+
         if (!isVerifyPassword) throw new Error("Hata: Şifreniz veya emailiniz yanlış.");
 
         return appUser;
