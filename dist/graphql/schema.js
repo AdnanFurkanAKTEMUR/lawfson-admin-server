@@ -31,6 +31,7 @@ const ReportProductResolver_1 = __importDefault(require("./resolvers/ReportProdu
 const ReportProductType_1 = __importDefault(require("./types/ReportProductType"));
 const CompanyAddressType_1 = __importDefault(require("./types/CompanyAddressType"));
 const CompanyFinanceInfoType_1 = __importDefault(require("./types/CompanyFinanceInfoType"));
+const CompanyAddressResolver_1 = __importDefault(require("./resolvers/CompanyAddressResolver"));
 const schema = (0, schema_1.makeExecutableSchema)({
     typeDefs: [
         CompanyFinanceInfoType_1.default,
@@ -49,6 +50,7 @@ const schema = (0, schema_1.makeExecutableSchema)({
         JobOrderType_1.default,
     ],
     resolvers: [
+        CompanyAddressResolver_1.default,
         AppUserFavoriteProductResolver_1.default,
         hello_1.default,
         ProductResolver_1.default,

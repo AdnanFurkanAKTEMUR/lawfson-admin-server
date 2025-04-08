@@ -26,6 +26,7 @@ import ReportProductResolver from "./resolvers/ReportProductResolver";
 import ReportProductType from "./types/ReportProductType";
 import CompanyAddressType from "./types/CompanyAddressType";
 import CompanyFinanceInfoType from "./types/CompanyFinanceInfoType";
+import CompanyAddressResolver from "./resolvers/CompanyAddressResolver";
 
 const schema = makeExecutableSchema({
   typeDefs: [
@@ -45,6 +46,7 @@ const schema = makeExecutableSchema({
     JobOrderType,
   ],
   resolvers: [
+    CompanyAddressResolver,
     AppUserFavoriteProductResolver,
     HelloResolver,
     ProductResolver,
